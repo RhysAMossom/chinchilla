@@ -1,0 +1,21 @@
+Accelerometer voltage and g force conversions
+
+
+0g reference 3.3/2 ~= 1.65 (V)
+
+  /*
+  g1  g2    gRange (g)    Sensitivity (V/g)
+  0    0      1.5            0.8
+  0    1        2            0.6
+  1    0        4            0.3
+  1    1        6            0.2
+  */
+  
+aIN: Arduino reading is between 0 and 1024
+
+
+Voltage = 5/1024 *aIN - 1.65   (V)
+
+g: g force ~=9.81 (m/s^2)
+
+g = voltage/(sensitivity in Volts)  (g)

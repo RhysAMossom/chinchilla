@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>everybody.is-a-cyb.org  &raquo; Archive   &raquo; So finally i undestood why Arduino has its own software which is different from Processing.</title>
+	<link rel="stylesheet" href="http://everybody.is-a-cyb.org/wp-content/themes/neo-sapien-05/style.css" type="text/css" media="screen" />
+	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://everybody.is-a-cyb.org/feed/" />
+	<link rel="alternate" type="text/xml" title="RSS .92" href="http://everybody.is-a-cyb.org/feed/rss/" />
+	<link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="http://everybody.is-a-cyb.org/feed/atom/" />
+	<link rel="pingback" href="http://everybody.is-a-cyb.org/xmlrpc.php" />
+
+		<link rel='archives' title='January 2007' href='http://everybody.is-a-cyb.org/date/2007/01/' />
+	<link rel='archives' title='December 2006' href='http://everybody.is-a-cyb.org/date/2006/12/' />
+	<link rel='archives' title='November 2006' href='http://everybody.is-a-cyb.org/date/2006/11/' />
+	<link rel='archives' title='October 2006' href='http://everybody.is-a-cyb.org/date/2006/10/' />
+
+	<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://everybody.is-a-cyb.org/xmlrpc.php?rsd" />
+
+</head>
+<body>
+<!-- SIDEBAR -->
+
+		<div id="sidebar">
+<ul>
+	<li><h1><a href="http://everybody.is-a-cyb.org">everybody.<br />is-a-cyb.org</a></h1></li>
+
+
+	<ul>
+		<li></li>
+		
+	</ul>
+	</li><br /><br />
+<li><h3>Categories</h3>
+	<ul><li><a href="http://everybody.is-a-cyb.org">+ Home +</a></li>
+			<li><a href="http://everybody.is-a-cyb.org/category/articles/" title="View all posts filed under + various +">+ various +</a>
+</li>
+	<li><a href="http://everybody.is-a-cyb.org/category/circuit-bending/" title="View all posts filed under + circuit bending +">+ circuit bending +</a>
+</li>
+	<li><a href="http://everybody.is-a-cyb.org/category/phisical-computing/" title="View all posts filed under + phisical computing +">+ phisical computing +</a>
+</li>
+	<li><a href="http://everybody.is-a-cyb.org/category/project/" title="View all posts filed under + my project +">+ my project +</a>
+</li>
+<li> <a href="http://del.icio.us/everybodyisacyborg/" title="everybody.is-a-cyb.org on del.icio.us">+ My del.icio.us links +</a></li>
+<br /><br /><br />
+	</ul>
+	</li>
+	<li><h3>Syndicate</h3>
+	<ul>
+		<li><a href="http://everybody.is-a-cyb.org/feed/">Entries</a></li>
+		<li><a href="http://everybody.is-a-cyb.org/comments/feed/">Comments</a></li>
+	</ul>
+	</li>
+	<li><h3>Meta</h3>
+	<ul>
+				<li><a href="http://everybody.is-a-cyb.org/wp-login.php">Login</a></li>
+		
+			</ul>
+	</li>
+	<li><h3>Powered By</h3>
+	<ul>
+		<li><a href="http://www.wordpress.org/">WordPress</a></li>
+	</ul>
+	</li>
+</ul>
+		</div>
+
+<!-- END SIDEBAR -->
+		<div class="narrowcolumn">
+
+<!-- TOP MENU -->
+
+<div id="menu">
+<ul>
+	<li><a href="http://everybody.is-a-cyb.org">Home</a></li>
+	<li><a href="http://everybody.is-a-cyb.org/about/">About</a></li>
+        <li><a href="http://everybody.is-a-cyb.org/set-up/">Set-up</a></li>
+</ul>
+</div>
+
+<!-- END TOP MENU -->
+
+
+<div id="header"><img src="http://everybody.is-a-cyb.org/wp-content/themes/neo-sapien-05/images/main.jpg" width="480" height="250" alt="Header" /></div>
+
+
+<!-- CONTENT -->
+
+
+	<div class="post" id="post-21">
+
+<h2><a href="http://everybody.is-a-cyb.org/project/21" rel="bookmark" title="So finally i undestood why Arduino has its own software which is different from Processing.">So finally i undestood why Arduino has its own software which is different from Processing.</a></h2>
+
+<div class="entry">
+<p><strong>With the Arduino platform, all you do is to write code that will be loaded into the Arduino board</strong>.<br />
+You tell to the board how to react to signals received.</p>
+<p><strong>So what kind of signals can the Arduino board receive?<br />
+</strong>Even if the Arduino board has a USB interface, to make the life of developers easy, the communications that the board makes, either in reception or transmission, are serail communications. This means that any language or any software that can transmit serial data, could be understood by the Arduino Board.</p>
+<p>Considering these new discoveries, (it took me a while to understand) I will create two more categories to diversify code for the Arduino Interface and code for Processing and I will give a practical example on how two make Processing interact with the Arduino board.</p>
+<p><strong>So why should you use Processing instead of the Arduino software?</strong><br />
+Even if the Arduino software can communicate in serial with the board, beside writing code that should be uploaded to the board itself, it lacks of all the libraries that Processing has, and interaction with the web for example could not be possible. Also, the Processing software can receive serial data sent by the Arduino board and can translate this information into graphical representation.</p>
+<p>From now on, I will be carefull to indicate which one is the code for the Arduino software interface, and which is for Processing, and I will give you a practical example on how to make the two interact one with each other.</p>
+<p>This example will guide you through the experience of switching on an LED on the Arduino Board using Processing. I know this is quite simple to achive, but it was difficoult for me to understand, so probably it will be of help to other peoples encountering my difficoultis as well.</p>
+<p>So we will start with the Arduino Software first. We will write a code to be uploaded into the Arduino board that will put the serial port into listening and that will switch on the LED when it receives the character &#8220;A&#8221; capital from Processing.<br />
+You can find the original code at this address: <a href="http://www.arduino.cc/en/Tutorial/BlinkingLED" title="Arduino blinking LED">Link</a>, which will switch on and off an LED withing a time routine, but I have made my modifications so that it will only switch on when it receive the &#8220;A&#8221; character form Processing. </p>
+<blockquote><p>Arduino Code<br />
+ /*Arduino Code<br />
+ * Switch an LED on<br />
+ * &#8212;&#8212;&#8212;&#8212;&#8212;&#8211;<br />
+ *<br />
+ * turns on an LED when receiving an &#8220;A&#8221; character with any serial software<br />
+ *<br />
+ *Code modified by Francesco Saitta <http://everybody.is-a-cyb.org><br />
+ *<br />
+ * Code originally created 1 June 2005<br />
+ * copyleft 2005 DojoDave <http://www.0j0.org><br />
+ * http://arduino.berlios.de<br />
+ *<br />
+ * based on an orginal by H. Barragan for the Wiring i/o board<br />
+ */
+</p></blockquote>
+<p>We will assing now the pin number of the board that should be affected by the script and we declare the val variable that is the variable modified when the &#8220;A&#8221; character is received. We must declare this and assign to it a dummy value because otherwise the script will go on error. We also start the Serial port and we assign the BAUD rate. Here is the code, copy it into the Arduino software</p>
+<blockquote><p>
+int ledPin = 13;                 // LED connected to digital pin 13<br />
+int val = 0;<br />
+void setup()<br />
+{<br />
+  pinMode(ledPin, OUTPUT);      // sets the digital pin as output<br />
+Serial.begin(9600);<br />
+}
+</p></blockquote>
+<p>Now we start the loop. A loop os needed because it will put the board on a listening status, and unless it receives the &#8220;A&#8221; character, than it will do nothing.</p>
+<blockquote><p>
+void loop()</p>
+<p>{
+</p></blockquote>
+<p>Here we assing the value read from the serial port to the variable called &#8220;var&#8221;</p>
+<blockquote><p> val = Serial.read();</p></blockquote>
+<p>and now we start the conditional.  As you can easily read, if the value of the &#8220;val&#8221; variable is &#8220;A&#8221; than the board will send electricity to the pin declared in the start with the variable &#8220;ledPin&#8221; </p>
+<blockquote><p>
+  if (val == &#8216;A&#8217;) {</p>
+<p>  digitalWrite(ledPin, HIGH);   // sets the LED on<br />
+  }</p>
+</blockquote>
+<p>Here I have set another conditional. If the variable &#8220;val&#8221; equals a lowercase &#8220;A&#8221; than switch off the LED.</p>
+<blockquote><p>  if (val == &#8216;a&#8217;) {</p>
+<p>  digitalWrite(ledPin, LOW);   // sets the LED off<br />
+  }</p></blockquote>
+<p>And finally we close the loop.</p>
+<blockquote><p>
+}
+</p></blockquote>
+<p>Now you are ready to upload it into your Arduino Board.  Press the reset button on the board and then Click on the UPLOAD button into your Arduino Software interface. For more information on how to connect your computer to your board and how to upload code into it you may refer to this <a href="http://www.arduino.cc/en/Guide/Windows" title="arduino how-to">page</a> on the Arduino website. Is time now to put an LED into your board. So put the longer LED leg into the pin number 13 (you can modify this by changing the ledPin variable in the script, altought I am not sure it will work) and the shorter one into the GND pin. Remember that LED have a polarity so be carefull about this.</p>
+<p>So now we will go into the Processing code. Again for this the code was originally found at this address: <a href="http://www.tigoe.net/pcomp/code/archives/processing/000259.shtml" title="serial data send in Processing">Link</a>. I have cut out a lot of the script to make it simpler but that is for reference for anyone who would like to go a bit further.</p>
+<p>So here is the code. We import the Serial Library first and declare the Serial variable:</p>
+<blockquote><p>
+// Processing code<br />
+// Example by Tom Igoe</p>
+<p>import processing.serial.*;</p>
+<p>// The serial port:<br />
+Serial myPort;
+</p></blockquote>
+<p>We print out a list of the Serial Ports for debugging </p>
+<blockquote><p>
+// List all the available serial ports:<br />
+println(Serial.list());</p></blockquote>
+<p>and select the right one for us by changing the value on he Serial.list() variable inside the square brackets. Remember that arrays on the processing software start from zero so if your option is the second listed you will have to write 1 and not 2 as you would probably expect. My port set for communication with the Arduino Board is COM3 which comes listed after COM1 and COM2 in the list so I will write 2 inside the suqare brackets.</p>
+<blockquote><p>// Note from Tom Igoe<br />
+// I know that the first port in the serial list on my mac<br />
+// is always my  Keyspan adaptor, so I open Serial.list()[0].<br />
+// Open whatever port is the one you&#8217;re using.<br />
+myPort = new Serial(this, Serial.list()[2], 9600);</p></blockquote>
+<p>Finally we send the capital A in ASCI format so is the number 65. You can find a conversion Table at this address: <br /><a href="http://www.jimprice.com/ascii-0-127.gif" title="asci table">Ascii table - Characters from 0 to 127</a><br /><a href="http://www.jimprice.com/ascii-128-255.gif" title="asci table">Ascii table - Characters from 128 to 256</a></p>
+<blockquote><p>// Send a capital A out the serial port<br />
+myPort.write(65);
+</p></blockquote>
+<p>If everything is ok, you should see you LED switch on! If you want to switch it off, you will have to change the code as follows<br />
+putting 97 ( the ASCII code for the lowercase &#8220;a&#8221; character) insted of 65.</p>
+<blockquote><p>// Send a capital A out the serial port<br />
+myPort.write(97);
+</p></blockquote>
+<p>I hope that this may be usefull to anyone, and I am ready to accept suggestion or mdification of the above article to make it more simple to understand or to correct any error committed.
+</p>
+
+<p class="postmetadata">
+November 5th, 2006<br />
+Categories&#58; <a href="http://everybody.is-a-cyb.org/category/project/" title="View all posts in + my project +" rel="category tag">+ my project +</a> . Author&#58; <a href="http://">cicciorama</a> </p>
+
+
+<p>
+<strong>
+3 Comments</strong>
+</p>
+
+
+<div class="commentlist">
+<ol>
+
+	
+	<li id="comment-2">
+	<cite>Comment by <a href='http://doryexmachina.com/itpblog' rel='external nofollow'>MikeD</a> on November 16, 2006 <a href="#comment-2">10:31 pm</a></cite>
+	<p>Hey man &#8212; just stumbled across your site while looking for a how-to on getting Processing to talk to my Arduino, and found your write-up to be really helpful.  Keep up the good work!
+</p>
+	</li>
+
+
+	<li id="comment-3">
+	<cite>Comment by <a href='http://www.aibu.it' rel='external nofollow'>cicciorama</a> on November 17, 2006 <a href="#comment-3">3:50 am</a></cite>
+	<p>Ty!
+</p>
+	</li>
+
+
+	<li id="comment-5">
+	<cite>Pingback by <a href='http://blog.bruno.locaweb.com.br/2006/11/29/links-for-2006-11-29/' rel='external nofollow'>rascunho&nbsp;&raquo; Seção de dados do blog &raquo; links for 2006-11-29</a> on November 29, 2006 <a href="#comment-5">3:19 pm</a></cite>
+	<p>[&#8230;] everybody.is-a-cyb.org » Archive » So finally i undestood why Arduino has its own software which is different from Processing. So finally i undestood why Arduino has its own software which is different from Processing. (tags: everybody.is-a-cyb.org 2006 at_tecp processing arduino howto) [&#8230;]
+</p>
+	</li>
+
+
+</ol>
+</div>
+
+
+<p>
+<a href='http://everybody.is-a-cyb.org/project/21/feed/'>Comments RSS</a> 
+
+<a href="http://everybody.is-a-cyb.org/project/21/trackback/" rel="trackback">TrackBack Identifier URI</a>
+
+</p>
+
+<p>Sorry, the comment form is closed at this time.</p>
+
+</div>
+
+	</div>
+
+
+	<div class="navigation"><a href="http://everybody.is-a-cyb.org/articles/20">PHILIPS, the simplicity event.</a> <a href="http://everybody.is-a-cyb.org/articles/22">Very quick, the last post for today</a></div>
+
+
+<!-- END CONTENT -->
+
+		</div>
+
+		<div id="obar">
+
+	<div class="sub-obar">
+<ul>
+	
+	<li><h3>Archives</h3>
+	<ul>
+			<li><a href='http://everybody.is-a-cyb.org/date/2007/01/' title='January 2007'>January 2007</a></li>
+	<li><a href='http://everybody.is-a-cyb.org/date/2006/12/' title='December 2006'>December 2006</a></li>
+	<li><a href='http://everybody.is-a-cyb.org/date/2006/11/' title='November 2006'>November 2006</a></li>
+	<li><a href='http://everybody.is-a-cyb.org/date/2006/10/' title='October 2006'>October 2006</a></li>
+	</ul>
+	</li><br /><br /><br />
+
+		<li id="linkcat-2"><h2>++ del.icio.us +</h2>
+	<ul>
+<li><a href="http://del.icio.us/everybodyisacyborg/" title="• my del.icio.us links">• my del.icio.us links</a></li>
+
+	</ul>
+</li>
+	<li id="linkcat-1"><h2>everyLINK.is-a-cyb.org</h2>
+	<ul>
+<li><a href="http://www.nastypixel.com/instantsoup/?page_id=79" title="A web page explaining how octocouplers work">Optocouplers at NastyPixel</a></li>
+<li><a href="http://www.tigoe.net/pcomp/code/archives/php/000713.shtml" title="Code@tigoe">Network Data Logging Suite</a></li>
+<li><a href="http://www.freewaves.org/" title="media arts archive from 2002 and 2004 festivals">Freewaves archives</a></li>
+<li><a href="http://www.sensorwiki.org/index.php/Main_Page" title="A wonderfull guide about sensors.">Sensor Wiki</a></li>
+<li><a href="http://www.interactivearchitecture.org/" title="Very interesting site about alternative architectural forms">Interactive Architecture</a></li>
+<li><a href="http://www.balticmill.com" title="BALTIC Centre for Contemporary Art">BALTIC</a></li>
+<li><a href="http://www.piksel.no/pwiki/FrontPage/contents#EMI%20Project" title="articles brouth by this website">Piksel wiki</a></li>
+<li><a href="http://www.ruairiglynn.co.uk/" title="A web site about new methodology of architecture">Ruary Glynn</a></li>
+
+	</ul>
+</li>
+</ul>
+	</div>
+
+	<div class="sub-obar">
+<ul>
+	<li><h3>Calendar</h3>
+	<ul>
+		<li><table id="wp-calendar">
+	<caption>December 2010</caption>
+	<thead>
+	<tr>
+		<th abbr="Monday" scope="col" title="Monday">M</th>
+		<th abbr="Tuesday" scope="col" title="Tuesday">T</th>
+		<th abbr="Wednesday" scope="col" title="Wednesday">W</th>
+		<th abbr="Thursday" scope="col" title="Thursday">T</th>
+		<th abbr="Friday" scope="col" title="Friday">F</th>
+		<th abbr="Saturday" scope="col" title="Saturday">S</th>
+		<th abbr="Sunday" scope="col" title="Sunday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td abbr="January" colspan="3" id="prev"><a href="http://everybody.is-a-cyb.org/date/2007/01/" title="View posts for January 2007">&laquo; Jan</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next" class="pad">&nbsp;</td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="2" class="pad">&nbsp;</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
+	</tr>
+	<tr>
+		<td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td>
+	</tr>
+	<tr>
+		<td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td>
+	</tr>
+	<tr>
+		<td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td>
+	</tr>
+	<tr>
+		<td>27</td><td>28</td><td id="today">29</td><td>30</td><td>31</td>
+		<td class="pad" colspan="2">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></li>
+	</ul>
+	</li>
+	<li><h3>Search</h3>
+	<ul>
+		<li><form method="get" id="searchform" action="http://everybody.is-a-cyb.org/">
+<input type="text" value="" name="s" id="s" />
+<input type="submit" id="searchsubmit" value="Search" />
+</form></li>
+	</ul>
+	</li>
+</ul>
+	</div>
+
+		</div><script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-307904-6";
+urchinTracker();
+</script>
+</body>
+</html>

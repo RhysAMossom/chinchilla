@@ -1,0 +1,8 @@
+*.zip
+*.tar
+*~
+*.pyc
+.DS_Store
+*.exe
+*.app
+

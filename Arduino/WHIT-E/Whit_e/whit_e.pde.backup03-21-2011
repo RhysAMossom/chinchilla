@@ -1,0 +1,200 @@
+// Motorshield and Servo Libraries
+#include <AFMotor.h>
+#include <Servo.h>
+
+// Motors and Servo
+AF_DCMotor mR(1, MOTOR12_2KHZ);
+AF_DCMotor mL(2, MOTOR12_2KHZ);
+Servo radar;
+const int center = 96;
+const int numDegrees = 4; // number of readings
+const int arrayDegrees[] = {0,30,160, 180};
+
+// Ping Sensor
+const int pinTrigger = 15;// write signal
+const int pinEcho = 16; // receive signal
+
+// Distance Variables
+const int turnMS = 1700; //number of miliseconds it takes to do a 90 degree turn
+int cf;// conversion factor ms/cm
+const int clearance = 25; // cm of distance between obstacle and front of vehicle when stopped
+long arrayDistances[numDegrees];
+
+
+// Functions for moving
+void forward(long d){
+    mR.run(FORWARD);
+    mL.run(FORWARD);
+    delay(d);
+}
+
+void back(int d = 500){
+    mR.run(BACKWARD);
+    mL.run(BACKWARD);
+  delay(d);
+}
+
+void right(int d = 1000){
+    mL.run(FORWARD);
+    mR.run(BACKWARD);
+  delay(d);
+}
+  
+void left(int d = 1000){  
+    mR.run(FORWARD);
+    mL.run(BACKWARD);
+  delay(d);
+}
+
+void halt(){
+  mR.run(RELEASE);// motor is stopped
+  mL.run(RELEASE);// motor is stopped
+}
+
+
+long getDistance(){
+  long duration, distance = -1;
+  while (distance <0 || distance > 300)
+  {
+    digitalWrite(pinTrigger, LOW);
+    delayMicroseconds(2);
+    digitalWrite(pinTrigger, HIGH);
+    delayMicroseconds(5);
+    digitalWrite(pinTrigger, LOW);
+    duration = pulseIn(pinEcho,HIGH)+0.0;
+  //digitalWrite(pinEcho, LOW);
+     distance = duration / 29 / 2;
+  }
+  return distance;
+}
+
+int calibrate(long time = 1000) {
+  int cf = -1;
+  while(cf<20 || cf >45){
+    Serial.println("Calibrating...");
+    halt();
+    long d1,d2, difference;
+    radar.write(center);
+    delay(15);
+    // warm up
+    getDistance();
+    
+    // Get first distance, move, get second distance.
+    delay(1000);
+    d1 = getDistance();
+    Serial.println("\tFirst Reading\n\t");
+    Serial.print(d1);
+    delay(1000);
+    forward(time);
+    halt();
+    delay(1000);
+    d2 = getDistance();
+    Serial.println("\tSecond Reading");
+    Serial.println(d2);
+    
+    // Compute difference and calculate the conversion factor
+    difference = d1-d2;
+    difference = abs(difference);
+    Serial.println("\tDifference");
+    Serial.println(difference);
+    
+    int cfA , cfB;
+    cf = time/difference;
+    Serial.print("Conversion Factor is: \t");
+    Serial.println(cf);
+
+    // Back up to initial position
+    back(time);
+    halt();
+  }
+  return cf;
+  //formula:
+  // t(ms) -> x (cm) : test input time
+  // T    -> X : desired time
+  // 
+  // T = X*t/x = X *cf
+}
+
+// Main functions
+void setup() {
+  Serial.begin(9600);
+  mR.setSpeed(170);//0 is stopped, full speed is 255;
+  mL.setSpeed(170);//0 is stopped, full speed is 255;
+  
+  radar.attach(10);
+  radar.write(center);
+  
+  pinMode(pinTrigger,OUTPUT);
+  pinMode(pinEcho, INPUT);
+  
+  cf = 25;// calibrate(); // conversion factor
+  delay(2000);
+}
+
+void loop(){
+   radar.write(center);
+   delay(5000);
+   long d = getDistance();
+   
+   // Going Forward
+   if (d > clearance){
+     Serial.print("Want to move ");
+     Serial.print(d);
+     Serial.print(" cm.\nMoving for ");
+     Serial.print((d-clearance)*cf);
+     Serial.println(" sec.");
+     forward((d-clearance)*cf);
+     halt();
+   }
+   else // Choose where to turn
+     Serial.println("Distance is less than clearance.\n Choosing path...");
+     
+     // Get side readings
+     for(int i = 0; i<numDegrees; i++){
+       radar.write(arrayDegrees[i]);
+       delay(1000);
+       arrayDistances[i] = getDistance();
+       Serial.print("Degree ");
+       Serial.print(arrayDegrees[i]);
+       Serial.print(" measures ");
+       Serial.println(arrayDistances[i]);
+       delay(500);
+     }
+     
+     // Detect side objects
+     if (abs(arrayDistances[0]-arrayDistances[1]) > 10){
+       Serial.print("Odd reading on degrees ");
+       Serial.print(arrayDegrees[0]);
+       Serial.print(" and ");
+       Serial.println(arrayDegrees[1]);
+     }
+     if (abs(arrayDistances[2]-arrayDistances[3]) > 10){
+       Serial.print("Odd reading on degrees ");
+       Serial.print(arrayDegrees[2]);
+       Serial.print(" and ");
+       Serial.println(arrayDegrees[3]);
+     }
+     
+     // Compare readings. Left side corresponds to degrees < 90
+     long dR, dL;
+     dR = min(arrayDistances[2],arrayDistances[3]);
+     dL = min(arrayDistances[0],arrayDistances[1]);
+          
+     // Turn 90 degrees. Turning right is the default move
+     if (dR >= dL && dR > clearance){
+       Serial.println("Turning Right");
+//       right();
+//       halt();
+     }
+     else if(dL> dR && dL > clearance){
+       Serial.println("Turning Left");
+//       left();
+//       halt();
+     }
+     else { // For cases: (dR,dL) < clearance
+       Serial.println("Backing up");
+//       back((d-clearance)*cf);
+//       halt();
+     }
+       
+}

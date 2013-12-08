@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <title>Arduino playground - LED Library </title>
+  <link rel="shortcut icon" type="image/x-icon" href="http://www.arduino.cc/playground/favicon.png">
+  <link rel='stylesheet' href='http://www.arduino.cc/playground/pub/skins/arduinoUno/arduinoUno.css' type='text/css' />
+<!--HeaderText--><style type='text/css'><!--
+  ul, ol, pre, dl, p { margin-top:0px; margin-bottom:0px; }
+  code { white-space: nowrap; }
+  .vspace { margin-top:1.33em; }
+  .indent { margin-left:40px; }
+  .outdent { margin-left:40px; text-indent:-40px; }
+  a.createlinktext { text-decoration:none; border-bottom:1px dotted gray; }
+  a.createlink { text-decoration:none; position:relative; top:-0.5em;
+    font-weight:bold; font-size:smaller; border-bottom:none; }
+  img { border:0px; }
+  .editconflict { color:green; 
+  font-style:italic; margin-top:1.33em; margin-bottom:1.33em; }
+
+  table.markup { border: 2px dotted #ccf; width:90%; }
+  td.markup1, td.markup2 { padding-left:10px; padding-right:10px; }
+  td.markup1 { border-bottom: 1px solid #ccf; }
+  div.faq { margin-left:2em; }
+  div.faq p.question { margin: 1em 0 0.75em -2em; font-weight:bold; }
+  div.faq hr { margin-left: -2em; }
+   
+    .frame 
+      { border:1px solid #cccccc; padding:4px; background-color:#f9f9f9; }
+    .lfloat { float:left; margin-right:0.5em; }
+    .rfloat { float:right; margin-left:0.5em; }
+a.varlink { text-decoration:none; }
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.c .de1, .c .de2 {font-family: monospace; font-weight: normal;}
+.c  {font-family:monospace;}
+.c .imp {font-weight: bold; color: red;}
+.c li, .c .li1 {font-family: monospace; color: black; font-weight: normal;}
+.c .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.c .li2 {font-weight: bold;}
+.c .kw1 {color: #b1b100;}
+.c .kw2 {color: #000000; font-weight: bold;}
+.c .kw3 {color: #000066;}
+.c .kw4 {color: #993333;}
+.c .co1 {color: #666666; font-style: italic;}
+.c .co2 {color: #339933;}
+.c .coMULTI {color: #808080; font-style: italic;}
+.c .es0 {color: #000099; font-weight: bold;}
+.c .es1 {color: #000099; font-weight: bold;}
+.c .es2 {color: #660099; font-weight: bold;}
+.c .es3 {color: #660099; font-weight: bold;}
+.c .es4 {color: #660099; font-weight: bold;}
+.c .es5 {color: #006699; font-weight: bold;}
+.c .br0 {color: #009900;}
+.c .sy0 {color: #339933;}
+.c .st0 {color: #ff0000;}
+.c .nu0 {color: #0000dd;}
+.c .nu6 {color: #208080;}
+.c .nu8 {color: #208080;}
+.c .nu12 {color: #208080;}
+.c .nu16 {color:#800080;}
+.c .nu17 {color:#800080;}
+.c .nu18 {color:#800080;}
+.c .nu19 {color:#800080;}
+.c .me1 {color: #202020;}
+.c .me2 {color: #202020;}
+.c span.xtra { display:block; }
+
+.sourceblocklink {
+  text-align: right;
+  font-size: smaller;
+}
+.sourceblocktext {
+  padding: 0.5em;
+  color: #000000;
+  background-color: #ffffff;
+}
+.sourceblocktext div {
+  font-family: monospace;
+  font-size: small;
+  line-height: 1;
+  height: 1%;
+}
+.sourceblocktext div.head,
+.sourceblocktext div.foot {
+  font: italic medium serif;
+  padding: 0.5em;
+}
+
+--></style>  <meta name='robots' content='index,follow' />
+
+</head>
+<body>
+<div id="page">
+<!--PageHeaderFmt-->
+<div id="pageheader">
+  <div class="title"><a href="/"><img src="http://www.arduino.cc/playground/pub/skins/arduinoUno/img/logo_playground_arduino.png"></a> <a href="http://www.arduino.cc/playground"><img src="http://www.arduino.cc/playground/pub/skins/arduinoUno/img/logo_playground
+_arduino_tagline.png"></a></div>
+  <div class="search">
+    <!-- SiteSearch Google -->
+    <FORM method=GET action="http://www.google.com/search">
+    <input type=hidden name=ie value=UTF-8>
+    <input type=hidden name=oe value=UTF-8>
+    <INPUT TYPE=text name=q size=25 maxlength=255 value="">
+    <INPUT type=submit name=btnG VALUE="search">
+    <input type=hidden name=domains value="http://www.arduino.cc/">
+    <input type=hidden name=sitesearch value="http://www.arduino.cc/">
+    </FORM>
+    <!-- SiteSearch Google -->
+  </div>
+</div>
+<!--/PageHeaderFmt-->
+<!--PageLeftFmt-->
+<div id="pagenav">
+  <p><em>The <a class='wikilink' href='http://www.arduino.cc/playground/Main/HomePage'>playground</a> is a publicly-editable wiki about <a class='urllink' href='http://www.arduino.cc/' rel='nofollow'>Arduino</a>.</em>
+</p>
+<p class='vspace'></p><p class='sidehead'><a class='wikilink' href='http://www.arduino.cc/playground/Main/ManualsAndCurriculum'>Manuals and Curriculum</a>
+</p>
+<p class='vspace'></p><p class='sidehead'><a class='wikilink' href='http://www.arduino.cc/playground/Main/ArduinoCoreHardware'>Board Setup and Configuration</a>
+</p>
+<p class='vspace'></p><p class='sidehead'><a class='wikilink' href='http://www.arduino.cc/playground/Main/DevelopmentTools'>Development Tools</a>
+</p>
+<p class='vspace'></p><p class='sidehead'><a class='wikilink' href='http://www.arduino.cc/playground/Main/InterfacingWithHardware'>Interfacing With Hardware</a>
+</p><ul><li><a class='wikilink' href='http://www.arduino.cc/playground/Main/InterfacingWithHardware#Output'>Output</a>
+</li><li><a class='wikilink' href='http://www.arduino.cc/playground/Main/InterfacingWithHardware#Input'>Input</a>
+</li><li><a class='wikilink' href='http://www.arduino.cc/playground/Main/InterfacingWithHardware#Storage'>Storage</a>
+</li><li><a class='wikilink' href='http://www.arduino.cc/playground/Main/InterfacingWithHardware#Communication'>Communication</a> 
+</li><li><a class='wikilink' href='http://www.arduino.cc/playground/Main/IntWithHW-PwrSup'>Power supplies</a> 
+</li><li><a class='wikilink' href='http://www.arduino.cc/playground/Main/InterfacingWithHardware#General'>General</a> 
+</li></ul><p class='vspace'></p><p class='sidehead'><a class='wikilink' href='http://www.arduino.cc/playground/Main/InterfacingWithSoftware'>Interfacing with Software</a>
+</p>
+<p class='vspace'></p><p class='sidehead'><a class='wikilink' href='http://www.arduino.cc/playground/Main/GeneralCodeLibrary'>Code Library and Tutorials</a>
+</p>
+<p class='vspace'></p><p class='sidehead'><a class='wikilink' href='http://www.arduino.cc/playground/Main/SuggestionsBugs'>Suggestions &amp; Bugs</a>
+</p>
+<p class='vspace'></p><p class='sidehead'><a class='wikilink' href='http://www.arduino.cc/playground/Main/ElectroInfoResources'>Electronics Technique</a>
+</p>
+<p class='vspace'></p><p class='sidehead'><a class='wikilink' href='http://www.arduino.cc/playground/Main/Resources'>Sources for Electronic Parts</a>
+</p>
+<p class='vspace'></p><p class='sidehead'><a class='wikilink' href='http://www.arduino.cc/playground/Main/SimilarBoards'>Related Hardware and Initiatives</a>
+</p>
+<p class='vspace'></p><p class='sidehead'><a class='urllink' href='http://www.arduino.cc/playground/Main/People' rel='nofollow'>Arduino People/Groups &amp; Sites</a>
+</p>
+<p class='vspace'></p><p class='sidehead'><a class='urllink' href='http://www.arduino.cc/playground/Projects/ArduinoUsers' rel='nofollow'>Exhibition</a>
+</p>
+<p class='vspace'></p><p class='sidehead'><a class='urllink' href='http://www.arduino.cc/playground/Projects/Ideas' rel='nofollow'>Project Ideas</a>
+</p>
+<p class='vspace'></p><p class='sidehead'><a class='wikilink' href='http://www.arduino.cc/playground/Main/Languages'>Languages</a>
+</p>
+<p class='vspace'></p><hr />
+<p class='vspace'></p><p class='sidehead'> <a class='wikilink' href='http://www.arduino.cc/playground/Main/Participate'>PARTICIPATE</a>
+</p><ul><li><a class='wikilink' href='http://www.arduino.cc/playground/Main/LoginForm'>Create an account</a>
+</li><li><a class='wikilink' href='http://www.arduino.cc/playground/Main/Participate#suggestions'>Suggestions</a>
+</li><li><a class='wikilink' href='http://www.arduino.cc/playground/Main/Participate#contribrules'>Formatting suggestions</a>
+</li><li><a class='wikilink' href='http://www.arduino.cc/playground/Site/AllRecentChanges'>All recent changes</a>
+</li><li><a class='wikilink' href='http://www.arduino.cc/playground/PmWiki/PmWiki'>PmWiki</a>
+</li><li><a class='wikilink' href='http://www.arduino.cc/playground/Main/WikiSandbox'>WikiSandBox training</a>
+</li><li><a class='wikilink' href='http://www.arduino.cc/playground/PmWiki/BasicEditing'>Basic Editing</a>
+</li><li> <a target='_blank'  class='urllink' href='http://www.pmwiki.org/wiki/Cookbook/CookbookBasics' rel='nofollow'>Cookbook (addons)</a>
+</li><li> <a target='_blank'  class='urllink' href='http://www.pmwiki.org/wiki/PmWiki/DocumentationIndex' rel='nofollow'>Documentation index</a>
+</li></ul><p class='vspace'></p><hr />
+<p  style='text-align: right;'> <span style='font-size:83%'><a class='wikilink' href='http://www.arduino.cc/playground/Site/SideBar?action=edit'>edit SideBar</a></span>
+</p>
+
+</div>
+<!--/PageLeftFmt-->
+<!--PageActionFmt-->
+<div id="pageactions">
+  <!--Code.PageActions--> <!--Site.PageActions-->
+  <td class="action" align="center"><a class="selflink" href="http://www.arduino.cc/playground/Code/LED">view</a> </td><td class="action" align="center"><a class="navlink" href="http://www.arduino.cc/playground/Code/LED?action=diff">history</a> </td><td class="action" align="center"><a class="navlink" href="http://www.arduino.cc/playground/Code/LED?action=edit">edit</a> </td><td class="action" align="center"><a class="navlink" href="http://www.arduino.cc/playground/Code/LED?action=print" rel="external">print</a> </td><td class="action" align="center"><a class="navlink" href="http://www.arduino.cc/playground/Code/LED?action=login">login</a> </td><td class="action" align="center"><a class="navlink" href="http://www.arduino.cc/playground/Main/LoginForm">register</a> </td>
+</div>
+<!--/PageActionFmt-->
+<div id="pagetext">
+  <!--PageText-->
+<div id='wikitext'>
+<p>
+</p>
+<p class='vspace'></p><pre  style='background-color: #eeeeee; color: #000000; border: 1px dotted black; font-size: 11pt; padding: 2px;'>
+LED Library for Arduino
+Author:  Alexander Brevig
+Contact: alexanderbrevig@gmail.com
+</pre>
+<p class='vspace'></p><hr />
+<h1>Navigation</h1>
+<ul><li><a href='#CurrentVersion'>Current version</a>
+</li><li><a href='#History'>History</a>
+</li><li><a href='#Description'>Description</a>
+</li><li><a href='#Download'>Download, install and import</a>
+</li><li><a href='#Creation'>Creation</a>
+</li><li><a href='#Functions'>Functions</a>
+</li><li><a href='#Example'>Example</a>
+</li><li><a href='#FAQ'>FAQ</a>
+</li><li><a href='#Information'>Information about this page</a>
+</li></ul><p class='vspace'></p><hr />
+<h1><a name='CurrentVersion' id='CurrentVersion'></a>Current version</h1>
+<p>1.2 2009-05-07: Added blink()
+</p>
+<p class='vspace'></p><hr />
+<h1><a name='History' id='History'></a>History</h1>
+<p>1.2 2009-05-07: Added blink()<br />1.1 2009-04-07: Altered API<br />1.0 2008-10-23: Initial Release<br />
+</p><hr />
+<h1><a name='Description' id='Description'></a>Description</h1>
+<p>LED is a library for the Arduino. 
+</p>
+<p class='vspace'></p><p>It is created to help Hardware Abstraction, and readability of code.
+It hides the pinMode, and digitalRead calls for the user.
+</p>
+<p class='vspace'></p><p>LED library is part of the <a class='wikilink' href='http://www.arduino.cc/playground/Code/HardwareAbstraction'>Hardware Abstraction</a> libraries.
+</p>
+<p class='vspace'></p><hr />
+<h1><a name='Download' id='Download'></a>Download, install and import</h1>
+<p>Download here: <a class='urllink' href='http://www.arduino.cc/playground/uploads/Code/LED.zip' rel='nofollow'>Attach:LED.zip</a>
+</p>
+<p class='vspace'></p><p>Put the LED folder in "hardware\libraries\".<br />In the Arduino IDE, create a new sketch (or open one) and select from the menubar "Sketch-&gt;Import Library-&gt;LED".<br />Once the library is imported, an "#include &lt;LED.h&gt;" line will appear at the top of your Sketch.
+</p>
+<p class='vspace'></p><hr />
+<h1><a name='Creation' id='Creation'></a>Creation</h1>
+<p>LED(byte ledPin)
+</p>
+<p class='vspace'></p><p>LED led = LED(13);
+</p>
+<p class='vspace'></p><p>Initializes an LED object at a digital pin 13.
+</p>
+<p class='vspace'></p><hr />
+<h1><a name='Functions' id='Functions'></a>Functions</h1>
+<h2>bool getState()</h2>
+<p>Returns the current state of the LED. true == on()
+</p>
+<p class='vspace'></p><h2>void on()</h2>
+<p>Set led on, calls digitalWrite(pin,HIGH) and sets state=true
+</p>
+<p class='vspace'></p><h2>void off()</h2>
+<p>Set led on, calls digitalWrite(pin,LOW) and sets state=false
+</p>
+<p class='vspace'></p><h2>void toggle()</h2>
+<p>Toggle state and call on() or off()
+</p>
+<p class='vspace'></p><h2>void blink(unsigned int time, byte times)</h2>
+<p>Will halt program execution for <em>time</em> milliseconds. And over that period of time blink the LED <em>times</em> times.
+</p>
+<p class='vspace'></p><h2>void setValue(byte val)</h2>
+<p>Assumes a PWM pin, and trigger a analogWrite()
+</p>
+<p class='vspace'></p><h2>void fadeIn(unsigned int time)</h2>
+<p>Assumes a PWM pin and fades in. Speed is determined using time. Time is measured in milliseconds.
+</p>
+<p class='vspace'></p><h2>void fadeOut(unsigned int time)</h2>
+<p>Assumes a PWM pin and fades out. Speed is determined using time. Time is measured in milliseconds.
+</p>
+<p class='vspace'></p><hr />
+<h1><a name='Example' id='Example'></a>Example</h1>
+<p>
+<div class='sourceblock ' id='sourceblock1'>
+  <div class='sourceblocktext'><div class="c"><ol><li class="li1"><div class="de1"><span class="coMULTI">/*</span></div></li>
+<li class="li1"><div class="de1"><span class="coMULTI">||</span></div></li>
+<li class="li1"><div class="de1"><span class="coMULTI">|| @file Blink.pde</span></div></li>
+<li class="li1"><div class="de1"><span class="coMULTI">|| @version 1.1</span></div></li>
+<li class="li2"><div class="de2"><span class="coMULTI">|| @author Alexander Brevig</span></div></li>
+<li class="li1"><div class="de1"><span class="coMULTI">|| @contact alexanderbrevig@gmail.com</span></div></li>
+<li class="li1"><div class="de1"><span class="coMULTI">||</span></div></li>
+<li class="li1"><div class="de1"><span class="coMULTI">|| @description</span></div></li>
+<li class="li1"><div class="de1"><span class="coMULTI">|| | Display the intuitive way of blinking an LED when using this Hardware Abstraction Library</span></div></li>
+<li class="li2"><div class="de2"><span class="coMULTI">|| #</span></div></li>
+<li class="li1"><div class="de1"><span class="coMULTI">||</span></div></li>
+<li class="li1"><div class="de1"><span class="coMULTI">|| @license</span></div></li>
+<li class="li1"><div class="de1"><span class="coMULTI">|| | Copyright (c) 2009 Alexander Brevig. All rights reserved.</span></div></li>
+<li class="li1"><div class="de1"><span class="coMULTI">|| | This code is subject to AlphaLicence.txt</span></div></li>
+<li class="li2"><div class="de2"><span class="coMULTI">|| | alphabeta.alexanderbrevig.com/AlphaLicense.txt</span></div></li>
+<li class="li1"><div class="de1"><span class="coMULTI">|| #</span></div></li>
+<li class="li1"><div class="de1"><span class="coMULTI">||</span></div></li>
+<li class="li1"><div class="de1"><span class="coMULTI">*/</span></div></li>
+<li class="li1"><div class="de1">&nbsp;</div></li>
+<li class="li2"><div class="de2"><span class="co2">#include &lt;LED.h&gt;</span></div></li>
+<li class="li1"><div class="de1">&nbsp;</div></li>
+<li class="li1"><div class="de1"><span class="co1">//create a LED object at digital pin 13</span></div></li>
+<li class="li1"><div class="de1">LED led <span class="sy0">=</span> LED<span class="br0">&#40;</span><span class="nu0">13</span><span class="br0">&#41;</span><span class="sy0">;</span></div></li>
+<li class="li1"><div class="de1">&nbsp;</div></li>
+<li class="li2"><div class="de2"><span class="kw4">void</span> setup<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span><span class="coMULTI">/*no setup required*/</span><span class="br0">&#125;</span></div></li>
+<li class="li1"><div class="de1">&nbsp;</div></li>
+<li class="li1"><div class="de1"><span class="kw4">void</span> loop<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span></div></li>
+<li class="li1"><div class="de1">&nbsp; led.<span class="me1">blink</span><span class="br0">&#40;</span><span class="nu0">2000</span><span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">//on a second, off a second</span></div></li>
+<li class="li1"><div class="de1"><span class="br0">&#125;</span></div></li>
+</ol></div></div>
+  <div class='sourceblocklink'><a href='http://www.arduino.cc/playground/Code/LED?action=sourceblock&amp;num=1' type='text/plain'>[Get Code]</a></div>
+</div>
+
+</p>
+<p class='vspace'></p><hr />
+<h1><a name='FAQ' id='FAQ'></a>FAQ</h1>
+<p  style='background-color: #dddddd; border: 2px dotted white;'><code>How can I use multiple LEDs?</code>
+</p>
+<p class='vspace'></p><p>LED is a class. Therefore to LED multiple digital pins, you must create an instance for each of them. 
+In the example above, a LED instance (called <em>led</em>) for pin 13 is created with the following line:
+</p>
+<p class='vspace'></p><p  style='background-color: #dddddd; border: 2px dotted white;'><code>LED led = LED(13);</code>
+</p>
+<p class='vspace'></p><p>To LED an additional pin (pin 4 for example), you could create the following instance called <em>led2</em>:
+</p>
+<p class='vspace'></p><p  style='background-color: #dddddd; border: 2px dotted white;'><code>LED led2 = LED(4);</code>
+</p>
+<p class='vspace'></p><p>And now it's just to call the functions you need on the LED you are interested in:
+</p><pre  style='background-color: #dddddd; border: 2px dotted white;'>//update LEDs
+  led.on();
+  led2.toggle();
+</pre>
+<p class='vspace'></p><p>You can also create an array of instances for a class. Lets do this for pins 8-12:
+</p><pre  style='background-color: #dddddd; border: 2px dotted white;'>//create array of LED instances
+LED led[5] = {LED(8), LED(9), LED(10), LED(11), LED(12)}; 
+</pre>
+<p class='vspace'></p><p>And now a for loop can be used to iterate through the array:
+</p><pre  style='background-color: #dddddd; border: 2px dotted white;'> // turn each instance in the array on in setup()
+for(int i=0; i&lt;5; i++) { 
+  led[i].on();
+}
+
+// toggle each instance in the array in loop()
+for(int i=0; i&lt;5; i++) {
+  led[i].toggle();
+  delay(200);
+}</pre>
+<p class='vspace'></p><hr />
+<h1><a name='Information' id='Information'></a>Information about this page</h1>
+<table  border='0' cellpadding='5' cellspacing='0'><tr><td  colspan='2' valign='top'>Part of <a class='wikilink' href='http://www.arduino.cc/playground/Profiles/AlphaBeta'>AlphaBeta</a> Libraries.
+</td></tr><tr><td  valign='top'> Last Modified: 
+</td><td  valign='top'> July 17, 2009, at 08:24 PM
+</td></tr><tr><td  valign='top'> By:
+</td><td  valign='top'> <span class='wikiword'>AlphaBeta</span>
+</td></tr></table>
+</div>
+
+
+<!-- AddThis Button BEGIN -->       
+<script type="text/javascript">var addthis_language = "en";      
+</script>       
+<div class="addthis_container addthis_toolbox addthis_default_style" addthis:url="http://www.arduino.cc/playground/Code/LED" addthis:title="Arduino Playground">
+<a href="http://www.addthis.com/bookmark.php?v=250&amp;username=arduinoteam" class="addthis_button_compact">Share</a><span
+class="addthis_separator">|</span><a class="addthis_button_email"></a><a class="addthis_button_favorites"></a><a class="addthis_button_print"></a><a
+class="addthis_button_facebook"></a><a class="addthis_button_twitter"></a><script type="text/javascript"
+src="http://s7.addthis.com/js/250/addthis_widget.js#username=arduinoteam"></script></div>       
+<!-- AddThis Button END -->       
+
+
+</div>
+<!--PageFooterFmt-->
+<div id="pagefooter">
+</div>
+<!--/PageFooterFmt-->
+</div>
+</body>
+</html>

@@ -1,0 +1,496 @@
+|--*---*-----------------------------*----------|
+|---*----*-------------------------*------------|
+|--*--*----*  CSC 102 notes  *----*-------------|
+|-*----*---*  Python	   *----*----*----------|
+|*------*-*---------------------------*---------|
+|-------*------------------------------*--------|
+
+>>> print range (100,20,-10) # doesn't include twenty
+
+[100, 90, 80, 70, 60, 50, 40, 30]
+>>> print range(100,19,-10)
+[100, 90, 80, 70, 60, 50, 40, 30, 20] #includes twenty
+
+>>> x = range(100, 30, -20)
+>>> type(x)
+<type 'list'>
+
+*See celsiusToFahrenheit.py for example of a function with no inputs
+
+%%%
+Using Acumulator: a variable that runs the total of something
+ count += x #this is the same as "count = count + x"
+
+to use user input use:
+raw_input("Enter your name: ")
+
+could use to enter a number as a string, or
+int(raw_input("Enter a number:")) > as an integer
+
+--
+def main():
+	number = int(raw_input("Enter an integer number: "))
+	for i in  range(9):
+		print number,"^",i, "=", number**i
+main()
+--
+
+x = eval("5") # evaluates string or uses its value
+so you could do:
+x = eval(exec(sys; sys...)) > this has lack of security
+you could use ; to separate lines of code in one line
+
+
+input > converts input to string, float, or int. Doesnt need to use int function
+--
+def main():
+	number = input("Enter a number: ")
+	for i in  range(9):
+		print number,"^",i, "=", number**i
+main()
+--
+
+***************
+***CHAPTER 7***
+***************
+Boolean Logic: 
+bool > evaluates true or false
+x = True
+y = False
+print type(x)
+	<type 'bool'>
+print x
+	True
+
+< less than 	<= less than or equal to
+> greater than	>= greater than or equal to
+== equal to	!= not equal to
+
+print(3!=5)
+	True
+print(3==5)
+	False
+
+True != True
+	False
+in > checks to see if an item is in a collection.
+and, or, not > all work as what their meaning
+
+(3 < 5) and ("x" == "y")
+	False
+(3 < 5) and not("x" == "y")
+	True
+
+
+if (CONDITION must be true)
+	do1...
+	do 2....
+
+
+--
+def main():
+	total = 0
+	for i in range (5000000):
+		if i%3 == 0 or i%7 == 0:
+			total += i
+	print "The sum of multiples of three and seven up to 5000000 is", total
+main()
+--
+Using if and else to evaluate the following function
+f(x)= { x is even: 	x /2
+	x is odd:	3x + 1}
+
+--
+def f(x):
+	if x%2 == 0:
+		return x/2
+	else:
+		return 3*x + 1 
+--
+just call funtion with any value for x
+
+Menu Example:
+--
+def gameMenu()
+print "Menu:"
+print
+print "1. New Game"
+print "2. Saved Game"
+print "3. Instructions"
+print "4. Exit"
+choice = raw_input("Please pick an option. ")
+print
+if choice == "1":
+	print "You chose New Game"
+elif choice == "2":
+	print "Loading Saved Game"
+elif choice == "3":
+	print "The Instructions are..."
+elif choice == "4":
+	print "Thank you for playing. Good-Bye!"
+else:
+	print "Wrong input. Program terminated."
+
+______
+While loop:
+
+while CONDITION:
+	do1...
+	do 2...
+
+--
+L = range(10)
+ind = 0
+while ind < len(L):
+	print L[ind]
+--
+output:
+0
+0
+0
+0...
+THIS IS AN INFINITE LOOP
+change to:
+
+--
+L = range(10)
+ind = 0
+while ind < len(L):
+	print L[ind]
+	ind += 1
+--
+output:
+0
+1
+2
+...
+9
+
+
+----------------------
+to append elements on a list use:
+nameList.apend(OBJECT TO APPEND)
+
+to print quotation marks do
+print 'this are double quotation "marks" inside single quotation marks'
+
+when something is EMPTY it is false
+
+-------------------------
+typing 'break' without the quotes ends the loop.
+typing 'continue' allows the loop to go on by going to the begining of the loop.
+
+
+x = None >makes it empty
+
+
+'''''''''''''''''''''''''
+Libraries:
+will have a name ALL LOWER CASE
+use the import statement:
+
+import library1, library2,
+OR
+import library1
+import library2
+example: import math, random
+
+
+if __name__ == "__main__"
+ main()
+
+if you need to use an estimate for the number Pi
+
+print math.pi
+
+math is the library, and pi is a function in the library
+
+x = random.random
+x = random.choice(LIST) > this picks a random element from the given List
+
+
+from math import exp
+ exp(4)
+
+if you use:
+----
+from math import *
+--
+this will import ALL the functions from math and now you can call a function like this:
+--
+sqrt(2)
+----
+instead of doing this:
+--
+import math
+math.sqrt(2)
+--
+to make calling a function shorter you can type
+---
+import math as m
+m.sqrt(2)
+---
+to save lines you can do this>
+a,b,c = 1,2,3
+
+raw_input > gives you only one value
+
+--------------------
+--Try,except block--  SEE rootSol2.py
+
+try:
+	do this
+except Specify what exception to catch:
+	Do this in case there has been an error in the try block
+else: #can follow a try/except block with ELSE
+
+assert (el in L)
+	AssertionError
+means you are saying something is true, and if not it gives an Assertion error
+
+List of errors:
+ValueError
+AssertionError
+TypeError
+NameError
+IndexError
+
+*************
+a >= 5 and a <= 10  is the same as 5 <= a <= 10
+
+-------------------------
+Getting Strings from user:
+--
+s = raw_input('Enter some text")
+print "The Fifth character is:"), s[5]
+
+
+in a string or list, using negative indexes is using indexes backwards
+
+list   = 'a  b  c  d  e  f  g'
+index1 =  0  1  2  3  4  5  6
+length = 7
+index2 = -7 -6 -5 -4 -3 -2 -1
+
+range(0) gives an empty array
+
+
+if you want to print something in the same line with the for loop use:
+
+for x in List
+ print x,
+
+the comma will print in the same line
+
+>>> import random as r>>> r.randint(100,200)200>>> for line in range(r.randint(10,20)):	N = r.randint(5,25)	print N * '*'	********************************************************************************************************************************************************************************************************************************************************************
+
+
+''''''''''''''''''''''''''''''''''''
+More on Strings:
+
+--
+x = "This is a string"
+
+>>> x = "this is a string">>> x + "x53"'this is a stringx53'>>> x * 3'this is a stringthis is a stringthis is a string'>>> x*0''>>> x[5:8]'is '>>> x[5]'i'>>> x[5:]'is a string'
+>>> x[:5]'this '
+--
+
+import string as s
+s.lower("TEXT")  > any capital letters are turned into lower case
+  upper()  > any lower case will be turned into capital letters
+  find("hello","h") > will give the first index of where the letter is
+			if the letter is repeated it uses first index
+			if the letter is not in the string, function 				  returns -1 because index -1 does not exist
+			Function is case sensitive
+  replace("Hello","l","g") > replaces l for g
+			if overlap : string.replace("121212121","121","x")					'x2x21'
+ L = ['a','b','c']
+  join(L,"-") > joins elements in a list with - in between or anything in 			second input. Default separator is a space
+  split(x,'i') > separates a string into a list. Separates elements where i 			is. Default separator is a space
+ string.split(x,'i')['th', 's ', 's a str', 'ng']
+
+>>> L = "She sells seashels on the Brooklyn Commodity Exchage">>> L.split()['She', 'sells', 'seashels', 'on', 'the', 'Brooklyn', 'Commodity', 'Exchage']>>> L.upper()'SHE SELLS SEASHELS ON THE BROOKLYN COMMODITY EXCHAGE'>>> L.upper().split()['SHE', 'SELLS', 'SEASHELS', 'ON', 'THE', 'BROOKLYN', 'COMMODITY', 'EXCHAGE']>>> 
+
+>>> x= L.split().upper()Traceback (most recent call last):  File "<pyshell#22>", line 1, in <module>    x= L.split().upper()AttributeError: 'list' object has no attribute 'upper'>>> x = L.upper().split()>>> x['SHE', 'SELLS', 'SEASHELS', 'ON', 'THE', 'BROOKLYN', 'COMMODITY', 'EXCHAGE']>>> for word in x:	print wordSHESELLSSEASHELSONTHEBROOKLYNCOMMODITYEXCHAGE
+
+>>> b= string.join(x)>>> b'SHE SELLS SEASHELS ON THE BROOKLYN COMMODITY EXCHAGE'
+
+
+*********
+Methods:
+nameOfObject.NameOfMethod(arguement)
+
+Methods don't need to have libraries imported
+--
+>>> "HELLLOOOO!".lower()'hellloooo!'
+
+>>> x='12345'>>> x.find('3')2>>> x.find('0')-1
+
+>>> q= "aaaaaHHH!">>> q.replace("4","a")'aaaaaHHH!'>>> q.replace("a","2")'22222HHH!'
+
+
+
+putting a % before any symbol tells python that a special symbol should be printed, like a placeholder:
+
+%f > float
+%d > integer
+%s > string
+--
+print "You have $%.02f" %20
+--
+Notice there is no comma after the quotation marks.
+the .02 means how many decimal places to round to.
+>>> print "You have $%.03f" %20You have $20.000
+
+print "The temperature on day %d is %0.1f degrees" %(degrees,temp)
+
+>>> print "The temperature on day %d is %0.1f degrees" %(32,21)The temperature on day 32 is 21.0 degrees
+
+--
+s = "%-10d%-10.1f%-10s" %(50,7.333,'hi')>>> s'50        7.3       hi        '
+--
+the 10 is the column width ( how many spaces INSIDE column)
+
+
+>>> text= "Integer %10d... Float %10.7f... String %10s" %(-12,4.0,"!elloH")>>> text'Integer        -12... Float  4.0000000... String     !elloH'>>> text= "Integer %-10d... Float %-10.7f... String %-10s" %(-12,4.0,"!elloH")>>> text'Integer -12       ... Float 4.0000000 ... String !elloH    '
+
+**************
+ASCII  Unicode
+
+
+fileHandler = open("NameOfFile.txt","mode")
+the mode is what you will do with the file, such as read or write
+REMEMBER TO CLOSE FILE
+read() reads whole file and puts it in a string
+readline() read lines and puts them in a string, no input, it is a method
+readlines() reads lines and returns them as a list
+
+--
+fh = open("C:\\Windows\\myFile.txt","r")
+text = fh.read()
+fh.close()
+--
+
+fh.write("hello")
+fh.write('\n')  > inserts a line
+fh.close()
+
+fh.read()
+fh.readline()  reads a line and remembers where it is, so the next time you use that function it prints the next line
+fh.readlines()
+
+**********************************************
+import graphics as g
+def main():
+	w.= g.GraphWin("Window Title",500,400)
+	raw_input("Press ENTER to quit.") # Allows user to hang up and keep window open
+
+
+***** See bubbles.py
+ORIGIN OF A WINDOW IS TOP LEFT CORNER
+X increases from left to right
+Y increases from Top to Bottom
+
+changing the window coordinates:
+win.setCoords(0.0,0.0,100.0,100.0) > now coordinates will be like the cartesian plane
+
+can draw rectangles > give two diff points
+
+can draw polygones > give a set of points
+
+*****Look at graphStuff.py
+
+if you do:
+--
+g.Point(10,10).draw(win)
+--
+you cannot control the point at all after this, not move it or fill it or anything.
+
+ent = graphics.Entry(center,width)
+
+====+=======+==========+=========+=======+=====
+Classes:
++++++++++++++=+++++++=++++++=++++++++=
+input types are a class
+class names begin with CAPITAL LETTER
+
+>>
+class = Student(object):
+	def __init__(self): #refers to the object the constructor creates
+#OR
+ 	def __init__(self,idNum):
+		self.id = idNum
+		self._totalcredits = 0
+		self.gpa = 0.0
+
+	def __str__(self)
+		return "Student # %d " %self.id
+
+	def addGrade(self,grade,credits)
+		valpts = self.gpa * self._totalcredits
+		valpts += grade*credits
+		self.totalcredits += credits
+		self.gpa += valpts/self.totalcredits
+	def getGPA(self)
+		return self.gpa #this is known as the getter method
+
+
+>>
+
+This is the function that will call the constructor:
+>>
+def main():
+	x = Student(555)
+	print x #this would print: "Student # 555 "
+	x.addGrade(3.333,4.0)
+
+
+===============
+=====DICTIONARY=====
+===============
+'dict' # stands for dictionary
+* keys have only one value
+Keys:	=>  	Values
+'x'	=>	1
+0    	=>	Point
+1	=>	Point
+
+
+d = {} #empty dictionary
+d = {key:value, key2:value2}
+
+--
+ages = {'Mom':44, 'Dad':42}
+print ages['Dad']
+ages['Sister'] = 18
+ages['Dad'] = 43
+
+for x in ages:
+	print x,
+	print ages[x]
+
+print (43 in ages)
+>>False #Because 43 is not a key, it is a value
+
+ages.keys()>>['Dad', 'Sister', 'Mom']
+
+ages.values()>>[42, 18, 44]ages.items()>>[('Dad', 42), ('Sister', 18), ('Mom', 44)]
+
+--
+
++++++++=+++++=++++++==++++++++++++
+&^(&%^&%^&%(*&*(&)*&^%^#$^@
+
+Recursion: n.
+	See Recursion.
+
+recursion is a function that calls itself (a smaller sample of itself)
+
+8! = 8*7*6*5*4*3*2*1
+9! = 9*(8!)
+
+n! = n*(n-1)!
+
+
+def factorialRecursive(n):    if n == 0:        return 1# Base Case    else:        return n*factorialRecursive(n-1) #Recursive Step
+

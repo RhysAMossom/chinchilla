@@ -1,0 +1,350 @@
+<HTML>
+<!--This file created 2:50 PM  11/26/99 by Claris Home Page version 3.0-->
+<HEAD>
+   <TITLE>Photo-Reflectors</TITLE>
+   <META NAME=GENERATOR CONTENT="Claris Home Page 3.0">
+   <X-CLARIS-WINDOW TOP=0 BOTTOM=611 LEFT=0 RIGHT=1020>
+   <X-CLARIS-TAGVIEW MODE=minimal>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" ALINK="#0000FF" VLINK="#9900FF">
+<H2><FONT COLOR="#000000"><U>IR emitter and IR
+phototransistor</U></FONT></H2>
+
+<P><A HREF="#over"><FONT COLOR="#0000FF">1. Overview </FONT></A></P>
+
+<P><A HREF="#app">2. Applications</A></P>
+
+<BLOCKQUOTE><A HREF="#infra">2.1 Infrared Reflectance Sensor</A>
+   
+   <P><A HREF="#slotted">2.2 IR slotted optical switch</A></P>
+   
+   <BLOCKQUOTE><A HREF="#connect"><FONT COLOR="#0000FF">2.2.1 How to
+      connect a slotted optical switch to the <I>Handy
+      Board</I></FONT></A>
+      
+      <P><A HREF="#soft"><FONT COLOR="#0000FF">2.2.2 Software
+      Interface</FONT></A><FONT COLOR="#0000FF">
+      </FONT><FONT COLOR="#000000"> </FONT></P></BLOCKQUOTE></BLOCKQUOTE>
+
+<H3><FONT COLOR="#000000"><B><A NAME=over></A>1.
+Overview</B></FONT></H3>
+
+<P>An <B>infrared emitter</B> is an LED made from gallium arsenide,
+which emits near-infrared energy at about 880nm. The infrared
+phototransistor acts as a transistor with the base voltage determined
+by the amount of light hitting the transistor. Hence it acts as a
+variable current source. Greater amount of IR light cause greater
+currents to flow through the collector-emitter leads. As shown in the
+diagram below, the phototransistor is wired in a similar
+configuration to the voltage divider. The variable current traveling
+through the resistor causes a voltage drop in the pull-up resistor.
+This voltage is measured as the output of the device.</P>
+
+<P><TABLE BORDER=1 WIDTH=300 bordercolor="#FFFFFF">
+   <TR>
+      <TD WIDTH="50%">
+         <P><IMG SRC="IRLED.jpg" WIDTH=150 HEIGHT=200 X-CLARIS-USEIMAGEWIDTH X-CLARIS-USEIMAGEHEIGHT ALIGN=bottom></P>
+         
+         <P>An IR emitter</P>
+      </TD>
+      <TD WIDTH="50%">
+         <P><IMG SRC="IRtrans.jpg" WIDTH=150 HEIGHT=200 X-CLARIS-USEIMAGEWIDTH X-CLARIS-USEIMAGEHEIGHT ALIGN=bottom></P>
+         
+         <P>An IR phototransistor</P>
+      </TD>
+   </TR>
+</TABLE>
+
+<HR>
+
+</P>
+
+<H3><FONT COLOR="#000000"><B><A NAME=app></A>2.
+Applications</B></FONT></H3>
+
+<P>One of the applications of the IR emitter and IR phototransistor
+is a <B>photo-reflector. </B><FONT COLOR="#000000">The
+photo-reflector is a small rectangular device that contains an
+phototransistor (sensitive to infrared light) and an infrared
+emitter. The amount of light reflected from the emitter into the
+phototransistor yields a measurement of a surface's reflectance.The
+photoreflector can be used in robot to follow a path (e.g. a white
+line on the floor). </FONT></P>
+
+<P>&nbsp;</P>
+
+<H4><A NAME=infra></A>2.1 Infrared Reflectance Sensor</H4>
+
+<P>IR reflectance sensors contain a matched infrared transmitter and
+infrared receiver pair. These devices work by measuring the amount of
+light that is reflected into the receiver. Because the receiver also
+responds to ambient light, the device works best when well shielded
+from abient light, and when the distance between the sensor and the
+reflective surface is small(less than 5mm). IR reflectance sensors
+are often used to detect white and black surfaces. White surfaces
+generally reflect well, while black surfaces reflect poorly. One of
+such applications is the line follower of a robot.</P>
+
+<P><IMG SRC="reflect.jpg" WIDTH=215 HEIGHT=315 X-CLARIS-USEIMAGEWIDTH X-CLARIS-USEIMAGEHEIGHT ALIGN=right>The
+diagram on the right shows an example of a infrared reflectance
+sensor. For this particular example, the IR detector being used can
+be ordered from Mouser Electronics ( Part# 512-QSE113) and the IR
+emitter can be ordered form Digi-Key (Part# LN175PA-ND). The
+resistors being used in this example are chosen to match the
+electrical properties of the IR dectector and emitter. You might want
+to choose different resistors if you use different dectectors and
+emitters. Different resistor values affect the sensitivity of the
+infrared reflectance sensor.</P>
+
+<P>The following is a test IC program used to illustrate how to use
+the IR emitter and detector with the Handy Board. The program will
+switch on a servo motor when the the IR detector receives enough
+Infra-red light. The program uses the analog input 6 of the Handy
+Board to read from the IR reflectance sensor. (The lower the value of
+the variable <I>num</I> is, the higher the intensity of the IR
+light)</P>
+
+<PRE>void mot()
+{ float period=0.0; 
+  int k; servo_on(); 
+  k = servo_deg(period); 
+  sleep(0.1);    
+} 
+
+
+void main(){ 
+int num; 
+while(1){ 
+num = analog(6); 
+printf("intensity level is %d\n", num);    
+if (num &lt; 100){ 
+mot(); 
+} 
+else servo_off(); 
+} 
+}</PRE>
+
+<H4><A NAME=slotted></A>2.2 IR slotted optical switch</H4>
+
+<P><FONT COLOR="#000000">An infrared slotted optical switch is a
+device similar to the photo-reflector except that the emitter is
+pointed directly into the phototransistor. The slotted optical switch
+can be used to build <I>shaft encoders</I>. Shaft encoders can give
+the robot feedback on how far its wheels have turned or on
+synchronizing two wheels' velocity. A shaft encoder usually consists
+of a slotted optical switch and a striped wheel with a palette of
+radically alternating holes or slots on it. The palette of stripes
+will alternately reflect or not reflect light to the phototransistor,
+yielding a pulse-train output. The robot can then tell how far its
+wheels have rotated by counting the pulses. </FONT></P>
+
+<P><TABLE BORDER=1 BGCOLOR="#FFFFFF" WIDTH="79%" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bordercolor="#FFFFFF">
+   <TR>
+      <TD VALIGN=top ROWSPAN=3 WIDTH="72%">
+         <H4><FONT COLOR="#000000"><B><A NAME=connect></A>2.2.1 How
+         to connect an IR slotted optical switch to the </B><I>Handy
+         Board</I></FONT></H4>
+         
+         <P>&nbsp;</P>
+         
+         <P><IMG SRC="new_conn.jpg" WIDTH=436 HEIGHT=335 X-CLARIS-USEIMAGEWIDTH X-CLARIS-USEIMAGEHEIGHT ALIGN=bottom></P>
+      </TD>
+      <TD WIDTH="28%">
+         <P><IMG SRC="diagram.gif" WIDTH=220 HEIGHT=158 ALIGN=bottom></P>
+         
+         <P><FONT SIZE="-2" COLOR="#000000">A typical IR slotted
+         optical switch</FONT></P>
+      </TD>
+   </TR>
+   <TR><TD WIDTH="28%" HEIGHT=241>
+         <P><IMG SRC="pinout.gif" WIDTH=235 HEIGHT=205 ALIGN=bottom></P>
+         
+         <P><FONT SIZE="-2" COLOR="#000000">Pinout diagram of the
+         slotted optical switch</FONT></P>
+      </TD>
+   </TR>
+   <TR><TD WIDTH="28%">
+         <P><FONT SIZE="-2" COLOR="#000000"><IMG SRC="48segcopy.gif" WIDTH=109 HEIGHT=145 X-CLARIS-USEIMAGEWIDTH X-CLARIS-USEIMAGEHEIGHT ALIGN=bottom></FONT></P>
+         
+         <P><FONT SIZE="-2" COLOR="#000000">Alernating slots make
+         reflecting and non-reflecting surfaces. More stripes give
+         greater resolution to measurements, but the stripes cannot
+         be narrow than the field of view of the slotted optical
+         switch.A 48 segments palette is shown above.</FONT></P>
+      </TD>
+   </TR>
+</TABLE>
+</P>
+
+<P><FONT COLOR="#000000">The wiring for the slotted optical switch is
+straightforward. The white dot on the optical switch corresponds to
+pin 2 in the pinout diagram and you can figure out the pins using the
+pinout diagram shown above. The emitter LED is powered by te <I>Handy
+Board</I>'s +5V supply, with a 330 ohm resistor in series to limit
+the current through the LED to an appropriate value. In fact, there
+is a pull-up resistor of 4.7K ohm built in the <I>Handy Board</I> and
+it is not shown in the diagram. Different varieties of
+phototransistor, however, may perform better with a smaller resistor
+value than the on-board 47K resistor. If the sensitivity of the
+device is poor, you can try connecting the signal line to the power
+supply through another resistor to determine the best
+response.</FONT></P>
+
+<H4><FONT COLOR="#000000"><A NAME=soft></A><B>2.2.2 Software
+Interface</B></FONT></H4>
+
+<P><FONT COLOR="#000000"><I>Shaft-Encoder Pulse-Accumulator Software
+Driver</I></FONT></P>
+
+<P><FONT COLOR="#000000">In order to use the shaft-encoder sensors in
+some sort of velocity control scheme for the robot, we must first
+interface the photoreflectors to the microprocessor and store the
+ensuing counts for each wheel in 2 variables. One shaft encoder is
+fed into the pulse accumulator on port A PA7, corresponding to the
+digital input PAI/PA7 on the <I>Handy Board</I>, and the other shaft
+encoder is fed into PA0, which corresponds to the digital input
+TIC3/PA0 on the <I>Handy Board</I>.</FONT></P>
+
+<P><FONT COLOR="#000000">The pulse accumulator, associated with port
+A pin PA7, is an 8-bit counter register and that makes it very easy
+to count the number of rising or falling edges input to that pin. In
+order to use the pulse accumulator, we have to initialize the pulse
+accumulator control register, PACTL, properly. Details of the control
+register is skipped here, and only the C code you have to write is
+presented here. The following C code initializes the
+pulse-accumulator system and returns the number of pulses since the
+last reading.</FONT></P>
+
+<PRE><FONT COLOR="#000000">int PACTL = 0x1026 ; /*Pulse accumulator control */
+int PACNT = 0x1027 ; /*Pulse accumulator control */
+
+void init_velocity( ) /*initialize hardware for velocity monitoring */
+{ poke(PACTL, 0b01010000); /* PA7 input, enable pulse acc., rising edge */
+  poke(PACNT, 0); } /* Start with 0 measured velocity */
+
+int get_left_vel( ) /* left velocity from PA7 using pulse counter */
+{ int vel;
+  vel = peek(PACNT);
+  poke(PACNT, 0); /* reset for next call */
+  return(vel); }<BR></FONT></PRE>
+
+<P><FONT COLOR="#000000"><BR>
+To activate the pulse-counter system, call <B>init_velocity( )</B>
+during system initialization. Velocity of the left wheel can be found
+by calling <B>get_left_vel ( )</B> at regular intervals. Velocity is
+in units of encoder clicks per time interval (where the time interval
+is the time between 2 successive calls to <B>get_left_vel( )</B>
+)</FONT></P>
+
+<P><FONT COLOR="#000000">Once the pulse accumulator hardware has been
+initialized, it will run in the background, automatically
+incrementing the count every time a stripe on the encoder wheel moves
+past the photoreflector. The robot's main program does not have to
+keep track of this activity but is free to attend to other sensors
+and actuators. When it needs to know the encoder count, the main
+program calls the function<B> get_left_vel( )</B>. </FONT></P>
+
+<P><FONT COLOR="#000000"><I>Shaft-Encoder Input Capture Software
+Driver</I></FONT></P>
+
+<P><FONT COLOR="#000000">For the encoder wheel connected to port A
+pin PA0(digital input PA0), more software complexity is in store. We
+must use an interrupt to count encoder clicks from the right wheel
+because there is only one pulse accumulator in the 68HC11
+microprocessor. We will use the IC3 register associated with PA0 to
+generate an interrupt on every rising edge. The interrupt-handler
+routine, which automatically runs whenever a rising edge is detected,
+must increment a counter, clear the interrupt flag, and return from
+the interrupt. In order to use the interrupt handler, we have to
+initialize a few associated registers in a way similar to setting up
+the pulse-accumulator. The following C code fragment will initialize
+the associated registers properly:</FONT></P>
+
+<PRE><FONT COLOR="#000000">int TCTL2 = 0x1021; /* Timer Control 2, 8 bit reg., interrupt edge */
+int TMSK1 = 0x1022; /*Timer Interrupt Masks, 8 bit reg */ 
+
+bit_clear(TCTL2, 0b00000010); /*IC3 interrupts on rising edges */
+bit_set(TCTL2, 0b00000001); /*IC3 interrupts on rising edges */
+bit_set(TMSK1, 0b00000001); /* Enable only IC3 interrupts */<BR></FONT></PRE>
+
+<P><FONT COLOR="#000000"><BR>
+You can then insert these codes into your variable declaration
+section and the subroutine that initialize the pulse-accumulator,
+e.g. <B>init_velocity( )</B>.</FONT></P>
+
+<P><FONT COLOR="#000000">To write the interrupt-handler routine for
+the inpuut capture register IC3, you have to write the handler in the
+68HC11 assembly language.. The Interative C compiler has a means of
+interfacing to assembly language routines. The following code
+fragment counts the shaft-encoder pulses and stores the running sum
+in a global variable <B>right_clicks</B>.</FONT></P>
+
+<PRE><FONT COLOR="#000000">TFLG1 EQU $1023 ; Timer Flag 1, 8 bit reg 
+	ORG MAIN_START ; Origin for assembly module 
+
+subroutine_initialize_module:  
+	ldd #IC3_interrupt_handler    ; 16 bit address of interrupt handler 
+	std $FFEA ;Store in IC3 interrupt vector    
+	cli ;Enable interrupts generally 
+	rts ;return from subroutine 
+
+variable_right_clicks:     
+	fdb 0 ;fill double byte, 16 bits right_clicks    = 0 
+
+IC3_interrupt_handler: 
+	ldd variable_right_clicks 
+	addd #1 ;add one more encoder count 
+	std variable_right_clicks 
+	ldaa #%00000001 ;Clear the IC3 flag by writing a one 
+	staa TFLG1 ;Store in TFLG1 to clear IC3 flag 
+	rti ;return from interrupt  </FONT></PRE>
+
+<P><FONT COLOR="#000000">These code fragments accomplish several
+goals. A code initalizer module, <B>subroutine_initialize_module,
+</B>is created, whose purpose is to store the address of the
+interrupt handler in the correct location. The IC system calls this
+module each time the reset button is pushed. A variable,
+<B>variable_right_clicks</B>, for storing the encoder counts from the
+right shaft encoder is also created (C routines will reference this
+variable using the variable name <B>right_clicks</B>.) Finally,
+<B>IC3_interrupt_handler</B>, an interrupt handler, is written, which
+increments the right-encoder counts variable each time the reflective
+photosensor sees the stripe it is looking at changes from black to
+white. </FONT></P>
+
+<P><FONT COLOR="#000000">To use the above assembly program with the
+Handy Board, you have to copy the code fragment to the online ICB
+complier at </FONT><A HREF="http://www.newtonlabs.com/ic/icb.html">http://www.newtonlabs.com/ic/icb.html</A><FONT COLOR="#000000">
+and then assemble it. Then, you should save the resulting icb file to
+a file with an extension <B>.icb</B>. You can then download the .icb
+file just like any IC files. </FONT></P>
+
+<P><FONT COLOR="#000000">To complete the C program, you have to write
+another subroutine to return the number of clicks from the global
+variable. The following subroutine will handle this:</FONT></P>
+
+<PRE><FONT COLOR="#000000">int get_right_vel ( ) /*right vel PA0 using interrupt */
+
+{ int vel; 
+  vel = right_clicks; 
+  right_clicks = 0; /*reset for next call*/ 
+  return (vel)    ; } 
+</FONT></PRE>
+
+<P><FONT COLOR="#000000">Click </FONT><A HREF="optocircuits.html"><U>here</U></A><FONT COLOR="#000000">
+for another tutorial on slotted optical switch</FONT></P>
+
+<P>&nbsp;</P>
+
+<P>&nbsp;</P>
+
+<PRE>&nbsp;
+
+    
+
+  </PRE>
+
+<P>&nbsp;</P>
+</BODY>
+</HTML>

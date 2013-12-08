@@ -1,0 +1,13 @@
+Mon Aug 20 11:56:47 2012	Program Started in MAC operating system at Mon Aug 20 11:56:47 2012
+Mon Aug 20 11:56:50 2012	Connected to Arduino.
+Mon Aug 20 11:56:52 2012	PyGame initialized.
+Mon Aug 20 11:56:52 2012	Connected to camera on /dev/video0
+Mon Aug 20 11:56:52 2012	Camera initialized.
+Mon Aug 20 11:56:52 2012	Battery Initialized.
+Mon Aug 20 11:56:53 2012	Battery Max Level = 4696.0
+Mon Aug 20 11:56:53 2012	Battery Current Level = 4611.0
+Mon Aug 20 11:56:54 2012	Battery Power Percentage = 98.1%
+Mon Aug 20 11:56:55 2012	Laptop Power Adapter Connected = False
+Mon Aug 20 11:56:55 2012	Program running.
+Mon Aug 20 11:56:55 2012	Movement Detected
+Mon Aug 20 11:56:55 2012	Taking picture 1

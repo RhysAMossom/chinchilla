@@ -1,0 +1,193 @@
+#include <AFMotor.h>
+#include <Servo.h>
+
+AF_DCMotor mR(1, MOTOR12_2KHZ);
+AF_DCMotor mL(2, MOTOR12_2KHZ);
+Servo radar;
+
+const int pingFront = 14;// Same pin is used to write and read the signal
+const int pinTrigger = 15;// write signal
+const int pinEcho = 16; // receive signal
+
+const int turnMS = 1700; //number of miliseconds it takes to do a 90 degree turn
+int cF;
+
+void setup() {
+  Serial.begin(9600);
+  mR.setSpeed(170);//0 is stopped, full speed is 255;
+  mL.setSpeed(170);//0 is stopped, full speed is 255;
+  radar.attach(10);
+  pinMode(pinTrigger,OUTPUT);
+  pinMode(pinEcho, INPUT);
+  
+  //cF = calibrate(); // conversion factor
+  delay(2000);
+}
+
+void forward(long d){
+    mR.run(FORWARD);
+    mL.run(FORWARD);
+    delay(d);
+}
+
+void back(int d = 500){
+    mR.run(BACKWARD);
+    mL.run(BACKWARD);
+  delay(d);
+}
+
+void right(int d = 1000){
+    mL.run(FORWARD);
+    mR.run(BACKWARD);
+  delay(d);
+}
+  
+void left(int d = 1000){  
+    mR.run(FORWARD);
+    mL.run(BACKWARD);
+  delay(d);
+}
+
+void halt(){
+  mR.run(RELEASE);// motor is stopped
+  mL.run(RELEASE);// motor is stopped
+}
+
+long getDistance(int pingPin){
+  long duration, distance = -1;
+    while (distance <0){
+    pinMode(pingPin,OUTPUT); //send signal
+    digitalWrite(pingPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(pingPin, HIGH);
+    delayMicroseconds(5);
+    digitalWrite(pingPin, LOW);
+    
+    pinMode(pingPin,INPUT); // read signal
+    duration = pulseIn(pingPin,HIGH);
+    distance = duration / 29 / 2;
+  }
+  return distance;
+}
+
+long getDistance(int pinTrigger, int pintEcho){
+  long duration, distance = -1;
+  while (distance <0)
+  {
+    digitalWrite(pinTrigger, LOW);
+    delayMicroseconds(2);
+    digitalWrite(pinTrigger, HIGH);
+    delayMicroseconds(5);
+    digitalWrite(pinTrigger, LOW);
+    duration = pulseIn(pinEcho,HIGH)+0.0;
+  //digitalWrite(pinEcho, LOW);
+     distance = duration / 29 / 2;
+  }
+  return distance;
+}
+
+int calibrate() {
+  int cf = -1;
+  while(cf<0 || cf >75){
+    Serial.println("Calibrating...");
+    halt();
+    long dA1, dB1, dA2, dB2, dA, dB;
+    radar.write(92);
+    delay(15);
+    // warm up
+    getDistance(pinTrigger, pinEcho);
+    getDistance(pingFront);
+    
+    delay(500);
+    dA1 = getDistance(pingFront);
+    delay(500);
+    dB1 = getDistance(pinTrigger, pinEcho);
+    Serial.println("\tFirst Reading");
+    Serial.print(dA1);
+    Serial.print("\t");
+    Serial.println(dB1);
+    delay(500);
+    Serial.println("Running");
+    long time = 1000;
+    forward(time);
+    halt();
+    Serial.println("Stopped");
+    
+    dA2 = getDistance(pingFront);
+    delay(500);
+    dB2 = getDistance(pinTrigger, pinEcho);
+    Serial.println("\tSecond Reading");
+    Serial.print(dA2);
+    Serial.print("\t");
+    Serial.println(dB2);
+    
+    dA = dA1-dA2;
+    dB = dB1-dB2;
+    dA = abs(dA);
+    dB = abs(dB);
+    Serial.println("\tDifferences");
+    Serial.print(dA);
+    Serial.print("\t");
+    Serial.println(dB);
+    
+    if (dA==dB)
+      Serial.println("Sensors are in sync");
+    else
+      Serial.println("Sensors are out of sync");
+    
+    int cfA , cfB;
+    cfA = time/dA;
+    cfB = time/dB;
+    cf = cfA;
+    
+    if (cfA>cfB){
+      cf = cfB;
+      Serial.println("Ping on Servo calibrated");
+    }
+  
+    Serial.print("Conversion Factor is: \t");
+    Serial.println(cf);
+  }
+  return cf;
+  //formula:
+  // t(ms) -> x (cm) : test input time
+  // T    -> X : desired time
+  // 
+  // T = X*t/x = X * conversionFactor
+}
+
+void loop(){
+   calibrate();
+   delay(10000);
+//    halt();
+//    radar.write(92);
+//    delay(500);
+//  
+//    long distance = getDistance(pingFront);
+//    delay(1000);
+//    if (distance >= 5){
+//      forward(distance*cF);
+//      halt();
+//    }
+//    
+//    int dL,dR;
+//    radar.write(10);
+//    delay(1000);
+//    dL = getDistance(pinTrigger, pinEcho);
+//    
+//    radar.write(170);
+//    delay(1000);
+//    dR = getDistance(pinTrigger, pinEcho);
+//    
+//    back();
+//    if (dL <10 && dR <10){
+//      back(2500);
+//      left(turnMS*2);
+//    }
+//    else if(dL<=dR){
+//      right(turnMS);
+//    }
+//    else{ //if(dR<dL){
+//      left(turnMS);
+//    }
+}

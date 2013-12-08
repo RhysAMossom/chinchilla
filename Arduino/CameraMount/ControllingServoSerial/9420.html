@@ -1,0 +1,398 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!--
+This site is powered by
+ ____                         _
+|  _ \ _ __ _   _ _ __   __ _| |
+| | | | '__| | | | '_ \ / _` | |
+| |_| | |  | |_| | |_) | (_| | |
+|____/|_|   \__,_| .__/ \__,_|_|
+                 |_|
+
+Free and Open Source content management system/framework.
+
+Drupal is extremely flexible and very powerful. It has a large and active
+community and powers tens of thousands of sites websites across the globe.
+
+For more information, visit http://drupal.org/
+
+Drupal is a registered trademark of Dries Buytaert.
+-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Making a micro 9g servo continous, no stop. | Let's Make Robots!</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="alternate" type="application/rss+xml" title="Comments for &quot;Making a micro 9g servo continous, no stop.&quot;" href="/crss/node/9420" />
+
+<link rel="shortcut icon" href="/files/lmr_favicon.ico" type="image/x-icon" />
+<style type="text/css" media="all">@import "/modules/aggregator/aggregator.css";</style>
+<style type="text/css" media="all">@import "/modules/poll/poll.css";</style>
+<style type="text/css" media="all">@import "/sites/all/modules/contrib/cck/content.css";</style>
+<style type="text/css" media="all">@import "/sites/all/modules/contrib/date/date.css";</style>
+<style type="text/css" media="all">@import "/sites/all/modules/contrib/tagadelic/tagadelic.css";</style>
+<style type="text/css" media="all">@import "/sites/all/modules/contrib/thickbox/thickbox.css";</style>
+<style type="text/css" media="all">@import "/sites/default/modules/lmr_chill/lmr_chill.css";</style>
+<style type="text/css" media="all">@import "/sites/default/modules/lmr_components/lmr_components.css";</style>
+<style type="text/css" media="all">@import "/sites/all/modules/contrib/cck/fieldgroup.css";</style>
+<style type="text/css" media="all">@import "/sites/all/modules/contrib/panels/css/panels.css";</style>
+<style type="text/css" media="all">@import "/modules/comment/comment.css";</style>
+<style type="text/css" media="all">@import "/sites/all/modules/contrib/openid/openid.css";</style>
+<style type="text/css" media="all">@import "/sites/default/themes/bee3/lmr/reset-fonts-grids.css";</style>
+<style type="text/css" media="all">@import "/sites/default/themes/bee3/lmr/basic.css";</style>
+<style type="text/css" media="print">@import "/sites/default/themes/bee3/lmr/print.css";</style>
+<style type="text/css" media="screen">@import "/sites/default/themes/bee3/lmr/style.css";</style>
+<script type="text/javascript" src="/misc/jquery.js"></script>
+<script type="text/javascript" src="/misc/drupal.js"></script>
+<script type="text/javascript" src="/misc/collapse.js"></script>
+<script type="text/javascript" src="/sites/default/themes/bee3/lmr/lmr.js"></script>
+<script type="text/javascript" src="/sites/all/modules/contrib/jquery_update/compat.js"></script>
+<script type="text/javascript" src="/sites/all/modules/contrib/thickbox/thickbox_login.js"></script>
+<script type="text/javascript" src="/sites/all/modules/contrib/thickbox/thickbox.js"></script>
+<script type="text/javascript" src="/sites/default/modules/lmr_chill/lmr_chill.js"></script>
+<script type="text/javascript" src="/sites/default/modules/lmr_components/lmr_components.js?1294035587"></script>
+<script type="text/javascript" src="/sites/all/modules/contrib/panels/js/panels.js"></script>
+<script type="text/javascript" src="/sites/all/modules/contrib/openid/openid.js"></script>
+<script type="text/javascript" src="/sites/default/themes/bee3/lmr/jquery.qtip.min.js"></script>
+<script type="text/javascript">Drupal.extend({ settings: { "googleanalytics": { "trackOutgoing": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|avi|csv|doc|exe|flv|gif|gz|jpe?g|js|mp(3|4|e?g)|mov|pdf|phps|png|ppt|rar|sit|tar|torrent|txt|wma|wmv|xls|xml|zip", "LegacyVersion": 0 }, "thickbox": { "close": "Close", "next": "Next \x3e", "prev": "\x3c Prev", "esc_key": "or Esc Key", "next_close": "Next / Close on last", "image_count": "Image !current of !total" } } });</script>
+  <script type="text/javascript"> </script>
+    <meta name="description" content="At Let's Make Robots, you can share your homemade robots with the world. Share your cool ideas and stunning designs here or see the clever inventions of others" />
+  <meta name="keywords" content="robots, homemade robots, ambient intelligence, ubiquitous computing, internet of things, Everyware, Context-aware computing, Mobile computing, Wearable computing, Embedded computing, Augmented reality, Pervasive computing" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  </head>
+
+<body id="letsmakerobots.com" class="not-front not-logged-in node-type-robot_tip one-sidebar sidebar-right page-node-9420 section-node">
+  <div id="doc4" class="yui-t4">
+    <div id="hd">
+      
+
+			      <div class='cz-toplink'>
+      <a href='/chill' title='Chillout Zone: '><img src='/sites/default/themes/bee3/lmr/images/v3frontchill.png' alt='Chillout Zone' /></a>
+
+            </div>
+	
+            <div id="site-name">
+         <a href="/" title="Let's Make Robots!" rel="home"><img src="/sites/default/themes/bee3/lmr/images/v3topbanner.png" width="335" height="59" alt="Let's Make Robots!" title="Let's Make Robots!" /></a>
+      </div>
+
+      <div id="navbar-top"><ul class="links-menu">
+<li><a href="/start" title="Are you new to robot building? This may be a good tutorial for you to get started on your first robot.">Start Here</a></li>
+<li><a href="/lmr/rules" title="DOs and DONTs on LetsMakeRobots">Rules</a></li>
+<li><a href="/view/tip/list" title="LMR&#039;s Epic Walk Throughs">Tips</a></li>
+<li><a href="http://letsmakerobots.com/taxonomy/term/7911" title="The LMR Live Show">LiveShow</a></li>
+<li><a href="/view/node/list/robot" title="List of all robots">Robots</a></li>
+<li><a href="/blog" title="Users blogs">Blogs</a></li>
+<li><a href="http://letsmakerobots.com/taxonomy/term/7610" title="Reviews for components, components for reviews!">Reviews</a></li>
+<li><a href="/view/challenges/list">Challenges</a></li>
+<li><a href="/components">Components</a></li>
+<li><a href="/forum">Forums</a></li>
+<li><a href="/view/node/list/something_else">Something else</a></li>
+<li><a href="/tracker">Recent</a></li>
+<li><a href="/lmr" title="About LetsMakeRobots">About</a></li>
+</ul></div>
+      <div class="breadcrumb"><a href="/">Home</a></div>    </div>
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b first" id="main-content">
+                          <div id="content-header">
+			                                    <h1 class="title title-link-options"  id="links-9420">Making a micro 9g servo continous, no stop.</h1>
+            
+                                  </div> <!-- /#content-header -->
+                  <div id="content-area">
+            
+
+      <div class="links hide" id="hide-links-9420">
+      <ul class="links inline"><li  class="first comment_forbidden"><span class="comment_forbidden"><a href="/user/login?destination=node/9420%2523comment-form">Login</a> or <a href="/user/register?destination=node/9420%2523comment-form">register</a> to post comments</span></li>
+<li  class="bio"><a href="/node/8953" title="View Stigern&#039;s Profile." class="bio">  </a></li>
+<li  class="last collectedby"><a href="/node/9420/who" title="Collected by 8 users" class="collectedby">Collected by 8 users</a></li>
+</ul>    </div>
+  <div class="node node-full node-type-robot_tip" id="node-9420"><div class="node-inner">
+
+  <div class="node-full-badge">
+    
+  
+    <div class="lmr-nodetype-badge robot_tip"><a href="/view/node/list/robot_tip">Tip/walkthrough</a></div>&nbsp;
+  </div>
+
+  <div id="robot_infosidebar">
+    <div id="robot-submitdata" class="clear-block">
+      <div class="picture"><a href="/user/5197" title="View user profile."><img src="http://letsmakerobots.com/files/userpics/picture-5197.jpg" alt="Stigern&#039;s picture" title="Stigern&#039;s picture"  /></a></div>              <span class="submitted">
+          By <a href="/user/5197" title="Stigern" class="">Stigern</a><br /> @ July 28, 2009        </span>
+          </div>
+    <div id="robot_what_does_it_do">Converts the servo for use as a geared motor</div><div class="lmrFavs"></div>  </div><!-- /#robot_infosidebar -->
+
+
+
+  
+    <div class="field-primary-image">
+      <a href="/files/field_primary_image/mysteryservo.jpg?"><img src="http://letsmakerobots.com/files/imagecache/robot_fullpage_header/field_primary_image/mysteryservo.jpg" alt="" title=""  class="imagecache imagecache-robot_fullpage_header" /></a>    </div>
+  
+
+
+  <div class="robot-embedded-videos"><a id="robot_em_video"><p>&nbsp;</p></a><a name='vid-mXPXB0FOXCg' />        <div id="video_cck_youtube_flash_wrapper_1"><object type="application/x-shockwave-flash" height="350" width="425" data="http://www.youtube.com/v/mXPXB0FOXCg&amp;rel=0&amp;fs=1" id="video-cck-youtube-flash-1">
+          <param name="movie" value="http://www.youtube.com/v/mXPXB0FOXCg&amp;rel=0&amp;fs=1" />
+          <param name="allowScriptAcess" value="sameDomain"/>
+          <param name="quality" value="best"/>
+          <param name="bgcolor" value="#FFFFFF"/>
+          <param name="scale" value="noScale"/>
+          <param name="salign" value="TL"/>
+          <param name="FlashVars" value="playerMode=embedded" />
+          <param name="wmode" value="transparent" />
+        </object></div><div style=' width: 425px; text-align: right;'></div></div>
+  
+    
+
+    <br />
+  <div id="tip_body_text">
+    <p>It’s always good to have servos that works like a geared motor. That also can go in both direction and speed is adjustable, it’s very handy in robotic project or general vehicles. The servo I’m using is a Mystery Micro Servo 9g SD90. But most of these small servos got the same internals so I guess you can use this on other servos.</p><p>1. Remove the stickers on both sides, and unscrew the four long screws that goes from the bottom to the top. One in each corner of the servo.</p> <p>2. Gently lift off the top cover to uncover all the gears. Notice, it’s smart to remember the correct order of the gears, so that when you put them back you know what goes where. But I took a picture close to make it easier to remember where they all go. Use picture below for this purpose.</p><p><img src="http://stigern.net/modservo/CorrectPlacement.jpg" height="317" width="500" alt="CorrectPlacement.jpg" /></p><p>3. Remove all gears, no need to clean the grease off. Just put them in a box just for now.</p> <p>4. Take the top gear and snip the little plastic bit off it, look at pictures below. This is the part that stop the servo from going more than 180 degrees.</p><p><img src="http://stigern.net/modservo/beforecuttingtopoff.jpg" height="527" width="500" alt="beforecuttingtopoff.jpg" /></p><p><img src="http://stigern.net/modservo/aftercuttingtopof.jpg" height="468" width="500" alt="aftercuttingtopof.jpg" /></p><p>5. Now we need to glue the potmeter, look at picture below. Just remove the plastic cap thats on the shaft of the potmeter to show it’s internals.</p><p><img src="http://stigern.net/modservo/wheretoglue.jpg" height="372" width="500" alt="wheretoglue.jpg" /></p><p>6. Attach the servo to the ardunio, using pin 9 as the signal. Use this <a href="http://pastebin.com/f243ac93a">program</a> or just some other program that gives the servo 90 degrees. If the potmeter is centered the servo should stop the motor from turning, if it doesn’t try to turn the potmeter shaft one or the other way until it stops. You now got it centered so that 90 is stop, just add some glue to the internals of the potmeter to keep it locked. Before moving onto step 7 let the glue dry.</p> <p>7. You now need to cut off the end of the potmeter shaft, this keeps the potmeter shaft from moving. Look at picture below for more info.</p><p><img src="http://stigern.net/modservo/snipoff.jpg" height="460" width="500" alt="snipoff.jpg" /></p><p>8. Now you only need to put it all back together. Just use the picture in step 2 for reference when adding all the gears.</p> <p>There you are, now it should work like a continous servo. Any questions just leave a comment below. <img src="http://stigern.net/wp-includes/images/smilies/icon_mrgreen.gif" alt=":mrgreen:" /></p> <p> </p><p> </p><p> </p><p> </p>  </div>
+  
+
+
+
+
+
+
+
+
+
+
+  
+</div></div> <!-- /node-inner, /node -->
+<div id="comments"><form action="/node/9420"  accept-charset="UTF-8" method="post" id="comment-controls">
+<div><div class="box">
+
+  <h2>Comment viewing options</h2>
+
+  <div class="content"><div class="container-inline"><input type="hidden" name="form_id" id="edit-comment-controls" value="comment_controls"  />
+<div class="form-item" id="edit-mode-wrapper">
+ <select name="mode" class="form-select" id="edit-mode" ><option value="1">Flat list - collapsed</option><option value="2">Flat list - expanded</option><option value="3">Threaded list - collapsed</option><option value="4" selected="selected">Threaded list - expanded</option></select>
+</div>
+<div class="form-item" id="edit-order-wrapper">
+ <select name="order" class="form-select" id="edit-order" ><option value="1" selected="selected">Date - newest first</option><option value="2">Date - oldest first</option></select>
+</div>
+<div class="form-item" id="edit-comments-per-page-wrapper">
+ <select name="comments_per_page" class="form-select" id="edit-comments-per-page" ><option value="10">10 comments per page</option><option value="30">30 comments per page</option><option value="50" selected="selected">50 comments per page</option><option value="70">70 comments per page</option><option value="90">90 comments per page</option><option value="150">150 comments per page</option><option value="200">200 comments per page</option><option value="250">250 comments per page</option><option value="300">300 comments per page</option></select>
+</div>
+<input type="submit" name="op" id="edit-submit" value="Save settings"  class="form-submit" />
+</div><div class="description">Select your preferred way to display the comments and click "Save settings" to activate your changes.</div></div>
+</div>
+
+</div></form>
+<a id="comment-29717"></a>
+<div class="comment odd">
+  <div class="comment-inner clear-block">
+    <div class="submitted">
+      By <a href="/user/1705" title="ndupont" class="">ndupont</a><br /> @ Tue, 2009-08-04 21:01    </div>
+    <div class="picture"><a href="/user/1705" title="View user profile."><img src="http://letsmakerobots.com/files/userpics/picture-1705.jpg" alt="ndupont&#039;s picture" title="ndupont&#039;s picture"  /></a></div>              <h3 class="title title-link-options" id="links-comment-29717"><a href="/node/9420#comment-29717" class="active">this reminds me something :)</a></h3>
+    
+          <div class="links hide" id="hide-links-comment-29717">
+      <ul class="links"><li  class="first last comment_forbidden"><span class="comment_forbidden"><a href="/user/login?destination=node/9420%2523comment-form">Login</a> or <a href="/user/register?destination=node/9420%2523comment-form">register</a> to post comments</span></li>
+</ul>    </div>
+  
+    <div class="content">
+      <a href="/node/4873">http://letsmakerobots.com/node/4873</a>    </div>
+  </div><!-- /comment-inner -->
+
+</div><!-- /comment -->
+<div class="indented"><a id="comment-29733"></a>
+<div class="comment even comment-by-author">
+  <div class="comment-inner clear-block">
+    <div class="submitted">
+      By <a href="/user/5197" title="Stigern" class="">Stigern</a><br /> @ Tue, 2009-08-04 23:54    </div>
+    <div class="picture"><a href="/user/5197" title="View user profile."><img src="http://letsmakerobots.com/files/userpics/picture-5197.jpg" alt="Stigern&#039;s picture" title="Stigern&#039;s picture"  /></a></div>              <h3 class="title title-link-options" id="links-comment-29733"><a href="/node/9420#comment-29733" class="active">oh, didn&#039;t know about that</a></h3>
+    
+          <div class="links hide" id="hide-links-comment-29733">
+      <ul class="links"><li  class="first last comment_forbidden"><span class="comment_forbidden"><a href="/user/login?destination=node/9420%2523comment-form">Login</a> or <a href="/user/register?destination=node/9420%2523comment-form">register</a> to post comments</span></li>
+</ul>    </div>
+  
+    <div class="content">
+      <p>oh, didn't know about that one :P</p><p>And with the same servos XD haha. Well, the more the merrier. </p>    </div>
+  </div><!-- /comment-inner -->
+
+</div><!-- /comment -->
+</div><a id="comment-29140"></a>
+<div class="comment odd">
+  <div class="comment-inner clear-block">
+    <div class="submitted">
+      By <a href="/user/2353" title="echorobotics" class="">echorobotics</a><br /> @ Tue, 2009-07-28 21:16    </div>
+    <div class="picture"><a href="/user/2353" title="View user profile."><img src="http://letsmakerobots.com/files/userpics/picture-2353.jpg" alt="echorobotics&#039;s picture" title="echorobotics&#039;s picture"  /></a></div>              <h3 class="title title-link-options" id="links-comment-29140"><a href="/node/9420#comment-29140" class="active">cool walkthrough.  i did</a></h3>
+    
+          <div class="links hide" id="hide-links-comment-29140">
+      <ul class="links"><li  class="first last comment_forbidden"><span class="comment_forbidden"><a href="/user/login?destination=node/9420%2523comment-form">Login</a> or <a href="/user/register?destination=node/9420%2523comment-form">register</a> to post comments</span></li>
+</ul>    </div>
+  
+    <div class="content">
+      cool walkthrough.  i did something like this when i built my biped ARB, node/5203    </div>
+  </div><!-- /comment-inner -->
+
+</div><!-- /comment -->
+<a id="comment-29082"></a>
+<div class="comment even">
+  <div class="comment-inner clear-block">
+    <div class="submitted">
+      By <a href="/user/476" title="maneuver" class="">maneuver</a><br /> @ Tue, 2009-07-28 14:35    </div>
+    <div class="picture"><a href="/user/476" title="View user profile."><img src="http://letsmakerobots.com/files/userpics/picture-476.jpg" alt="maneuver&#039;s picture" title="maneuver&#039;s picture"  /></a></div>              <h3 class="title title-link-options" id="links-comment-29082"><a href="/node/9420#comment-29082" class="active">Is the speed adjustable?</a></h3>
+    
+          <div class="links hide" id="hide-links-comment-29082">
+      <ul class="links"><li  class="first last comment_forbidden"><span class="comment_forbidden"><a href="/user/login?destination=node/9420%2523comment-form">Login</a> or <a href="/user/register?destination=node/9420%2523comment-form">register</a> to post comments</span></li>
+</ul>    </div>
+  
+    <div class="content">
+      You say that the speed is adjustable, I've always thought that servos moved at one speed only. What have I missed, how do you achieve this?    </div>
+  </div><!-- /comment-inner -->
+
+</div><!-- /comment -->
+<div class="indented"><a id="comment-29148"></a>
+<div class="comment odd">
+  <div class="comment-inner clear-block">
+    <div class="submitted">
+      By <a href="/user/4" title="fritsl" class="">fritsl</a><br /> @ Tue, 2009-07-28 21:59    </div>
+    <div class="picture"><a href="/user/4" title="View user profile."><img src="http://letsmakerobots.com/files/userpics/picture-4.jpg" alt="fritsl&#039;s picture" title="fritsl&#039;s picture"  /></a></div>              <h3 class="title title-link-options" id="links-comment-29148"><a href="/node/9420#comment-29148" class="active">Some microcontrollers (read:</a></h3>
+    
+          <div class="links hide" id="hide-links-comment-29148">
+      <ul class="links"><li  class="first last comment_forbidden"><span class="comment_forbidden"><a href="/user/login?destination=node/9420%2523comment-form">Login</a> or <a href="/user/register?destination=node/9420%2523comment-form">register</a> to post comments</span></li>
+</ul>    </div>
+  
+    <div class="content">
+      <p>Some microcontrollers (read: Picaxe) can background-control servos.</p><p>And you can get cheap little servo-controller-boards that are controlled by serial etc.</p><p>This all means that you get several geared motors that run in a speed and direction that you set it up to - in the background.</p><p>This cannot be beaten by something like an L293D motor controller etc :)</p><p>You even get to provide the servo with external power, and you can get some quite heavy servos.. and small ones like this one. </p>    </div>
+  </div><!-- /comment-inner -->
+
+</div><!-- /comment -->
+<a id="comment-29110"></a>
+<div class="comment even">
+  <div class="comment-inner clear-block">
+    <div class="submitted">
+      By <a href="/user/201" title="Krumlink" class="">Krumlink</a><br /> @ Tue, 2009-07-28 18:13    </div>
+    <div class="picture"><a href="/user/201" title="View user profile."><img src="http://letsmakerobots.com/files/userpics/picture-201.jpg" alt="Krumlink&#039;s picture" title="Krumlink&#039;s picture"  /></a></div>              <h3 class="title title-link-options" id="links-comment-29110"><a href="/node/9420#comment-29110" class="active">Pulse width modulation will</a></h3>
+    
+          <div class="links hide" id="hide-links-comment-29110">
+      <ul class="links"><li  class="first last comment_forbidden"><span class="comment_forbidden"><a href="/user/login?destination=node/9420%2523comment-form">Login</a> or <a href="/user/register?destination=node/9420%2523comment-form">register</a> to post comments</span></li>
+</ul>    </div>
+  
+    <div class="content">
+      Pulse width modulation will "slow" the servo down. Basically turning it on and off really fast making it seem like its going slower.    </div>
+  </div><!-- /comment-inner -->
+
+</div><!-- /comment -->
+<a id="comment-29085"></a>
+<div class="comment odd comment-by-author">
+  <div class="comment-inner clear-block">
+    <div class="submitted">
+      By <a href="/user/5197" title="Stigern" class="">Stigern</a><br /> @ Tue, 2009-07-28 14:59    </div>
+    <div class="picture"><a href="/user/5197" title="View user profile."><img src="http://letsmakerobots.com/files/userpics/picture-5197.jpg" alt="Stigern&#039;s picture" title="Stigern&#039;s picture"  /></a></div>              <h3 class="title title-link-options" id="links-comment-29085"><a href="/node/9420#comment-29085" class="active">For example by sending data</a></h3>
+    
+          <div class="links hide" id="hide-links-comment-29085">
+      <ul class="links"><li  class="first last comment_forbidden"><span class="comment_forbidden"><a href="/user/login?destination=node/9420%2523comment-form">Login</a> or <a href="/user/register?destination=node/9420%2523comment-form">register</a> to post comments</span></li>
+</ul>    </div>
+  
+    <div class="content">
+      For example by sending data that the servo shall goto angle 95, vs angle 110. Or 180 is full speed one direction and 0 is full speed the other direction. Look at video.    </div>
+  </div><!-- /comment-inner -->
+
+</div><!-- /comment -->
+</div></div>          </div><!-- /#content-area -->
+                  </div><!-- /.yui-b -->
+      </div><!-- /#yui-main -->
+      <div id="sidebar-right" class="yui-b">
+        <div id="block-search-0" class="block block-search">
+
+  <h2>Search</h2>
+
+  <div class="content"><form action="/node/9420"  accept-charset="UTF-8" method="post" id="search-block-form">
+<div><div class="container-inline"><div class="form-item" id="edit-search-block-form-keys-wrapper">
+ <input type="text" maxlength="128" name="search_block_form_keys" id="edit-search-block-form-keys"  size="15" value="" title="Enter the terms you wish to search for." class="form-text" />
+</div>
+<input type="submit" name="op" id="edit-submit" value="Search"  class="form-submit" />
+<input type="hidden" name="form_id" id="edit-search-block-form" value="search_block_form"  />
+</div>
+</div></form>
+</div>
+</div>
+<div id="block-user-0" class="block block-user">
+
+  <h2>User login</h2>
+
+  <div class="content"><form action="/node/9420?destination=node%2F9420"  accept-charset="UTF-8" method="post" id="user-login-form">
+<div><div id="edit-openid-identifier-wrapper"><div class="form-item" id="edit-openid-identifier-wrapper">
+ <label for="edit-openid-identifier">Log in using OpenID: </label>
+ <input type="text" maxlength="255" name="openid_identifier" id="edit-openid-identifier"  size="13" value="" class="form-text" />
+ <div class="description"><a href="http://openid.net/">What is OpenID?</a></div>
+</div>
+</div><div id="edit-name-wrapper"><div class="form-item" id="edit-name-wrapper">
+ <label for="edit-name">Username: <span class="form-required" title="This field is required.">*</span></label>
+ <input type="text" maxlength="60" name="name" id="edit-name"  size="15" value="" class="form-text required" />
+</div>
+</div><div id="edit-pass-wrapper"><div class="form-item" id="edit-pass-wrapper">
+ <label for="edit-pass">Password: <span class="form-required" title="This field is required.">*</span></label>
+ <input type="password" name="pass" id="edit-pass"  maxlength="60"  size="15"  class="form-text required" />
+</div>
+</div><input type="submit" name="op" id="edit-submit" value="Log in"  class="form-submit" />
+<div class="item-list"><ul><li><a href="/user/register" title="Create a new user account.">Create new account</a></li><li><a href="/user/password" title="Request new password via e-mail.">Request new password</a></li></ul></div><input type="hidden" name="form_id" id="edit-user-login-block" value="user_login_block"  />
+<a href="/%2523" class="openid-link">Log in using OpenID</a><a href="/%2523" class="user-link">Cancel OpenID login</a><input type="hidden" name="openid.return_to" id="edit-openid.return-to" value="http://letsmakerobots.com/openid/authenticate?destination=node%2F9420"  />
+
+</div></form>
+</div>
+</div>
+<div id="block-blog-0" class="block block-blog">
+
+  <h2>Recent blog posts</h2>
+
+  <div class="content"><div class="item-list"><ul><li><a href="/node/24007">Hardware Error on my first robot</a></li><li><a href="/node/24000">MY AGV development platform</a></li><li><a href="/node/23985">DIY SLAM</a></li><li><a href="/node/23983">Night light transformations</a></li><li><a href="/node/23980">POV (persistence of Vision) from Hacked &quot;Aircraft carrier marshalling light&quot;</a></li><li><a href="/node/23955">Gotta Start &#039;Em Young</a></li><li><a href="/node/23934">Mysterious Tracks Appear in snow !!!!</a></li><li><a href="/node/23926">Quadcopter begins</a></li><li><a href="/node/23923">Weather station project, Radio silence!</a></li><li><a href="/node/23918">Building a multi servo robot</a></li></ul></div><div class="more-link"><a href="/blog" title="Read the latest blog entries.">more</a></div></div>
+</div>
+<div id="block-lmr_views-0" class="block block-lmr_views">
+
+  <h2>Most Collected</h2>
+
+  <div class="content">
+<div class="item-list">
+    <ul>
+        <li class="leaf"><a href="/collected">Overall</a></li>
+        <li class="leaf"><a href="/collected/blog">Blogs</a></li>
+        <li class="leaf"><a href="/collected/robot_challenge">Challenges</a></li>
+        <li class="leaf"><a href="/collected/components">Components</a></li>
+        <li class="leaf"><a href="/collected/forum">Forum Posts</a></li>
+        <li class="leaf"><a href="/collected/robot">Robots</a></li>
+        <li class="leaf"><a href="/collected/something_else">Something Else</a></li>
+        <li class="leaf"><a href="/collected/robot_tip">Tips</a></li>
+        <li class="leaf"><a href="/collected/weblink">Links</a></li>
+        <li class="leaf"><a href="/recent_collected">Recently Collected</a></li>
+        
+    </ul>
+</div>
+</div>
+</div>
+<div id="block-user-3" class="block block-user">
+
+  <h2>Who's online</h2>
+
+  <div class="content">There are currently <em>12 users</em> and <em>5 guests</em> online.<div class="item-list"><h3>Online users</h3><ul><li><a href="/user/747" title="voodoobot" class="">voodoobot</a><br /></li><li><a href="/user/13998" title="countjocular" class="">countjocular</a><br /></li><li><a href="/user/11326" title="Vambo" class="">Vambo</a><br /></li><li><a href="/user/287" title="sprongll" class="">sprongll</a><br /></li><li><a href="/user/5293" title="ignoblegnome" class="">ignoblegnome</a><br /></li><li><a href="/user/2521" title="merser" class="">merser</a><br /></li><li><a href="/user/14021" title="birdmun" class="">birdmun</a><br /></li><li><a href="/user/10603" title="goncaloc" class="">goncaloc</a><br /></li><li><a href="/user/14487" title="yuho705" class="">yuho705</a><br /></li><li><a href="/user/12817" title="Naturesyouth" class="">Naturesyouth</a><br /></li><li><a href="/user/12514" title="Kawal Singh" class="">Kawal Singh</a><br /></li><li><a href="/user/559" title="Calculon320" class="">Calculon320</a><br /></li></ul></div></div>
+</div>
+<div id="block-user-1" class="block block-user">
+
+  <h2>Quick links</h2>
+
+  <div class="content">
+<ul class="menu">
+<li class="leaf"><a href="http://www.facebook.com/group.php?gid=52847854131">LMR on Facebook</a></li>
+<li class="leaf"><a href="/node/4389">LMR Scrapbook</a></li>
+<li class="leaf"><a href="http://twitter.com/LetsMakeRobots" title="Follow LMR on Twitter">@LetsMakeRobots</a></li>
+<li class="leaf"><a href="/user/9420/pages">Pages</a></li>
+<li class="leaf"><a href="/rss_feeds">RSS feeds</a></li>
+
+</ul>
+</div>
+</div>
+      </div>
+    </div>
+    <div id="ft">
+      <div id="footer-message">
+        <div id="bee3-footer">ALL LMR ARE BELONG TO US!</div>
+        Let's make robots!
+      </div>
+      <div id="region_footer"></div>
+    </div>
+  </div>
+  <script type="text/javascript" src="/sites/all/modules/contrib/google_analytics/googleanalytics.js"></script>
+<script type="text/javascript">var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));</script>
+<script type="text/javascript">try{var pageTracker = _gat._getTracker("UA-3749072-1");pageTracker._trackPageview();} catch(err) {}</script>
+</body>
+</html>

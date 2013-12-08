@@ -1,0 +1,427 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/make/motorshield/motorshield.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<link rel="alternate" type="application/rss+xml" title="ladyada.net blog  RSS Feed" href="http://www.ladyada.net/feed/" />
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-7723544-2");
+pageTracker._trackPageview();
+} catch(err) {}</script> 
+
+<!-- InstanceBeginEditable name="overlib" -->
+<script type="text/javascript" src="/javascript/overlib.js"><!-- overLIB (c) Erik Bosrup --></script>
+<!-- InstanceEndEditable -->
+<meta http-equiv="imagetoolbar" content="no" />
+<LINK REL=stylesheet HREF="/css/make.css" TYPE="text/css">
+<LINK REL=stylesheet HREF="/css/skeleton.css" TYPE="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title> Arduino motor/stepper/servo control - How to use</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style1 {font-weight: bold}
+-->
+</style>
+<!-- InstanceEndEditable -->
+</head>
+
+<body>
+
+    <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+  
+<!-- InstanceBeginEditable name="badge" -->
+<div class="topheader" ><img src="../../images/mshield/topheaderbadge.jpg" width="171" height="190"></div>
+<!-- InstanceEndEditable -->
+<span class="topheadertext"><!-- InstanceBeginEditable name="heading" -->Motor Shield<!-- InstanceEndEditable --></span>
+<span class="topsubheadertext"><!-- InstanceBeginEditable name="Subheading" -->How to rev up <!-- InstanceEndEditable --></span>
+
+<ul id="menu">
+	<li class="first"></li> 
+  
+    <li>
+      <div class="menuitemtext"><a href="index.html">Overview</a></div>
+    </li>
+  
+    <li>
+      <div class="menuitemtext"><a href="faq.html">FAQ</a></div>
+    </li>
+  
+    <li>
+      <div class="menuitemtext"><a href="make.html">Make it! </a></div>
+    </li>
+  
+    <li>
+      <div class="menuitemtext"><a href="use.html">Use it!</a></div>
+    </li>
+  
+    <li>
+      <div class="menuitemtext"><a href="download.html">Download</a></div>
+    </li>
+  
+    <li>
+      <div class="menuitemtext"><a href="resources.html">Resources</a></div>
+    </li>
+  
+    <li>
+      <div class="menuitemtext"><a href="http://www.adafruit.com/index.php?main_page=product_info&cPath=17_21&products_id=81">Buy Kit </a></div>
+    </li>
+  
+    <li>
+      <div class="menuitemtext"><a href="http://forums.ladyada.net/">Forums</a></div>
+    </li>
+  
+	<li class="last"></li>
+</ul>
+
+<ul id="nav">
+
+<li><a href="http://www.ladyada.net">Home</a></li>
+
+<li><a href="http://www.ladyada.net/about.html">About<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]-->
+<ul>
+	<li><a href="http://www.ladyada.net/about.html">ladyada.net</a></li>
+	<li><a href="http://www.ladyada.net/portfolio/2007/index.html">Portfolio</a></li>
+	<li><a href="http://www.ladyada.net/pub/research.html">Research</a></li>
+	<li><a href="http://www.ladyada.net/pub/press.html">Press</a></li>
+	<li><a href="http://www.ladyada.net/pub/pub.html">Publication &amp; Presentation</a></li>
+	<li><a href="http://www.flickr.com/photos/ladyada/">Photos</a></li>
+	<li><a href="http://www.ladyada.net/wiki">Wiki (backend)</a></li>
+	</ul>
+<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+
+<li><a href="http://www.ladyada.net/make/">Projects<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]-->
+<ul>
+	<li><a href="#nogo">Arduino &#187;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+	<!--[if lte IE 6]><table><tr><td><![endif]-->
+	<ul>
+    	<li><a href="http://www.ladyada.net/make/logshield/">Datalogger&nbsp;Shield</a></li>
+	    <li><a href="http://www.ladyada.net/make/eshield/">Ethernet&nbsp;Shield</a></li>
+	    <li><a href="http://www.ladyada.net/make/gpsshield/">GPS&nbsp;Shield</a></li>
+	  	<li><a href="http://www.ladyada.net/make/pshield/">Proto&nbsp;Shield</a></li>
+	  	<li><a href="http://www.ladyada.net/make/mshield/">Motor&nbsp;Shield</a></li>
+	  	<li><a href="http://www.ladyada.net/make/waveshield/">Wave&nbsp;Shield</a></li>
+	  </ul>
+	<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+	<li><a href="http://www.ladyada.net/make/bbpsup/">Adj.&nbsp;power&nbsp;supply</a></li>
+	<li><a href="http://www.ladyada.net/make/brain/">Brain&nbsp;Machine</a></li>
+	<li><a href="http://www.ladyada.net/make/boarduino/">BoArduino</a></li>
+	<li><a href="http://www.ladyada.net/make/digg/">DIGG&nbsp;Button</a></li>
+	<li><a href="http://www.ladyada.net/make/drawdio/">Drawdio</a></li>
+    <li><a href="http://www.ladyada.net/make/fuzebox/">Fuzebox</a></li>
+    <li><a href="http://www.ladyada.net/make/gamegrrl/">Game&nbsp;Grrl</a></li>
+	<li><a href="http://www.ladyada.net/make/conway/">Game&nbsp;of&nbsp;Life</a></li>
+	<li><a href="http://www.ladyada.net/make/icetube/">Ice&nbsp;Tube&nbsp;clock</a></li>
+    <li><a href="http://www.ladyada.net/make/midisense/">MIDIsense</a></li>
+	<li><a href="http://www.ladyada.net/make/minipov2/">MiniPOV2</a></li>
+	<li><a href="http://www.ladyada.net/make/minipov3/">MiniPOV3</a></li>
+	<li><a href="http://www.ladyada.net/make/minty/">MintyMP3</a></li>
+	<li><a href="http://www.ladyada.net/make/mintyboost/">MintyBoost</a></li>
+    <li><a href="http://www.ladyada.net/make/monochron/">MONOCHRON</a></li>
+    <li><a href="http://www.ladyada.net/make/simreader/">SIM&nbsp;Reader</a></li>
+	<li><a href="http://www.ladyada.net/make/spokepov/">SpokePOV</a></li>
+	<li><a href="http://www.ladyada.net/make/tvbgone/">TV-B-Gone</a></li>
+	<li><a href="http://www.ladyada.net/make/tweetawatt/">Tweet-a-Watt</a></li>
+    <li><a href="http://www.ladyada.net/make/usbtinyisp/">USBtinyISP</a></li>
+	<li><a href="http://www.ladyada.net/make/wavebubble/">Wave&nbsp;Bubble</a></li>
+	<li><a href="http://www.ladyada.net/make/x0xb0x/">x0xb0x</a></li>
+	<li><a href="http://www.ladyada.net/make/xbee/">XBee</a></li>
+	<li><a href="http://www.ladyada.net/make/ybox2/">YBox2</a></li>
+	<li><a href="#nogo">Quickies &#187;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+	<!--[if lte IE 6]><table><tr><td><![endif]-->
+	<ul>
+    <li><a href="http://www.ladyada.net/make/usbgamepad/index.html">USB&nbsp;Gamepad</a></li>
+	    <li><a href="http://www.ladyada.net/make/pumpkin/pumpkin.html">Halloween&nbsp;Pumpkin</a></li>
+	    <li><a href="http://www.ladyada.net/make/vintagelight/index.html">Vintage&nbsp;Bike&nbsp;Lite</a></li>
+	  	<li><a href="http://www.ladyada.net/make/sudc4kap/index.html">Kite&nbsp;Arial&nbsp;Photo</a></li>
+	  	<li><a href="http://www.ladyada.net/make/bikestand/index.html">Bike&nbsp;Stand</a></li>
+	  	<li><a href="http://www.ladyada.net/make/bikelite/index.html">LiIon&nbsp;Bike&nbsp;Lite</a></li>
+     	<li><a href="http://www.ladyada.net/make/pogojig/index.html">Pogo&nbsp;Jib</a></li>
+	  	<li><a href="http://www.ladyada.net/make/massprog/index.html">Mass&nbsp;Programming</a></li>
+	  	<li><a href="http://www.ladyada.net/make/solarlipo/index.html">Solar&nbsp;LiPo&nbsp;Charging</a></li>
+	  	<li><a href="http://www.ladyada.net/make/magstripe/index.html">Magstripe&nbsp;Reader</a></li>
+	  	<li><a href="http://www.ladyada.net/make/solarlogger/index.html">Solar&nbsp;Tracker</a></li>
+	  </ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
+      </li>
+   	<li><a href="http://www.ladyada.net/make/">More...</a></li>
+	<li><a href="http://www.instructables.com/member/ladyada/">->Instructables</a></li>
+</ul>
+<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+
+<li><a href="http://www.ladyada.net/learn/">Learn<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]-->
+<ul>
+	<li><a href="http://www.ladyada.net/learn/arduino/">Arduino&nbsp;tutorial</a></li>
+	<li><a href="http://www.ladyada.net/learn/avr/">AVR&nbsp;tutorial</a></li>
+	<li><a href="http://www.ladyada.net/learn/el-wire/">EL&nbsp;Wire&nbsp;tutorial</a></li>
+	<li><a href="http://www.ladyada.net/learn/lcd/">LCDs</a></li>
+	<li><a href="http://www.ladyada.net/learn/arduino/LEDs.html">LEDs</a></li>
+	<li><a href="http://www.ladyada.net/learn/multimeter/">Multimeter&nbsp;tutorial</a></li>
+    <li><a href="http://www.ladyada.net/learn/sensors/">Sensors &#187;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+	<!--[if lte IE 6]><table><tr><td><![endif]-->
+	<ul>
+    	<li><a href="http://www.ladyada.net/learn/sensors/fsr.html">FSR</a></li>
+	    <li><a href="http://www.ladyada.net/learn/sensors/cds.html">CdS&nbsp;Photocell</a></li>
+	    <li><a href="http://www.ladyada.net/learn/sensors/tmp36.html">Temperature</a></li>
+	  	<li><a href="http://www.ladyada.net/learn/sensors/tilt.html">Tilt</a></li>
+	  	<li><a href="http://www.ladyada.net/learn/sensors/pir.html">PIR</a></li>
+        <li><a href="http://www.ladyada.net/learn/sensors/thermocouple.html">Thermocouple</a></li>
+        <li><a href="http://www.ladyada.net/learn/sensors/ir.html">IR&nbsp;Receiver</a></li>
+	  </ul>
+	<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+        <li><a href="http://www.ladyada.net/learn/breakoutplus/">Breakout boards &#187;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+	<!--[if lte IE 6]><table><tr><td><![endif]-->
+	<ul>
+    	<li><a href="http://www.ladyada.net/learn/breakoutplus/ds1307rtc.html">DS1307&nbsp;RTC</a></li>
+        <li><a href="http://www.ladyada.net/learn/sensors/thermocouple.html">MAX6675</a></li>
+        <li><a href="http://www.ladyada.net/learn/products/atmega32u4breakout/">ATmega32u4&nbsp;Breakout+</a></li>
+	  </ul>
+	<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+  
+          <li><a href="http://www.ladyada.net/products/">Products &#187;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+	<!--[if lte IE 6]><table><tr><td><![endif]-->
+	<ul>
+     <li><a href="http://www.ladyada.net/learn/products/i2cspilcdbackpack/">i2c/SPI&nbsp;LCD&nbsp;backpack</a></li>
+     <li><a href="http://www.ladyada.net/learn/products/usbboarduino/">USB&nbsp;Boarduino</a></li>
+     <li><a href="http://www.ladyada.net/learn/products/atmega32u4breakout/">ATmega32u4&nbsp;Breakout+</a></li>
+	  </ul>
+	<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+      
+	<li><a href="http://www.ladyada.net/learn/chumby/">Chumby&nbsp;Hacker&nbsp;Board</a></li>
+	<li><a href="http://www.ladyada.net/learn/soldering/">Soldering&nbsp;tutorial</a></li>
+	<li><a href="http://www.ladyada.net/learn/powersupply/">Power&nbsp;Supply&nbsp;tutorial</a></li>
+    <li><a href="http://www.ladyada.net/learn/electroknit/">Brother&nbsp;KH-9033&nbsp;tutorial</a></li>
+	<li><a href="http://www.ladyada.net/learn/diykinect/">USB&nbsp;reverse-engineering&nbsp;tutorial</a></li>
+    <li><a href="http://www.ladyada.net/learn/calipers/">Calipers&nbsp;tutorial</a></li>
+    <li><a href="http://www.ladyada.net/products/rgbledstrip/">RGB&nbsp;LED&nbsp;Strips</a></li>
+    <li><a href="http://www.ladyada.net/products/rgbledpixels/">RGB&nbsp;LED&nbsp;Pixels</a></li>
+</ul>
+<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+
+	
+<li><a href="http://www.ladyada.net/library/">Library<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]-->
+<ul>	
+	<li><a href="http://www.ladyada.net/library/arduino/">Arduino&nbsp;Hacks</a></li>
+    <li><a href="http://www.ladyada.net/library/batteries.html">Batteries</a></li>
+	<li><a href="http://www.ladyada.net/library/diyboostcalc.html">Boost&nbsp;Calc</a></li>
+    <li><a href="http://www.ladyada.net/library/equipt/">E.E.&nbsp;Tools</a></li>
+	<li><a href="http://www.ladyada.net/library/hackcomputer.html">E.E.&nbsp;Computer</a></li>
+    <li><a href="http://www.ladyada.net/library/procure/">Find&nbsp;Parts</a></li>
+	<li><a href="http://www.ladyada.net/library/kits/">Kits</a></li>
+	<li><a href="http://www.ladyada.net/library/laser/">Laser</a></li>
+	<li><a href="http://www.ladyada.net/library/ucannoyances.html">uC Annoyances</a></li>
+	<li><a href="http://www.ladyada.net/library/openhardware/">Open Source Hardware</a></li>
+	<li><a href="http://www.ladyada.net/library/pcb/">PCB&nbsp;Design&nbsp;&amp;&nbsp;Tips</a></li>
+	<li><a href="http://www.ladyada.net/library/picvsavr.html">PIC&nbsp;vs.&nbsp;AVR</a></li>
+</ul>
+<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+
+<li><a href="http://www.adafruit.com/blog/">Blog</a></li>
+
+<li><a href="http://www.adafruit.com" target="_blank">Store</a></li>
+
+<li><a href="http://forums.adafruit.com/" target="_blank">Forums</a></li>
+
+</ul>
+
+<div id="searchbox">
+<!-- Google CSE Search Box Begins -->
+<form id="searchbox_012941403977924873237:omv8mprm6ek" action="http://www.google.com/cse" target="_top"> <input type="hidden" name="cx" value="012941403977924873237:omv8mprm6ek" /> <input name="q" type="text" size="23" /><br /> <span class="style1">ladyada.net</span> <input type="submit" name="sa" value="Search" /> <input type="hidden" name="cof" value="FORID:0" /> </form><script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=searchbox_012941403977924873237%3Aomv8mprm6ek"></script>
+<!-- Google CSE Search Box Ends -->
+</div>
+
+<div id="lefttcol">
+<!-- this is just a buffer -->
+</div>
+
+<div id="content">
+  <!-- InstanceBeginRepeat name="texts" --><!-- InstanceBeginRepeatEntry -->
+  <div class="textblockheader"> <!-- InstanceBeginEditable name="Header" -->To do... <!-- InstanceEndEditable --> </div>
+  <div class="textblock"> <!-- InstanceBeginEditable name="text" --><ul>
+    <li>Jan 2009 - New library with M3 and M4 speed swap fixed.Ugh! Also tested with up to IDE 13 so should be fewer problems</li>
+      <li>Watch out! On some (much) older boards, Ground and VCC are swapped on the silkscreen next to the analog pins! The silkscreen should be &quot;+5, GND, A0-5&quot;. Use a multimeter to check if you're confused </li>
+  </ul>
+  <!-- InstanceEndEditable --> </div>
+  <!-- InstanceEndRepeatEntry --><!-- InstanceBeginRepeatEntry -->
+  <div class="textblockheader"> <!-- InstanceBeginEditable name="Header" -->Powering your DC motors, voltage and current requirements<!-- InstanceEndEditable --> </div>
+  <div class="textblock"> <!-- InstanceBeginEditable name="text" -->
+    <p>Motors need a lot of energy, especially cheap motors since they're less efficient. The first important thing to figure out what voltage  the motor is going to use. If you're lucky your motor came with some sort of specifications. Some small hobby motors are only intended to run at 1.5V, but its just as common to have 6-12V motors. The motor controllers on this shield are designed to run from <strong>4.5V to 36V</strong>. (However, in theory they should be OK down to about 2.5V?)</p>
+    <p><strong>Current requirements:</strong> The second thing to figure out is how much current your motor will need. The motor driver chips that come with the kit are designed to provide up to 600 mA per motor, with 1.2A peak current.  Note that once you head towards 1A you'll probably want to put a heatsink on the motor driver, otherwise you will get thermal failure, possibly burning out the chip.</p>
+    <p><strong>On using the SN754410:</strong> Some people use the <a href="http://focus.ti.com/docs/prod/folders/print/sn754410.html">SN754410</a> motor driver chip because it is pin-compatible, has output diodes and can provide 1A per motor, 2A peak. After careful reading of the datasheet and discussion with TI tech support and power engineers it appears that <strong>the output diodes were designed for ESD protection only</strong> and that using them as kickback-protection is a hack and not guaranteed for performance. For that reason the kit does not come with the SN754410 and instead uses the L293D with integrated kickback-protection diodes. If you're willing to risk it, and need the extra currrent, feel free to buy SN754410's and replace the provided chips.</p>
+    <p><strong>Need more power?</strong> <a href="http://forums.adafruit.com/search.php?st=0&sk=t&sd=d&keywords=piggyback">Buy another set of L293D drivers and solder them right on top of the ones on the board (piggyback)</a>. Voila, double the current capability! You can solder 2 more chips on top before it probably isnt going to get you much benefit</p>
+    <p><strong>You can't run motors off of a 9V battery so don't even waste your time/batteries!</strong> Use a big Lead Acid or NiMH battery pack. Its also very much suggested that you set up two power supplies (split supply) one for the Arduino and one for the motors. <strong>99% of 'weird motor problems</strong>' are due to noise on the power line from sharing power supplies and/or not having a powerful enough supply!</p>
+  <!-- InstanceEndEditable --> </div>
+  <!-- InstanceEndRepeatEntry --><!-- InstanceBeginRepeatEntry -->
+  <div class="textblockheader"> <!-- InstanceBeginEditable name="Header" -->How to set up the Arduino + Shield for powering motors<!-- InstanceEndEditable --> </div>
+  <div class="textblock"> <!-- InstanceBeginEditable name="text" -->
+    <p><strong>Servos are powered off of the same regulated 5V that the Arduino uses. </strong>This is OK for the small hobby servos suggested. If you want something beefier, cut the trace going to + on the servo connectors and wire up your own 5-6V supply!    </p>
+    <p>The DC motors are powered off of a 'high voltage supply' and NOT the regulated 5V. <strong>Don't connect the motor power supply to the 5V line</strong>. This is a very very very bad idea unless you are sure you know what you're doing!</p>
+    <p>There are two places you can get your motor 'high voltage supply' from. One is the DC jack on the Arduino board and the other is the 2-terminal block on the shield that is labeled <strong>EXT_PWR</strong>. The DC Jack on the Arduino has a protection diode so you won't be able to mess things up too bad if you plug in the wrong kind of power. However the <strong>EXT_PWR terminals on the shield do not have a protection diode</strong> (for a fairly good reason). <strong>Be utterly careful not to plug it in backwards</strong> or you will destroy the motor shield and/or your Arduino!</p>
+    <p>Here's how it works:</p>
+    <p align="center"><img src="../../images/mshield/mshielddiag.png" width="659" height="361"></p>
+    <p>If you would like to have a <strong>single DC power supply for the Arduino and motors</strong>, simply plug it into the DC jack on the Arduino or the 2-pin PWR_EXT block on the shield. Place the power jumper on the motor shield.  <br>
+      If you have a Diecimila Arduino, set the Arduino power source jumper to EXT. <br>
+      Note that you may have problems with Arduino resets if the battery supply is not able to provide constant power, and it is not a suggested way of powering your motor project</p>
+    <p>If you would like to have the <strong>Arduino powered off of USB</strong> and the <strong>motors powered off of a DC power supply</strong>, plug in the USB cable. Then connect the motor supply to the PWR_EXT block on the shield. Do not place the jumper on the shield. This is a suggested method of powering your motor project<br>
+      (If you have a Diecimila Arduino, don't forget to
+    set the Arduino power jumper to USB. If you have a Diecimila, you can alternately do the following: plug the DC power supply into the Arduino, and place the jumper on the motor shield.)</p>
+    <p>If you would like to have <strong>2 seperate DC power supplies for the Arduino and motors</strong>. Plug in the supply for the Arduino into the DC jack, and connect the motor supply to the PWR_EXT block. Make sure the jumper is removed from the motor shield.<br>
+      If you have a Diecimila Arduino, set the Arduino jumper to EXT. This is a suggested method of powering your motor project</p>
+    <p>Either way, if you want to use the DC motor/Stepper system the motor shield LED should be lit indicating good motor power</p>
+  <!-- InstanceEndEditable --> </div>
+  <!-- InstanceEndRepeatEntry --><!-- InstanceBeginRepeatEntry -->
+  <div class="textblockheader"> <!-- InstanceBeginEditable name="Header" -->Servos<!-- InstanceEndEditable --> </div>
+  <div class="textblock"> <!-- InstanceBeginEditable name="text" -->
+    <p align="center"><a href="../../images/mshield/servo.jpg"><img src="../../images/mshield/servo_t.jpg" width="500" height="375" border="1"></a><br>
+      Hobby servo
+    </p>
+    <p>Hobby servos are the easiest way to get going with motor control. They have a 3-pin 0.1&quot; female header connection with +5V, ground and signal inputs. The motor shield simply brings out the 16bit PWM output lines to 2 3-pin headers so that its easy to plug in and go. They can take a lot of power so a 9V battery wont last more than a few minutes! </p>
+    <p>The nice thing about using the onboard PWM is that its very precise and goes about its business in the background. You can use the built in Servo library</p>
+    <p><a href="http://www.arduino.cc/en/Reference/Servo">Using the servos is easy, please read the official Arduino documentation for how to use them and see the example Servo sketches in the IDE</a></p>
+    <!-- InstanceEndEditable --> </div>
+  <!-- InstanceEndRepeatEntry --><!-- InstanceBeginRepeatEntry -->
+  <div class="textblockheader"> <!-- InstanceBeginEditable name="Header" -->DC Motors <!-- InstanceEndEditable --> </div>
+  <div class="textblock"> <!-- InstanceBeginEditable name="text" -->
+    <p align="center"><a href="../../images/mshield/dcmotor.jpg"><img src="../../images/mshield/dcmotor_t.jpg" width="500" height="375" border="1"></a><br>
+      DC motor </p>
+    <p>DC motors are used for all sort of robotic projects. The motor shield can drive up to 4 DC motors bi-directionally. That means they can be driven forwards and backwards. The speed can also be varied at 0.5% increments using the high-quality built in PWM. This means the speed is very smooth and won't vary! </p>
+    <p>Note that the H-bridge chip is not really meant for driving loads over 0.6A or that peak over 1.2A so this is for <em>small</em> motors. Check the datasheet for information about the motor to verify its OK.</p>
+    <p>To connect a motor, simply solder two wires to the terminals and then connect them to either the <strong>M1, M2, M3,</strong> or <strong>M4</strong>. Then follow these steps in your sketch</p>
+    <ol>
+      <li>Make sure you include <strong>&lt;AFMotor.h&gt; </strong></li>
+      <li>Create the AF_DCMotor object with <strong>AF_DCMotor(<em>motor#, frequency</em>)</strong>, to setup the motor H-bridge and latches. The constructor takes two arguments. <br>
+        The first is which port the motor is connected to, <strong>1, 2, 3</strong> or <strong>4</strong>. <strong><br>
+        <em>frequency</em></strong> is how fast the speed controlling signal is. <br>
+For motors 1 and 2 you can choose <strong>MOTOR12_64KHZ</strong>,<strong> MOTOR12_8KHZ</strong>,<strong> MOTOR12_2KHZ</strong>, or <strong>MOTOR12_1KHZ</strong>. A high speed like 64KHz wont be audible but a low speed like 1KHz will use less power. Motors 3 &amp; 4 are only possible to run at 1KHz and will ignore any setting given</li>
+      <li>Then you can set the speed of the motor using <strong>setSpeed(<em>speed</em>)</strong> where the <em><strong>speed</strong></em>  ranges from 0 (stopped) to 255 (full speed). You can set the speed whenever you want.</li>
+      <li>To run the motor, call <strong>run(<em>direction</em>)</strong> where<em><strong> direction</strong></em> is <strong>FORWARD</strong>, <strong>BACKWARD</strong> or <strong>RELEASE</strong>. Of course, the Arduino doesn't actually know if the motor is 'forward' or 'backward', so if you want to change which way it thinks is forward, simply swap the two wires from the motor to the shield. </li>
+    </ol>
+    <div class="codefragment">
+      <blockquote>
+        <pre class="codefragment">#include &lt;AFMotor.h&gt;
+
+AF_DCMotor motor(2, MOTOR12_64KHZ); <span class="comment">// create motor #2</span>, 64KHz pwm
+
+<span class="keyword">void</span> <span class="functionname">setup</span>() {
+  <span class="keyword">Serial.begin</span>(9600);           <span class="comment">// set up Serial library at 9600 bps</span>
+  <span class="keyword">Serial.println</span>(<span class="const">"Motor test!"</span>);
+  
+  motor.setSpeed(200);     <span class="comment">// set the speed to 200/255</span>
+}
+
+<span class="keyword">void</span> <span class="functionname">loop</span>() {
+  <span class="keyword">Serial.print</span>(<span class="const">"tick"</span>);
+  
+  motor.run(FORWARD);      <span class="comment">// turn it on going forward</span>
+  <span class="keyword">delay</span>(1000);
+
+  <span class="keyword">Serial.print</span>(<span class="const">"tock"</span>);
+  motor.run(BACKWARD);     <span class="comment">// the other way</span>
+  <span class="keyword">delay</span>(1000);
+  
+  <span class="keyword">Serial.print</span>(<span class="const">"tack"</span>);
+  motor.run(RELEASE);     <span class="comment"> // stopped</span>
+  <span class="keyword">delay</span>(1000);
+}
+</pre>
+      </blockquote>
+    </div>
+    <p>&nbsp;</p>
+  <!-- InstanceEndEditable --> </div>
+  <!-- InstanceEndRepeatEntry --><!-- InstanceBeginRepeatEntry -->
+  <div class="textblockheader"> <!-- InstanceBeginEditable name="Header" -->Steppers<!-- InstanceEndEditable --> </div>
+  <div class="textblock"> <!-- InstanceBeginEditable name="text" -->
+    <p align="center"><a href="../../images/mshield/bipolar.jpg"><img src="../../images/mshield/bipolar_t.jpg" width="500" height="375" border="1"></a><br>
+      A bi-polar stepper motor - 4 wires </p>
+    <p>Stepper motors are great for (semi-)precise control, perfect for many robot and CNC projects. This motor shield supports up to 2 stepper motors. The library works identically for bi-polar and uni-polar motors</p>
+    <p>For unipolar motors: to connect up the stepper, first figure out which pins connected to which coil, and which pins are the center taps. If its a 5-wire motor then there will be 1 that is the center tap for both coils. <a href="resources.html">Theres plenty of tutorials online on how to reverse engineer the coils pinout</a>. The center taps should both be connected together to the GND terminal on the motor shield output block. then coil 1 should connect to one motor port (say M1 or M3) and coil 2 should connect to the other motor port (M2 or M4). </p>
+    <p>For bipolar motors: its just like unipolar motors except theres no 5th wire to connect to ground. The code is exactly the same. </p>
+    <p>Running a stepper is a little more intricate than running a DC motor but its still very easy</p>
+    <ol>
+      <li>Make sure you include <strong>&lt;AFMotor.h&gt; </strong></li>
+      <li>Create the stepper motor object with <strong>AF_Stepper(<em>steps</em></strong><em>, <strong>stepper#</strong></em><strong>)</strong> to setup the motor H-bridge and latches. <em><strong>Step</strong>s </em>indicates how many steps per revolution the motor has. a 7.5degree/step motor has 360/7.5 = 48 steps. <em><strong>Stepper#</strong></em> is which port it is connected to. If you're using M1 and M2, its port 1. If you're using M3 and M4 its port 2 </li>
+      <li> Set the speed of the motor using <strong>setSpeed(<em>rpm</em>) </strong>where <em><strong>rpm</strong></em> is how many revolutions per minute you want the stepper to turn. </li>
+      <li> Then every time you want the motor to move, call the <strong>step(<em>#steps</em>, <em>direction</em>, <em>steptype</em>)</strong> procedure. <em><strong>#steps </strong></em>is how many steps you'd like it to take<strong>. <em>direction</em></strong> is either <strong>FORWARD </strong> or <strong>BACKWARD</strong> and the step type is <strong>SINGLE, DOUBLE. INTERLEAVE </strong>or<strong> MICROSTEP</strong>.<br>
+        &quot;Single&quot; means single-coil activation, &quot;double&quot; means 2 coils are activated at once (for higher torque) and &quot;interleave&quot; means that it alternates between single and double to get twice the resolution (but of course its half the speed). &quot;Microstepping&quot; is a method where the coils are PWM'd to create smooth motion between steps. Theres tons of <a href="resources.html">information about the pros and cons of these different stepping methods in the resources page.<br>
+      </a>You can use whichever stepping method you want, changing it &quot;on the fly&quot; to as you may want minimum power, more torque, or more precision. </li>
+      <li>By default, the motor will 'hold' the position after its done stepping. If you want to release all the coils, so that it can spin freely, call <strong>release()</strong> </li>
+      <li>The stepping commands are 'blocking' and will return once the steps have finished. If someone wants to be awesome and write a version of the library that does background stepping that would be cool! :)</li>
+    </ol>
+    <div class="codefragment">
+      <blockquote>
+        <pre class="codefragment">#include &lt;AFMotor.h&gt;
+
+
+AF_Stepper motor(48, 2);
+
+
+void setup() {
+  <span class="keyword">Serial.begin</span>(9600);           // set up Serial library at 9600 bps
+  <span class="keyword">Serial.println</span>("Stepper test!");
+
+  motor.setSpeed(10);  // 10 rpm   
+
+  motor.step(100, FORWARD, SINGLE); 
+  motor.release();
+  delay(1000);
+}
+
+void loop() {
+  motor.step(100, FORWARD, SINGLE); 
+  motor.step(100, BACKWARD, SINGLE); 
+
+  motor.step(100, FORWARD, DOUBLE); 
+  motor.step(100, BACKWARD, DOUBLE);
+
+  motor.step(100, FORWARD, INTERLEAVE); 
+  motor.step(100, BACKWARD, INTERLEAVE); 
+
+  motor.step(100, FORWARD, MICROSTEP); 
+  motor.step(100, BACKWARD, MICROSTEP); 
+}
+</pre>
+      </blockquote>
+    </div>
+    <p>If you want two stepper motors to step at once you'll need to write something like this:</p>
+    <div class="codefragment">
+      <blockquote>
+        <pre class="codefragment">
+void doublestep (int steps, int direction, int style) {
+  while (steps--) {
+    motor1.step(1, direction, style); 
+    motor2.step(1, direction, style); 
+  }
+}</pre>
+      </blockquote>
+    </div>
+    <p>&nbsp;</p>
+  <!-- InstanceEndEditable --> </div>
+  <!-- InstanceEndRepeatEntry --><!-- InstanceEndRepeat --></div>
+
+<div id="rightcol">
+<!-- this is just a buffer -->
+</div>
+
+
+
+<div id="history">
+<!-- #BeginDate format:Am1m -->December 15, 2010  0:00<!-- #EndDate --></div>
+
+</body>
+<!-- InstanceEnd --></html>
