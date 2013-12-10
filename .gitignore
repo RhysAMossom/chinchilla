@@ -5,4 +5,10 @@
 .DS_Store
 *.exe
 *.app
-
+*.x3g
+*.png
+*.avi
+*.mp3
+*.jpg
+*.BACKUP
+*.thing
