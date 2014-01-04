@@ -33,9 +33,46 @@ uint32_t dim_color(uint32_t color, uint8_t width) {
 // Takes care of underflow by setting respective value to 0
 uint32_t dim_color2(uint32_t color, uint32_t chunk) {
   uint32_t r = (color & 0xFF0000) > (chunk << 16) ? (color - (chunk << 16)) & 0xFF0000 : 0x000000;
-  uint32_t b = (color & 0x00FF00) > (chunk << 8) ? (color - (chunk << 8)) & 0x00FF00 : 0x000000;
-  uint32_t g = (color & 0x0000FF) > chunk ? (color - chunk) & 0x0000FF : 0x000000;
-  return r+b+g;
+  uint32_t g = (color & 0x00FF00) > (chunk << 8) ? (color - (chunk << 8)) & 0x00FF00 : 0x000000;
+  uint32_t b = (color & 0x0000FF) > chunk ? (color - chunk) & 0x0000FF : 0x000000;
+  return r+g+b;
+}
+
+uint32_t color_to_target(const uint32_t current_color, const uint32_t target_color, uint32_t chunk){
+// Increase current color to target color by adding increments of size chunk
+  chunk = chunk & 0x0000FF;
+  uint32_t current = current_color & 0x0000FF;
+  uint32_t target = target_color & 0x0000FF;
+  uint32_t r,g,b;
+
+  if(target > current && target > (current + chunk) & 0x0000FF)
+    b = current + chunk;
+  else if(target < current && target < (current - chunk) & 0x0000FF)
+    b = current - chunk;
+  else
+    b = target;
+  
+  chunk = chunk << 8;
+  current = current_color & 0x00FF00;
+  target = target_color & 0x00FF00;
+  if(target > current && target > (current + chunk) & 0x00FF00)
+    g = current + chunk;
+  else if(target < current && target < (current - chunk) & 0x00FF00)
+    g = current - chunk;
+  else
+    g = target;
+    
+  chunk = chunk << 8;
+  current = current_color & 0xFF0000;
+  target = target_color & 0xFF0000;
+  if(target > current && target > (current + chunk) & 0xFF0000)
+    r = current + chunk;
+  else if(target < current && target < (current - chunk) & 0xFF0000)
+    r = current - chunk;
+  else
+    r = target;
+  
+  return r+g+b;
 }
 
 // Input a value 0 to 255 to get a color value.
@@ -130,7 +167,7 @@ void fade_color(uint32_t color, uint16_t wait) {
 
 void stars(uint8_t cycles, uint8_t wait = 10) {
   // common variables
-  const uint8_t increment = 5; 
+  const uint32_t increment = 5; 
   
   // add random seed
   randomSeed(analogRead(0));
@@ -163,15 +200,17 @@ void stars(uint8_t cycles, uint8_t wait = 10) {
       if (leds_on[led] && leds_cues[led] >= cycle){
         strip.setPixelColor(led, leds_current_colors[led]);
         // increment or decrement color
-        leds_current_colors[led] = color_to_target(leds_current_colors[led], leds_target_colors[led], chunk);
+        leds_current_colors[led] = color_to_target(leds_current_colors[led], leds_target_colors[led], increment);
         // if we reached target, make the new target to turn off
         if (leds_current_colors[led] == leds_target_colors[led])
           leds_target_colors[led] = 0x000000;
           
         // All current colors start as 0x000000 but since the comparison happens after
         // calling color_to_target we may assume than when the current color == 0x000000 we are off
-        if (leds_current_colors[led] == 0x000000)
+        if (leds_current_colors[led] == 0x000000){
+          strip.setPixelColor(led,0x000000);
           leds_on[led] = false;
+        }
         
       }
     }
@@ -246,6 +285,24 @@ void rainbowCycle(uint8_t wait) {
   }
 }
 
+//Theatre-style crawling lights with rainbow effect
+void theaterChaseRainbow(uint16_t wait) {
+  for (uint8_t j=0; j < 256; j++) { // cycle all 256 colors in the wheel
+    for (uint8_t q=0; q < 3; q++) {
+        for (uint8_t i=0; i < strip.numPixels(); i=i+3) {
+          strip.setPixelColor(i+q, Wheel( (i+j) % 255)); //turn every third pixel on
+        }
+        strip.show();
+       
+        delay(wait);
+       
+        for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
+          strip.setPixelColor(i+q, 0); //turn every third pixel off
+        }
+    }
+  }
+}
+
 /***************** Accidentally created cool effects *********************/
 
 void trencitos(uint16_t cycles, uint16_t wait, uint8_t width, uint32_t color) {
@@ -299,5 +356,14 @@ void loop() {
   // Effects not finished  
 
 
-  stars(1000,10);
+  //stars(10000,100);
+/*  uint32_t color = 0x0000FF;
+  for(uint16_t led; led < NUM_LEDS; led++){
+    strip.setPixelColor(led, color);
+    color = color_to_target(color,0x00FF00,2);
+  }
+  */
+  theaterChaseRainbow(20);
+//  strip.show();
+//  delay(50000);
 }
