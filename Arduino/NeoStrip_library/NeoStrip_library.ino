@@ -174,21 +174,23 @@ void color_mixer(const uint32_t color1,const uint32_t color2,const uint16_t led1
   strip.show();
 }
 
-void stars(uint8_t cycles, uint8_t wait = 10) {
+void stars(uint16_t cues = 100, uint8_t wait = 100, uint32_t star_color = 0x00FFFF, uint32_t background_color = 0x000000) {
+  all_on(background_color);
   // common variables
   const uint32_t increment = 5; 
   
   // add random seed
-  randomSeed(analogRead(0));
+  randomSeed(analogRead(1));
     
   // Populate stars
+  uint16_t stars_on = 0;
   bool leds_on[NUM_LEDS];
   uint8_t leds_cues[NUM_LEDS];
   uint32_t leds_target_colors[NUM_LEDS];
   uint32_t leds_current_colors[NUM_LEDS];
   
   for(uint16_t led = 0; led < NUM_LEDS; led++){
-    if (random(0,255) < 255/2){
+    if (random(cues) > cues/10){
       leds_on[led] = false;
       // these values are never used
       leds_cues[led]=0; 
@@ -197,50 +199,41 @@ void stars(uint8_t cycles, uint8_t wait = 10) {
     }
     else {
       leds_on[led] = true;
-      leds_cues[led] = random(0,cycles);
-      leds_target_colors[led] = 0x674513; //random(0,0xFFFFFF);
-      leds_current_colors[led] = 0;
+      leds_cues[led] = cues - random(cues);// TODO: improve sequence of queues given.
+      leds_target_colors[led] = star_color;
+      leds_current_colors[led] = background_color;
+      stars_on++;
     }
   }
   
   // Run cycles
-  for(uint16_t cycle = 0; cycle <= cycles; cycle++){
+  uint16_t cue = 0;
+  while(cue <= cues && stars_on > 0){
     for(uint16_t led = 0; led < NUM_LEDS; led++){
-      if (leds_on[led] && leds_cues[led] >= cycle){
+      if (leds_on[led] && leds_cues[led] >= cue){
         strip.setPixelColor(led, leds_current_colors[led]);
         // increment or decrement color
         leds_current_colors[led] = color_to_target(leds_current_colors[led], leds_target_colors[led], increment);
         // if we reached target, make the new target to turn off
         if (leds_current_colors[led] == leds_target_colors[led])
-          leds_target_colors[led] = 0x000000;
+          leds_target_colors[led] = background_color;
           
-        // All current colors start as 0x000000 but since the comparison happens after
+        // All current colors start as background_color but since the comparison happens after
         // calling color_to_target we may assume than when the current color == 0x000000 we are off
-        if (leds_current_colors[led] == 0x000000){
-          strip.setPixelColor(led,0x000000);
+        if (leds_current_colors[led] == background_color){
           leds_on[led] = false;
+          stars_on--;
         }
         
       }
+      else
+        strip.setPixelColor(led,background_color);
     }
     strip.show(); // could be done inside or outside loop
+    cue++;
     delay(wait);
   }
-
-/*
-Leds_color = black, blue, red, fusia, black,white, black, black
-Leds-brightness : 0,0,....,0
-Leds_cues : 0, 100, 40, 55,67,19,73,22,74,78,98,54...
-For cycle in cycles:
-  For led in leds:
-    If led.on and led.cue :: cycle:
-      Led.write(led.color,led.brightness)
-      Led.refresh
-      Led.brightness += led.brightness_increment
-      If led.brightness == max_brightness or == min_brightness:
-        Led.brightness_increment : - led.brightness_icrement
-    delay(d)
- */
+  all_on(background_color);
 }
 
 void knight_rider(uint32_t color, uint16_t wait, uint8_t head_size, uint8_t tail_shortness) {
@@ -347,7 +340,7 @@ void loop() {
    
   // Demo effects
   //colorWipe(strip.Color(255, 0, 0), 5); // Red
-  //colorWipe(strip.Color(0, 255, 0), 5); // Green
+  // colorWipe(strip.Color(0, 255, 0), 5); // Green
   //colorWipe(strip.Color(0, 0, 255), 5); // Blue
   //rainbow(20);
   ///rainbowCycle(20);
@@ -363,6 +356,5 @@ void loop() {
   // color_mixer(0xFF00FF,0x000000,2,150);  
   
   // Effects not finished  
-  stars(10000,100);
-
+  stars();
 }
