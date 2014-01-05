@@ -25,13 +25,13 @@ void all_on(uint32_t color){
   strip.show();
 }
 
-uint32_t dim_color(uint32_t color, uint8_t width) {
+uint32_t dim_color_deprecated(uint32_t color, uint8_t width) {
    return (((color & 0xFF0000)/width) & 0xFF0000) + (((color & 0x00FF00)/width) & 0x00FF00) + (((color & 0x0000FF)/width) & 0x0000FF);
 }
 
 // Improved dimmer, that takes a decrement value, chunk, from each of the r,g,b values.
 // Takes care of underflow by setting respective value to 0
-uint32_t dim_color2(uint32_t color, uint32_t chunk) {
+uint32_t dim_color(uint32_t color, uint32_t chunk) {
   uint32_t r = (color & 0xFF0000) > (chunk << 16) ? (color - (chunk << 16)) & 0xFF0000 : 0x000000;
   uint32_t g = (color & 0x00FF00) > (chunk << 8) ? (color - (chunk << 8)) & 0x00FF00 : 0x000000;
   uint32_t b = (color & 0x0000FF) > chunk ? (color - chunk) & 0x0000FF : 0x000000;
@@ -45,30 +45,30 @@ uint32_t color_to_target(const uint32_t current_color, const uint32_t target_col
   uint32_t target = target_color & 0x0000FF;
   uint32_t r,g,b;
 
-  if(target > current && target > (current + chunk) & 0x0000FF)
-    b = current + chunk;
-  else if(target < current && target < (current - chunk) & 0x0000FF)
-    b = current - chunk;
+  if(target > current && target - chunk > current)
+    b = (current + chunk) & 0x0000FF;
+  else if(target < current && target + chunk < current)
+    b = (current - chunk) & 0x0000FF;
   else
     b = target;
   
   chunk = chunk << 8;
   current = current_color & 0x00FF00;
   target = target_color & 0x00FF00;
-  if(target > current && target > (current + chunk) & 0x00FF00)
-    g = current + chunk;
-  else if(target < current && target < (current - chunk) & 0x00FF00)
-    g = current - chunk;
+  if(target > current && target - chunk > current)
+    g = (current + chunk) & 0x00FF00;
+  else if(target < current && target + chunk < current)
+    g = (current - chunk) & 0x00FF00;
   else
     g = target;
     
   chunk = chunk << 8;
   current = current_color & 0xFF0000;
   target = target_color & 0xFF0000;
-  if(target > current && target > (current + chunk) & 0xFF0000)
-    r = current + chunk;
-  else if(target < current && target < (current - chunk) & 0xFF0000)
-    r = current - chunk;
+  if(target > current && target - chunk > current)
+    r = (current + chunk) & 0xFF0000;
+  else if(target < current && target + chunk < current)
+    r = (current - chunk) & 0xFF0000;
   else
     r = target;
   
@@ -102,7 +102,7 @@ void colorWipe(uint32_t color, uint16_t wait) {
 void static_commet(uint32_t color){
   for (int led = 0; led < NUM_LEDS; led++){ 
     strip.setPixelColor(led,color);
-    color = dim_color(color,2);
+    color = dim_color_deprecated(color,2);
   }
   strip.show();
 }
@@ -111,7 +111,7 @@ void static_commet2(uint32_t color, uint8_t tail_shortness){
   // for tail_shortness the shorted the value, the longer it is
   for (int led = 0; led < NUM_LEDS; led++){ 
     strip.setPixelColor(led,color);
-    color = dim_color2(color,tail_shortness);
+    color = dim_color(color,tail_shortness);
   }
   strip.show();
 }
@@ -132,7 +132,7 @@ void flash_and_dim(uint32_t color, uint16_t wait, uint16_t wait_dim, uint32_t ch
   strip.show();
   delay(wait);
   while (color > 0x000000){
-    color = dim_color2(color,chunk);
+    color = dim_color(color,chunk);
     for(uint16_t led = first; led < last; led++)
       strip.setPixelColor(led, color);
     strip.show();
@@ -164,6 +164,15 @@ void fade_color(uint32_t color, uint16_t wait) {
 }
 
 /********************** Complex Effects **************************/
+void color_mixer(const uint32_t color1,const uint32_t color2,const uint16_t led1,const uint16_t led2){
+  uint32_t chunk = 255/(led2 - led1);
+  uint32_t color = color1;
+  for(uint16_t led=led1; led < led2; led++){
+    strip.setPixelColor(led, color);
+    color = color_to_target(color,color2,chunk);
+  }
+  strip.show();
+}
 
 void stars(uint8_t cycles, uint8_t wait = 10) {
   // common variables
@@ -245,8 +254,8 @@ void knight_rider(uint32_t color, uint16_t wait, uint8_t head_size, uint8_t tail
     values[v] = color;
     
   for(; v < NUM_LEDS; v++)
-    values[v] = dim_color2(values[v-1], tail_shortness);
-    //    values[v] = dim_color(values[v-1], 2);
+    values[v] = dim_color(values[v-1], tail_shortness);
+    //    values[v] = dim_color_deprecated(values[v-1], 2);
   
   // color LEDs
   for(uint16_t offset = 0; offset < NUM_LEDS; offset++){
@@ -311,7 +320,7 @@ void trencitos(uint16_t cycles, uint16_t wait, uint8_t width, uint32_t color) {
   // create static values array
   values[NUM_LEDS] = color;
   for(int v = NUM_LEDS; v > 0; v--){
-    values[v-1] = dim_color(values[v-1], width);
+    values[v-1] = dim_color_deprecated(values[v-1], width);
   }
   
   // Cycles
@@ -335,16 +344,15 @@ void setup() {
 }
 
 void loop() {
-  
-  //all_off();
-  
+   
   // Demo effects
   //colorWipe(strip.Color(255, 0, 0), 5); // Red
   //colorWipe(strip.Color(0, 255, 0), 5); // Green
   //colorWipe(strip.Color(0, 0, 255), 5); // Blue
   //rainbow(20);
   ///rainbowCycle(20);
-
+  //theaterChaseRainbow(200);
+  
   // Tested effects
   // static_commet2(strip.Color(100,255,255), 100);
   // knight_rider(strip.Color(200, 100, 80), 0, 5, 15);
@@ -352,18 +360,9 @@ void loop() {
   // flash(0x832190,500);
   // flash_and_dim(0xEEEEEE,50,18,8);
   // flash_and_dim(0xEE00EE,50,18,8,0,10); 
+  // color_mixer(0xFF00FF,0x000000,2,150);  
   
   // Effects not finished  
+  stars(10000,100);
 
-
-  //stars(10000,100);
-/*  uint32_t color = 0x0000FF;
-  for(uint16_t led; led < NUM_LEDS; led++){
-    strip.setPixelColor(led, color);
-    color = color_to_target(color,0x00FF00,2);
-  }
-  */
-  theaterChaseRainbow(20);
-//  strip.show();
-//  delay(50000);
 }
