@@ -174,14 +174,34 @@ void color_mixer(const uint32_t color1,const uint32_t color2,const uint16_t led1
   strip.show();
 }
 
-void stars(uint16_t cues = 100, uint8_t wait = 100, uint32_t star_color = 0x00FFFF, uint32_t background_color = 0x000000) {
+void star(const utin16_t led, uint8_t wait =100,conts uint32_t star_color = 0x00FFFF,const uint32_t background_color = 0x000000){
+  uint32_t color = background_color;
+  // shine
+  while (color != star_color){
+    strip.setPixelColor(led,color);
+    strip.show();
+    color = color_to_target(color, star_color, 5);
+    delay(wait);
+  } 
+  
+  // die out
+  while (color != background_color){
+    strip.setPixelColor(led,color);
+    strip.show();
+    color = color_to_target(color, background_color, 5);
+    delay(wait);
+  }
+}
+
+void stars_individual(uint8_t wait =100,conts uint32_t star_color = 0x00FFFF,const uint32_t background_color = 0x000000){
+
+}
+
+void stars_overlapping(uint16_t cues = 100, uint8_t wait = 100, uint32_t star_color = 0x00FFFF, uint32_t background_color = 0x000000) {
   all_on(background_color);
   // common variables
   const uint32_t increment = 5; 
   
-  // add random seed
-  randomSeed(analogRead(1));
-    
   // Populate stars
   uint16_t stars_on = 0;
   bool leds_on[NUM_LEDS];
@@ -334,6 +354,9 @@ void trencitos(uint16_t cycles, uint16_t wait, uint8_t width, uint32_t color) {
 void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
+  
+  // add random seed
+  randomSeed(analogRead(1));
 }
 
 void loop() {
