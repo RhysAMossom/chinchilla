@@ -18,6 +18,7 @@ if __name__ == "__main__":
 
 	#draw a line - see http://www.pygame.org/docs/ref/draw.html for more 
 	pygame.draw.line(window, (255, 255, 255), (0, 0), (30, 50))
+	pygame.draw.rect(window, (255, 255, 255), pygame.rect((0, 0), (30, 0), (0,30),(30,30)))
 	
 	pixel_w = options.width/options.leds
 	pixel_h = pixel_w
