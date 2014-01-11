@@ -25,6 +25,15 @@ void all_on(uint32_t color){
   strip.show();
 }
 
+uint32_t random_color(){
+  uint32_t color = 0;
+  color += random(0xFF);
+  color = color << 8;
+  color += random(0xFF);
+  color = color << 8;
+  return  color + random(0xFF);
+}
+
 uint32_t dim_color_deprecated(uint32_t color, uint8_t width) {
    return (((color & 0xFF0000)/width) & 0xFF0000) + (((color & 0x00FF00)/width) & 0x00FF00) + (((color & 0x0000FF)/width) & 0x0000FF);
 }
@@ -174,27 +183,30 @@ void color_mixer(const uint32_t color1,const uint32_t color2,const uint16_t led1
   strip.show();
 }
 
-void star(const utin16_t led, uint8_t wait =100,conts uint32_t star_color = 0x00FFFF,const uint32_t background_color = 0x000000){
+void star(const uint16_t led, uint8_t wait =10,const uint32_t star_color = 0x00FFFF,const uint32_t background_color = 0x000000){
   uint32_t color = background_color;
+  all_on(background_color);
   // shine
   while (color != star_color){
     strip.setPixelColor(led,color);
     strip.show();
-    color = color_to_target(color, star_color, 5);
-    delay(wait);
+    color = color_to_target(color, star_color, 10);
+    delay(random(wait));
   } 
   
   // die out
   while (color != background_color){
     strip.setPixelColor(led,color);
     strip.show();
-    color = color_to_target(color, background_color, 5);
-    delay(wait);
+    color = color_to_target(color, background_color, 10);
+    delay(random(wait));
   }
 }
 
-void stars_individual(uint8_t wait =100,conts uint32_t star_color = 0x00FFFF,const uint32_t background_color = 0x000000){
-
+void stars_individual(uint8_t number_stars, uint8_t wait =10, const uint32_t star_color = 0x00FFFF,const uint32_t background_color = 0x000000){
+  for(uint8_t star_count = 0; star_count < number_stars; star_count++){
+    star(random(NUM_LEDS),wait,star_color,background_color);
+  }
 }
 
 void stars_overlapping(uint16_t cues = 100, uint8_t wait = 100, uint32_t star_color = 0x00FFFF, uint32_t background_color = 0x000000) {
@@ -377,7 +389,14 @@ void loop() {
   // flash_and_dim(0xEEEEEE,50,18,8);
   // flash_and_dim(0xEE00EE,50,18,8,0,10); 
   // color_mixer(0xFF00FF,0x000000,2,150);  
-  
+  // stars_individual(10,10,0x00F3FF,0x000000);  
+
   // Effects not finished  
-  stars();
+  //stars_overlapping(100,100,0x00F30F,0x000520);
+
+flash_and_dim(random_color(),10,15,8, NUM_LEDS/4, NUM_LEDS/2);
+flash_and_dim(random_color(),10,15,8, NUM_LEDS/2+NUM_LEDS/4, NUM_LEDS);
+flash_and_dim(random_color(),10,15,8, NUM_LEDS/2, NUM_LEDS/2+NUM_LEDS/4);
+flash_and_dim(random_color(),10,15,8, 0, NUM_LEDS/4);
+//stars_individual(10,5,0x00F3FF,0x000000);  
 }
