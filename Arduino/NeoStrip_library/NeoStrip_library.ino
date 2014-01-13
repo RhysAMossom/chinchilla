@@ -108,7 +108,7 @@ void colorWipe(uint32_t color, uint16_t wait) {
   }
 }
 
-void static_commet(uint32_t color){
+void static_commet_deprecated(uint32_t color){
   for (int led = 0; led < NUM_LEDS; led++){ 
     strip.setPixelColor(led,color);
     color = dim_color_deprecated(color,2);
@@ -116,7 +116,7 @@ void static_commet(uint32_t color){
   strip.show();
 }
 
-void static_commet2(uint32_t color, uint8_t tail_shortness){
+void static_commet(uint32_t color, uint8_t tail_shortness){
   // for tail_shortness the shorted the value, the longer it is
   for (int led = 0; led < NUM_LEDS; led++){ 
     strip.setPixelColor(led,color);
@@ -181,6 +181,59 @@ void color_mixer(const uint32_t color1,const uint32_t color2,const uint16_t led1
     color = color_to_target(color,color2,chunk);
   }
   strip.show();
+}
+
+void three_fades(uint32_t color1, uint32_t color2, uint32_t color3, uint16_t wait){
+  uint16_t led = 0;
+  uint32_t c1 = 0x000000;
+  uint32_t c2 = 0x000000;
+  uint32_t c3 = 0x000000;
+  
+  all_off();
+  
+  // shine color 1
+  while (c1 != color1){
+    c1 = color_to_target(c1, color1, 10);
+    for(uint16_t led = 0;led<NUM_LEDS;led+=3)
+      strip.setPixelColor(led,c1);
+    strip.show();
+
+    delay(wait);
+  } 
+
+  // shine color 2, die out color 1
+  while (c1 != 0x000000 || c2 != color2){
+    c1 = color_to_target(c1, 0x000000, 10);
+    c2 = color_to_target(c2, color2, 10);
+    for(uint16_t led = 0; led < NUM_LEDS-3; led+=3){
+      strip.setPixelColor(led,c1);
+      strip.setPixelColor(led+1,c2);
+    }
+    strip.show();
+    delay(wait);
+  }
+ 
+  // shine color 3, die out color 2
+  while (c2 != 0x000000 || c3 != color3){
+    c2 = color_to_target(c2, 0x000000, 10);
+    c3 = color_to_target(c3, color3, 10);
+    for(uint16_t led = 0; led < NUM_LEDS-3; led+=3){
+      strip.setPixelColor(led+1,c2);
+      strip.setPixelColor(led+2,c3);
+    }
+    strip.show();
+    delay(wait);
+  } 
+
+  // die out color 3
+  while (c3 != 0x000000){
+    c3 = color_to_target(c3, 0x000000, 10);
+    for(uint16_t led = 2; led < NUM_LEDS-3; led+=3){
+      strip.setPixelColor(led,c3);
+    }
+    strip.show();
+    delay(wait);
+  } 
 }
 
 void star(const uint16_t led, uint8_t wait =10,const uint32_t star_color = 0x00FFFF,const uint32_t background_color = 0x000000){
@@ -268,7 +321,7 @@ void stars_overlapping(uint16_t cues = 100, uint8_t wait = 100, uint32_t star_co
   all_on(background_color);
 }
 
-void knight_rider(uint32_t color, uint16_t wait, uint8_t head_size, uint8_t tail_shortness) {
+void cometa(uint32_t color = strip.Color(200, 100, 80), uint16_t wait = 0, uint8_t head_size = 5, uint8_t tail_shortness = 15) {
   // for tail_shortness the smaller the value the longer the tail
   uint32_t values[NUM_LEDS];
   
@@ -374,29 +427,34 @@ void setup() {
 void loop() {
    
   // Demo effects
-  //colorWipe(strip.Color(255, 0, 0), 5); // Red
-  // colorWipe(strip.Color(0, 255, 0), 5); // Green
-  //colorWipe(strip.Color(0, 0, 255), 5); // Blue
-  //rainbow(20);
-  ///rainbowCycle(20);
-  //theaterChaseRainbow(200);
+  /*colorWipe(strip.Color(255, 0, 0), 5); // Red
+  colorWipe(strip.Color(0, 255, 0), 5); // Green
+  colorWipe(strip.Color(0, 0, 255), 5); // Blue
+  rainbow(20);
+  rainbowCycle(20);
+  //theaterChaseRainbow(200); // takes very long to finish
   
   // Tested effects
-  // static_commet2(strip.Color(100,255,255), 100);
-  // knight_rider(strip.Color(200, 100, 80), 0, 5, 15);
-  // fade_color(0x890712,5);
-  // flash(0x832190,500);
-  // flash_and_dim(0xEEEEEE,50,18,8);
-  // flash_and_dim(0xEE00EE,50,18,8,0,10); 
-  // color_mixer(0xFF00FF,0x000000,2,150);  
-  // stars_individual(10,10,0x00F3FF,0x000000);  
-
+  static_commet2(strip.Color(100,255,255), 100);
+  cometa(strip.Color(200, 100, 80), 0, 5, 15);
+  fade_color(0x890712,5);
+  flash(0x832190,500);
+  flash_and_dim(0xEEEEEE,50,18,8);
+  delay(1000);
+  flash_and_dim(0xEE00EE,50,18,8,0,10); 
+  delay(1000);
+  color_mixer(0xFF00FF,0x000000,2,150);  
+  stars_individual(10,10,0x00F3FF,0x000000);  
+*/
   // Effects not finished  
-  //stars_overlapping(100,100,0x00F30F,0x000520);
+ // stars_overlapping(100,100,0x00F30F,0x000000);
+  three_fades(0x00FF00,0xFF0000,0x0000FF,10);
 
-flash_and_dim(random_color(),10,15,8, NUM_LEDS/4, NUM_LEDS/2);
-flash_and_dim(random_color(),10,15,8, NUM_LEDS/2+NUM_LEDS/4, NUM_LEDS);
-flash_and_dim(random_color(),10,15,8, NUM_LEDS/2, NUM_LEDS/2+NUM_LEDS/4);
-flash_and_dim(random_color(),10,15,8, 0, NUM_LEDS/4);
-//stars_individual(10,5,0x00F3FF,0x000000);  
+ /* // Various flashes
+  flash(random_color(),250,NUM_LEDS/2+NUM_LEDS/4, NUM_LEDS);
+  flash(random_color(),200,NUM_LEDS/2, NUM_LEDS/2+NUM_LEDS/4);
+  flash(random_color(),300, 0, NUM_LEDS/4);
+  flash(random_color(),300, 0, NUM_LEDS/4);
+  flash_and_dim(random_color(),10,15,8, 0, NUM_LEDS);
+*/
 }
