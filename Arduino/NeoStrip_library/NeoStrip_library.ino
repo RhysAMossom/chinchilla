@@ -34,6 +34,28 @@ uint32_t random_color(){
   return  color + random(0xFF);
 }
 
+void scroller(uint32_t * colors, uint8_t num_colors, int16_t wait = 100, bool left_to_right = true){
+  // Create an array of color values, preferably the same size as LED pixes, and scroll through it.
+  if(left_to_right){
+    for(uint16_t offset = 0; offset < num_colors; offset++){
+      for(uint16_t led = 0; led < NUM_LEDS; led++){
+        strip.setPixelColor(led,colors[(led+offset)%(num_colors-1)]);
+      }
+      strip.show();
+      delay(wait);
+    }
+  }
+  else{
+    for(uint16_t offset = num_colors; offset > 0; offset--){
+      for(uint16_t led = 0; led < NUM_LEDS; led++){
+        strip.setPixelColor(led,colors[(led+offset)%(num_colors-1)]);
+      }
+      strip.show();
+      delay(wait);
+    }
+  }
+}
+
 uint32_t dim_color_deprecated(uint32_t color, uint8_t width) {
    return (((color & 0xFF0000)/width) & 0xFF0000) + (((color & 0x00FF00)/width) & 0x00FF00) + (((color & 0x0000FF)/width) & 0x0000FF);
 }
@@ -236,6 +258,43 @@ void three_fades(uint32_t color1, uint32_t color2, uint32_t color3, uint16_t wai
   } 
 }
 
+void dual_fade(uint32_t * colors, uint8_t num_colors, int16_t wait = 100){ // pass array colors
+  bool killA = false; // decides to kill A when true else kills B
+  uint32_t colorA = 0x000000;
+  uint32_t colorB = 0x000000;
+  all_off();
+  
+  // shine color A
+  for(uint8_t i = 0; i <= num_colors; i++){
+    if (killA) {
+      while (colorA != 0x000000 || colorB != colors[i]){
+        colorA = color_to_target(colorA, 0x000000, 10);
+        colorB = color_to_target(colorB, colors[i], 10);
+        for(uint16_t led = 0; led < NUM_LEDS-1; led+=2){
+          strip.setPixelColor(led,colorA);
+          strip.setPixelColor(led+1,colorB);
+        }
+        strip.show();
+        delay(wait);
+      }
+      killA = !killA;
+    }
+    else {
+      while (colorA != colors[i] || colorB != 0x000000){
+        colorA = color_to_target(colorA, colors[i], 10);
+        colorB = color_to_target(colorB, 0x000000, 10);
+        for(uint16_t led = 0; led < NUM_LEDS-1; led+=2){
+          strip.setPixelColor(led,colorA);
+          strip.setPixelColor(led+1,colorB);
+        }
+        strip.show();
+        delay(wait);
+      }
+      killA = !killA;
+    }
+  }
+}
+
 void star(const uint16_t led, uint8_t wait =10,const uint32_t star_color = 0x00FFFF,const uint32_t background_color = 0x000000){
   uint32_t color = background_color;
   all_on(background_color);
@@ -262,7 +321,7 @@ void stars_individual(uint8_t number_stars, uint8_t wait =10, const uint32_t sta
   }
 }
 
-void stars_overlapping(uint16_t cues = 100, uint8_t wait = 100, uint32_t star_color = 0x00FFFF, uint32_t background_color = 0x000000) {
+void stars_overlapping(uint16_t cues = 100, uint8_t wait = 100, uint32_t star_color = 0x00F30F, uint32_t background_color = 0x000000) {
   all_on(background_color);
   // common variables
   const uint32_t increment = 5; 
@@ -445,10 +504,13 @@ void loop() {
   delay(1000);
   color_mixer(0xFF00FF,0x000000,2,150);  
   stars_individual(10,10,0x00F3FF,0x000000);  
+  uint32_t colors[] = {0xFF0000,0x00FF00,0x0000FF};  dual_fade(colors,3,100);
+  three_fades(0x00FF00,0xFF0000,0x0000FF,10);
+  uint32_t colors[NUM_LEDS]; colors[0]=0x00; for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]+0xF; scroller(colors,NUM_LEDS,10,false);
 */
   // Effects not finished  
- // stars_overlapping(100,100,0x00F30F,0x000000);
-  three_fades(0x00FF00,0xFF0000,0x0000FF,10);
+ // stars_overlapping(100,100,random_color(),0x000000);
+
 
  /* // Various flashes
   flash(random_color(),250,NUM_LEDS/2+NUM_LEDS/4, NUM_LEDS);
