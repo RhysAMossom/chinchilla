@@ -12,6 +12,16 @@
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_GRB + NEO_KHZ800);
 
+/********************** Interrupt elements**************************/
+// NOTE: arduino mega has 5 interrupts, the UNO has 2.
+#define EFFECT_CHANGER_PIN 2;
+volatile uint8_t effect_index = 0;
+
+void increment_effect()
+{
+  effect_index++;
+}
+
 /********************** Basic Functions **************************/
 
 void all_off() {
@@ -265,7 +275,7 @@ void dual_fade(uint32_t * colors, uint8_t num_colors, int16_t wait = 100){ // pa
   all_off();
   
   // shine color A
-  for(uint8_t i = 0; i <= num_colors; i++){
+  for(uint8_t i = 0; i < num_colors; i++){
     if (killA) {
       while (colorA != 0x000000 || colorB != colors[i]){
         colorA = color_to_target(colorA, 0x000000, 10);
@@ -481,20 +491,25 @@ void setup() {
   
   // add random seed
   randomSeed(analogRead(1));
+  
+  // Attach interrupts
+  attachInterrupt(2, increment_effect, RISING);
 }
 
 void loop() {
    
   // Demo effects
-  /*colorWipe(strip.Color(255, 0, 0), 5); // Red
+
+  colorWipe(strip.Color(255, 0, 0), 5); // Red
   colorWipe(strip.Color(0, 255, 0), 5); // Green
   colorWipe(strip.Color(0, 0, 255), 5); // Blue
   rainbow(20);
-  rainbowCycle(20);
+  // rainbowCycle(20);
   //theaterChaseRainbow(200); // takes very long to finish
   
   // Tested effects
-  static_commet2(strip.Color(100,255,255), 100);
+
+  static_commet(strip.Color(100,255,255), 100);
   cometa(strip.Color(200, 100, 80), 0, 5, 15);
   fade_color(0x890712,5);
   flash(0x832190,500);
@@ -504,19 +519,25 @@ void loop() {
   delay(1000);
   color_mixer(0xFF00FF,0x000000,2,150);  
   stars_individual(10,10,0x00F3FF,0x000000);  
-  uint32_t colors[] = {0xFF0000,0x00FF00,0x0000FF};  dual_fade(colors,3,100);
+  uint32_t colors2[] = {0xFF0000,0x00FF00,0x0000FF};  dual_fade(colors2,3,100);
   three_fades(0x00FF00,0xFF0000,0x0000FF,10);
   uint32_t colors[NUM_LEDS]; colors[0]=0x00; for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]+0xF; scroller(colors,NUM_LEDS,10,false);
-*/
+
+
   // Effects not finished  
  // stars_overlapping(100,100,random_color(),0x000000);
+stars_individual(10,10,0x00F3FF,0x00000f);  
 
-
- /* // Various flashes
+  // Various flashes
+ 
   flash(random_color(),250,NUM_LEDS/2+NUM_LEDS/4, NUM_LEDS);
   flash(random_color(),200,NUM_LEDS/2, NUM_LEDS/2+NUM_LEDS/4);
   flash(random_color(),300, 0, NUM_LEDS/4);
   flash(random_color(),300, 0, NUM_LEDS/4);
   flash_and_dim(random_color(),10,15,8, 0, NUM_LEDS);
-*/
+  flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
+  flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
+  colors[0]=random_color(); for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]-0x5; scroller(colors,NUM_LEDS,10,true);
+  colors[0]=random_color(); for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]-0x5; scroller(colors,NUM_LEDS,10,false);
+
 }
