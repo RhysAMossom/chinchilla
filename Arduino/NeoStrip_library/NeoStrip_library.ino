@@ -447,6 +447,41 @@ void cometa(uint32_t color = strip.Color(200, 100, 80), uint16_t wait = 0, uint8
 
 }
 
+void explosion(uint32_t color, uint32_t background_color, uint16_t start = NUM_LEDS/2, uint16_t length = 15, bool set_back = true){
+  // Simulate an explosion of size 2* length
+  if(set_back)
+    all_on(background_color);
+  
+  uint32_t c0 = background_color;
+  while (c0 != color){
+    strip.setPixelColor(start, c0);
+    strip.show();
+    delay(random(3)*10);
+    c0 = color_to_target(c0, color, 5);
+  }
+  strip.setPixelColor(start-1, c0);
+  strip.setPixelColor(start+1, c0);
+  strip.show();
+  delay(5);
+  uint8_t i = 0;
+  while(i <= length){
+    strip.setPixelColor(start-i % NUM_LEDS,color);
+    strip.setPixelColor(start+i % NUM_LEDS,color);
+    strip.show();
+    delay(random(1,3) * 10);
+    i += random(3);
+  }
+}
+
+void fireworks(const uint32_t background_color){
+  uint8_t num_fireworks = random(1,5);
+  for(uint8_t f = 0; f <= num_fireworks; f++){
+    explosion(random_color(),background_color, random(NUM_LEDS), 30, false);
+    delay(random(1,5)*150);
+  }
+  all_on(background_color);
+}
+
 // Rainbows
 void rainbow(uint8_t wait) {
   uint16_t i, j;
@@ -528,7 +563,7 @@ void setup() {
   attachInterrupt(2, increment_effect, RISING);
 }
 
-void loop() {
+void demo_effects() {
    
   // Demo effects
 
@@ -574,7 +609,6 @@ stars_individual(10,10,0x00F3FF,0x00000f);
 
 }
 
-
 void routines(){
   // Let's create routines
   uint32_t tonos[] = { 0x000100,0x000200,0x013300,0xFF8000,0x990000,0xCC0066,0xCC0066};
@@ -587,4 +621,7 @@ void routines(){
   // Slow pace, tempo 2Hz
   
   // Medium pace, temp 3Hz
+}
+
+void loop(){
 }
