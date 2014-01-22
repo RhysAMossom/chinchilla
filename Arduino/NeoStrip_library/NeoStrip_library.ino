@@ -24,24 +24,30 @@ void increment_effect()
 
 /********************** Basic Functions **************************/
 
-void all_off() {
-  for( int i = 0; i<NUM_LEDS; i++)
+void all_off(uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1) {
+  // all inclusive leds in [leds1,leds2] turn off
+  for( int i = led1; i <= led2; i++)
     strip.setPixelColor(i, 0x000000);
   strip.show();
 }
-void all_on(uint32_t color){
+
+void all_on(uint32_t color, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
+   // all inclusive leds in [leds1,leds2] light up to a color
   for( int i = 0; i<NUM_LEDS; i++)
     strip.setPixelColor(i, color);
   strip.show();
 }
 
-uint32_t random_color(){
-  uint32_t color = 0;
-  color += random(0xFF);
-  color = color << 8;
-  color += random(0xFF);
-  color = color << 8;
-  return  color + random(0xFF);
+void fade_to(const uint32_t current_color, const uint32_t target_color,int16_t wait = 100, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
+  // all inclusive leds in [leds1,leds2] light up from a color to a color
+  uint32_t color = current_color;
+  while (color != target_color){
+    for(int i = led1; i <= led2; i++)
+      strip.setPixelColor(i, color);
+    strip.show();
+    color = color_to_target(color, target_color, 10);
+    delay(wait);
+  }
 }
 
 void scroller(uint32_t * colors, uint8_t num_colors, int16_t wait = 100, bool left_to_right = true){
@@ -66,13 +72,26 @@ void scroller(uint32_t * colors, uint8_t num_colors, int16_t wait = 100, bool le
   }
 }
 
+/********************** Color-returning Functions **************************/
+
+uint32_t random_color(){
+  // Return a random color
+  uint32_t color = 0;
+  color += random(0xFF);
+  color = color << 8;
+  color += random(0xFF);
+  color = color << 8;
+  return  color + random(0xFF);
+}
+
 uint32_t dim_color_deprecated(uint32_t color, uint8_t width) {
+  // deprecated dimmer
    return (((color & 0xFF0000)/width) & 0xFF0000) + (((color & 0x00FF00)/width) & 0x00FF00) + (((color & 0x0000FF)/width) & 0x0000FF);
 }
 
-// Improved dimmer, that takes a decrement value, chunk, from each of the r,g,b values.
-// Takes care of underflow by setting respective value to 0
 uint32_t dim_color(uint32_t color, uint32_t chunk) {
+  // Improved dimmer, that takes a decrement value, chunk, from each of the r,g,b values.
+  // Takes care of underflow by setting respective value to 0
   uint32_t r = (color & 0xFF0000) > (chunk << 16) ? (color - (chunk << 16)) & 0xFF0000 : 0x000000;
   uint32_t g = (color & 0x00FF00) > (chunk << 8) ? (color - (chunk << 8)) & 0x00FF00 : 0x000000;
   uint32_t b = (color & 0x0000FF) > chunk ? (color - chunk) & 0x0000FF : 0x000000;
@@ -80,7 +99,7 @@ uint32_t dim_color(uint32_t color, uint32_t chunk) {
 }
 
 uint32_t color_to_target(const uint32_t current_color, const uint32_t target_color, uint32_t chunk){
-// Increase current color to target color by adding increments of size chunk
+// Increase or decrease current color value to target color by increments of size chunk and return result
   chunk = chunk & 0x0000FF;
   uint32_t current = current_color & 0x0000FF;
   uint32_t target = target_color & 0x0000FF;
@@ -116,9 +135,9 @@ uint32_t color_to_target(const uint32_t current_color, const uint32_t target_col
   return r+g+b;
 }
 
-// Input a value 0 to 255 to get a color value.
-// The colours are a transition r - g - b - back to r.
 uint32_t Wheel(byte WheelPos) {
+  // Input a value 0 to 255 to get a color value.
+  // The colours are a transition r - g - b - back to r.
   if(WheelPos < 85) {
    return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
   } else if(WheelPos < 170) {
@@ -132,8 +151,10 @@ uint32_t Wheel(byte WheelPos) {
 
 /********************** Simple Effects **************************/
 // Fill the dots one after the other with a color
-void colorWipe(uint32_t color, uint16_t wait) {
-  for(uint16_t led = 0; led < NUM_LEDS; led++) {
+void wipe_color(uint32_t color, uint16_t wait, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1) {
+  int16_t increment = (led1 <= led2) ? 1 : -1;
+   
+  for(uint16_t led = led1; led != led2; led += increment) {
       strip.setPixelColor(led, color);
       strip.show();
       delay(wait);
@@ -158,6 +179,7 @@ void static_commet(uint32_t color, uint8_t tail_shortness){
 }
 
 void flash(uint32_t color, uint16_t wait, uint16_t first = 0, uint16_t last = NUM_LEDS){
+  // Quick flash
   all_off();
   for(uint16_t led = first; led < last; led++)
     strip.setPixelColor(led, color);
@@ -167,6 +189,7 @@ void flash(uint32_t color, uint16_t wait, uint16_t first = 0, uint16_t last = NU
 }
 
 void flash_and_dim(uint32_t color, uint16_t wait, uint16_t wait_dim, uint32_t chunk, uint16_t first = 0, uint16_t last = NUM_LEDS){
+  // Quick flash and slow dimmer
   all_off();
   for(uint16_t led = first; led < last; led++)
     strip.setPixelColor(led, color);
@@ -181,7 +204,7 @@ void flash_and_dim(uint32_t color, uint16_t wait, uint16_t wait_dim, uint32_t ch
   } 
 }
 
-void fade_color(uint32_t color, uint16_t wait) {
+void fade_color_deprecated(uint32_t color, uint16_t wait) {
   uint8_t rgbColour[3];
  
   rgbColour[0] = color & 0xFF0000;
@@ -206,6 +229,7 @@ void fade_color(uint32_t color, uint16_t wait) {
 
 /********************** Complex Effects **************************/
 void color_mixer(const uint32_t color1,const uint32_t color2,const uint16_t led1,const uint16_t led2){
+  // mix colors along strip
   uint32_t chunk = 255/(led2 - led1);
   uint32_t color = color1;
   for(uint16_t led=led1; led < led2; led++){
@@ -216,6 +240,7 @@ void color_mixer(const uint32_t color1,const uint32_t color2,const uint16_t led1
 }
 
 void three_fades(uint32_t color1, uint32_t color2, uint32_t color3, uint16_t wait){
+  // interlaced fades of three colors. This is deprecated, use cross_fade
   uint16_t led = 0;
   uint32_t c1 = 0x000000;
   uint32_t c2 = 0x000000;
@@ -268,7 +293,8 @@ void three_fades(uint32_t color1, uint32_t color2, uint32_t color3, uint16_t wai
   } 
 }
 
-void dual_fade(uint32_t * colors, uint8_t num_colors, int16_t wait = 100){ // pass array colors
+void cross_fade(uint32_t * colors, uint8_t num_colors, int16_t wait = 100, int16_t wait_on = 0){ // pass array colors
+  // interlaced fades from various colors of a list
   bool killA = false; // decides to kill A when true else kills B
   uint32_t colorA = 0x000000;
   uint32_t colorB = 0x000000;
@@ -288,6 +314,7 @@ void dual_fade(uint32_t * colors, uint8_t num_colors, int16_t wait = 100){ // pa
         delay(wait);
       }
       killA = !killA;
+      delay(wait_on - wait);
     }
     else {
       while (colorA != colors[i] || colorB != 0x000000){
@@ -301,11 +328,13 @@ void dual_fade(uint32_t * colors, uint8_t num_colors, int16_t wait = 100){ // pa
         delay(wait);
       }
       killA = !killA;
+      delay(wait_on - wait);
     }
   }
 }
 
 void star(const uint16_t led, uint8_t wait =10,const uint32_t star_color = 0x00FFFF,const uint32_t background_color = 0x000000){
+  // single star shine
   uint32_t color = background_color;
   all_on(background_color);
   // shine
@@ -326,12 +355,14 @@ void star(const uint16_t led, uint8_t wait =10,const uint32_t star_color = 0x00F
 }
 
 void stars_individual(uint8_t number_stars, uint8_t wait =10, const uint32_t star_color = 0x00FFFF,const uint32_t background_color = 0x000000){
+  // Call a number of stars, one shining at a time, on a section of the stripo
   for(uint8_t star_count = 0; star_count < number_stars; star_count++){
     star(random(NUM_LEDS),wait,star_color,background_color);
   }
 }
 
 void stars_overlapping(uint16_t cues = 100, uint8_t wait = 100, uint32_t star_color = 0x00F30F, uint32_t background_color = 0x000000) {
+  // shinning stars overalapped
   all_on(background_color);
   // common variables
   const uint32_t increment = 5; 
@@ -391,6 +422,7 @@ void stars_overlapping(uint16_t cues = 100, uint8_t wait = 100, uint32_t star_co
 }
 
 void cometa(uint32_t color = strip.Color(200, 100, 80), uint16_t wait = 0, uint8_t head_size = 5, uint8_t tail_shortness = 15) {
+  // Similar to knigh_rider, head fades to black
   // for tail_shortness the smaller the value the longer the tail
   uint32_t values[NUM_LEDS];
   
@@ -441,8 +473,8 @@ void rainbowCycle(uint8_t wait) {
   }
 }
 
-//Theatre-style crawling lights with rainbow effect
 void theaterChaseRainbow(uint16_t wait) {
+  //Theatre-style crawling lights with rainbow effect
   for (uint8_t j=0; j < 256; j++) { // cycle all 256 colors in the wheel
     for (uint8_t q=0; q < 3; q++) {
         for (uint8_t i=0; i < strip.numPixels(); i=i+3) {
@@ -500,9 +532,9 @@ void loop() {
    
   // Demo effects
 
-  colorWipe(strip.Color(255, 0, 0), 5); // Red
-  colorWipe(strip.Color(0, 255, 0), 5); // Green
-  colorWipe(strip.Color(0, 0, 255), 5); // Blue
+  wipe_color(strip.Color(255, 0, 0), 5, 0, NUM_LEDS); // Red
+  wipe_color(strip.Color(0, 255, 0), 5, NUM_LEDS,0); // Green
+  wipe_color(strip.Color(0, 0, 255), 5, 0, NUM_LEDS); // Blue
   rainbow(20);
   // rainbowCycle(20);
   //theaterChaseRainbow(200); // takes very long to finish
@@ -511,7 +543,7 @@ void loop() {
 
   static_commet(strip.Color(100,255,255), 100);
   cometa(strip.Color(200, 100, 80), 0, 5, 15);
-  fade_color(0x890712,5);
+  fade_color_deprecated(0x890712,5);
   flash(0x832190,500);
   flash_and_dim(0xEEEEEE,50,18,8);
   delay(1000);
@@ -519,7 +551,7 @@ void loop() {
   delay(1000);
   color_mixer(0xFF00FF,0x000000,2,150);  
   stars_individual(10,10,0x00F3FF,0x000000);  
-  uint32_t colors2[] = {0xFF0000,0x00FF00,0x0000FF};  dual_fade(colors2,3,100);
+  uint32_t colors2[] = {0xFF0000,0x00FF00,0x0000FF};  cross_fade(colors2,3,100);
   three_fades(0x00FF00,0xFF0000,0x0000FF,10);
   uint32_t colors[NUM_LEDS]; colors[0]=0x00; for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]+0xF; scroller(colors,NUM_LEDS,10,false);
 
@@ -540,4 +572,19 @@ stars_individual(10,10,0x00F3FF,0x00000f);
   colors[0]=random_color(); for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]-0x5; scroller(colors,NUM_LEDS,10,true);
   colors[0]=random_color(); for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]-0x5; scroller(colors,NUM_LEDS,10,false);
 
+}
+
+
+void routines(){
+  // Let's create routines
+  uint32_t tonos[] = { 0x000100,0x000200,0x013300,0xFF8000,0x990000,0xCC0066,0xCC0066};
+  cross_fade(tonos,7,100,3000);
+  all_off();
+  fade_to(0xCC0066,0x003400,120);
+  fade_to(0x003400,0x000001,120);
+  stars_individual(10,70,0x00F330,0x000001);  
+  
+  // Slow pace, tempo 2Hz
+  
+  // Medium pace, temp 3Hz
 }
