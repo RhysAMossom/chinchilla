@@ -624,4 +624,19 @@ void routines(){
 }
 
 void loop(){
+   uint32_t colors[NUM_LEDS];
+    flash(random_color(),250,NUM_LEDS/2+NUM_LEDS/4, NUM_LEDS);
+  flash(random_color(),200,NUM_LEDS/2, NUM_LEDS/2+NUM_LEDS/4);
+  flash(random_color(),300, 0, NUM_LEDS/4);
+  flash(random_color(),300, 0, NUM_LEDS/4);
+  flash_and_dim(random_color(),10,15,8, 0, NUM_LEDS);
+  flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
+  flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
+  colors[0]=random_color(); for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]-0x5; scroller(colors,NUM_LEDS,10,true);
+  colors[0]=random_color(); for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]-0x5; scroller(colors,NUM_LEDS,10,false);
+  all_off();
+  delay(1000);
+  flash(0x000500,100, 0, NUM_LEDS);
+  flash(0x000005,100, 0, NUM_LEDS);
+  delay(1000);
 }
