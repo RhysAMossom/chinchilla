@@ -3,6 +3,9 @@
 #define PIN 6
 #define NUM_LEDS 60*4
 
+volatile uint8_t effect = 0;
+volatile bool continuous_flow = true;
+
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = pin number (most are valid)
 // Parameter 3 = pixel type flags, add together as needed:
@@ -12,13 +15,11 @@
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_GRB + NEO_KHZ800);
 
-volatile uint8_t effect = 0;
-
 /********************** Basic Functions **************************/
 
 void all_off(uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1) {
   // all inclusive leds in [leds1,leds2] turn off
-  for( int i = led1; i <= led2; i++)
+  for( uint16_t i = led1; i <= led2; i++)
     strip.setPixelColor(i, 0x000000);
   strip.show();
 }
@@ -34,7 +35,7 @@ void fade_to(const uint32_t current_color, const uint32_t target_color,int16_t w
   // all inclusive leds in [leds1,leds2] light up from a color to a color
   uint32_t color = current_color;
   while (color != target_color){
-    for(int i = led1; i <= led2; i++)
+    for(uint16_t i = led1; i <= led2; i++)
       strip.setPixelColor(i, color);
     strip.show();
     color = color_to_target(color, target_color, 10);
@@ -45,7 +46,7 @@ void fade_to(const uint32_t current_color, const uint32_t target_color,int16_t w
 void scroller(uint32_t * colors, uint8_t num_colors,uint16_t steps = 0, int16_t wait = 100, bool left_to_right = true){
   // Create an array of color values, preferably the same size as LED pixes, and scroll through it.
   if (steps == 0)
-    steps == num_colors;
+    steps = num_colors;
   if(left_to_right){
     for(uint16_t offset = 0; offset < steps; offset++){
       for(uint16_t led = 0; led < NUM_LEDS; led++){
@@ -237,7 +238,6 @@ void color_mixer(const uint32_t color1,const uint32_t color2,const uint16_t led1
 
 void three_fades(uint32_t color1, uint32_t color2, uint32_t color3, uint16_t wait){
   // interlaced fades of three colors. This is deprecated, use cross_fade
-  uint16_t led = 0;
   uint32_t c1 = 0x000000;
   uint32_t c2 = 0x000000;
   uint32_t c3 = 0x000000;
@@ -528,14 +528,14 @@ void trencitos(uint16_t cycles, uint16_t wait, uint8_t width, uint32_t color) {
 
   // create static values array
   values[NUM_LEDS] = color;
-  for(int v = NUM_LEDS; v > 0; v--){
+  for(uint16_t v = NUM_LEDS; v > 0; v--){
     values[v-1] = dim_color_deprecated(values[v-1], width);
   }
 
   // Cycles
-  for(int i = 0; i < cycles; i++){
-    for (int count = 0; count < NUM_LEDS; count++) {
-      for(int led = 0; led < NUM_LEDS; led++){
+  for(uint16_t i = 0; i < cycles; i++){
+    for (uint16_t count = 0; count < NUM_LEDS; count++) {
+      for(uint16_t led = 0; led < NUM_LEDS; led++){
         strip.setPixelColor(led,values[(count+led) % NUM_LEDS]);
       }
       strip.show();
