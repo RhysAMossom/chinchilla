@@ -5,9 +5,10 @@ void increment_effect(){
 }
 
 void toggle_effect_flow(){
+  //continuous_flow = digitalRead(FLOW_PIN);
   continuous_flow = !continuous_flow;
-  digitalWrite(13,continuous_flow);
 }
+
 
 /********************** Arduino Functions **************************/
 void setup() {
@@ -18,8 +19,15 @@ void setup() {
   randomSeed(analogRead(1));
 
   // Attach interrupts
-  attachInterrupt(2, increment_effect, RISING);
-  attachInterrupt(1, toggle_effect_flow, RISING);
+  attachInterrupt(0, increment_effect, RISING); // pin 2
+  attachInterrupt(1, toggle_effect_flow, CHANGE); // pin 3
+//  attachInterrupt(2, int2, CHANGE); // pin 21
+//  attachInterrupt(3, int3, FALLING); // pin 20
+//  attachInterrupt(4, int4, LOW); // pin 19
+//  attachInterrupt(5, int5, RISING); // pin 18
+
+  Serial.begin(9600);
+  pinMode(FLOW_LED_PIN,OUTPUT);
 }
 
 void demo_effects() {
@@ -117,7 +125,8 @@ void fast_flashes(){
 void cases(){
   switch (effect) {
     case 0:
-      stars_individual(10,70,0x00F330,0x000001);
+      stars_individual(2,70,0x00F330,0x000001);
+      
       if(!continuous_flow) break;
     case 1:
       wipe_color(strip.Color(255, 0, 0), 5, 0, NUM_LEDS); // Red
@@ -148,7 +157,7 @@ void cases(){
       delay(1000);
       if(!continuous_flow) break;
     case 10:
-      flash_and_dim(0xEE00EE,50,18,8,0,10);
+      flash_and_dim(0xEE00EE,50,18,8,0,100);
       delay(1000);
       if(!continuous_flow) break;
     case 11:
@@ -159,14 +168,16 @@ void cases(){
       if(!continuous_flow) break;
     case 13:
       {
-        uint32_t colors2[] = {0xFF0000,0x00FF00,0x0000FF};  cross_fade(colors2,3,100);
+        uint32_t colors2[] = {0xFF0000,0x00FF00,0x0000FF};  cross_fade(colors2,3,10,10);
+      if(!continuous_flow) break; 
       }
-      if(!continuous_flow) break;  
     case 14:
       three_fades(0x00FF00,0xFF0000,0x0000FF,10);
       if(!continuous_flow) break;
     case 15:
-      //uint32_t colors[NUM_LEDS]; colors[0]=0x00; for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]+0xF; scroller(colors,NUM_LEDS,NUM_LEDS/2,10,false);
+      {
+        uint32_t colors[NUM_LEDS]; colors[0]=0x00; for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]+0xF; scroller(colors,NUM_LEDS,NUM_LEDS/2,10,false);
+      }
       if(!continuous_flow) break;
     case 16:
       stars_individual(10,10,0x00F3FF,0x00000f);
@@ -210,5 +221,9 @@ void cases(){
 }
 
 void loop(){
-  cases();
+  Serial.print("effect: ");
+  Serial.print(effect);
+  digitalWrite(FLOW_LED_PIN,continuous_flow);
+  Serial.print("\tcontinuous flow: ");
+  Serial.println(continuous_flow);
 }
