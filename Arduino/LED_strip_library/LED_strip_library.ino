@@ -1,11 +1,15 @@
 #include <Adafruit_NeoPixel.h>
 
-#define STRIP_PIN 6
-#define NUM_LEDS 60*4
-#define FLOW_LED_PIN 12
+#define STRIP_PIN 6 // Signal Pin that controls strip
+#define NUM_LEDS 60*3
+#define FLOW_LED_PIN 12 //
 
-volatile uint8_t effect = 0;
-volatile bool continuous_flow = false;
+#define REGULAR_EFFECTS 250
+
+volatile uint8_t effect = 0; // Effect Counter
+// Flag when set, one effect will be followed by the other 
+// else, only one effect or one family of effects will play
+volatile bool continuous_flow = false; 
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = pin number (most are valid)
