@@ -1,0 +1,3 @@
+[submodule "Arduino/libraries/PS2controller"]
+	path = Arduino/libraries/PS2controller
+	url = https://github.com/madsci1016/Arduino-PS2X.git
