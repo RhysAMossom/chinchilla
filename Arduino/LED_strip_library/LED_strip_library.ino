@@ -2,7 +2,7 @@
 
 #define STRIP_PIN 6 // Signal Pin that controls strip
 #define NUM_LEDS 60*3
-#define FLOW_LED_PIN 12 //
+#define FLOW_LED_PIN 12 //LED displays flow setting state
 
 #define REGULAR_EFFECTS 250
 

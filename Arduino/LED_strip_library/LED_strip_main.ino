@@ -13,8 +13,6 @@ void special_effect(){
   effect = REGULAR_EFFECTS;
 }
 
-void special_function(){
-
 
 /********************** Arduino Functions **************************/
 void setup() {
@@ -37,6 +35,10 @@ void setup() {
 }
 
 void loop(){
+  fast_flashes();
+}
+
+void loop_TODO(){
   Serial.print("effect: ");
   Serial.print(effect);
   digitalWrite(FLOW_LED_PIN,continuous_flow);
