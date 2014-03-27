@@ -97,20 +97,27 @@ void fast_flashes(){
   255: setup colors  
 */
 
-void ps2_cases(){
+void loop(){
   ps2x.read_gamepad(); //read controller
+  
+  // Cases Control
   if(ps2x.ButtonReleased(PSB_START)){
     // Start demo effects
+#ifdef DEBUG
     Serial.println("Starting demo effects");
-    demo_effects();
+#endif
+    continuous_flow = !continuous_flow;
   }
 
   else if(ps2x.ButtonReleased(PSB_SELECT)) {
     // Select RBG colors from joystic values
+#ifdef DEBUG
     Serial.println("Ly\tLx\tRy\tRx");
+#endif
     delay(50);
     ps2x.read_gamepad();
     while(!ps2x.ButtonReleased(PSB_SELECT)){
+#ifdef DEBUG
       Serial.print(ps2x.Analog(PSS_LY), DEC);
       Serial.print("\t");
       Serial.print(ps2x.Analog(PSS_LX), DEC); 
@@ -118,131 +125,210 @@ void ps2_cases(){
       Serial.print(ps2x.Analog(PSS_RY), DEC); 
       Serial.print("\t");
       Serial.println(ps2x.Analog(PSS_RX), DEC);
-      
+#endif
       // Set colors
       // all_on(strip.Colors(LY, LX, RY));
       // Read gamepad for 
       ps2x.read_gamepad();
       delay(50);
     }
+#ifdef DEBUG
     Serial.println("done choosing colors");
+#endif
   }
-  else { // PS2 Control Cases
-  // Star effects
-  // Triangle effects
-  // Circle effects
-  // Cross effects
-  // Arrow left - move to last effect
-  // Arrow right - move to next step
-  // Arrow up - faster
-  // Arrow down - slower
+  else if(ps2x.ButtonReleased(PSB_TRIANGLE)) {
+#ifdef DEBUG
+    Serial.println("Released triangle");
+#endif
+    effects = TRIANGLE_INDEX;
+  }
+  else if(ps2x.ButtonReleased(PSB_CIRCLE)) {
+#ifdef DEBUG
+    Serial.println("Released circle");
+#endif
+    effects = CIRCLE_INDEX;
+  }
+  else if(ps2x.ButtonReleased(PSB_CROSS)) {
+#ifdef DEBUG
+    Serial.println("Released cross");
+#endif
+    effects = CROSS_INDEX;
+  }
+  else if(ps2x.ButtonReleased(PSB_SQUARE)) {
+#ifdef DEBUG
+    Serial.println("Released square");
+#endif
+    effects = SQUARE_INDEX;
+  }
+  else if(ps2x.ButtonReleased(PSB_L1)) {
+#ifdef DEBUG
+    Serial.println("Released L1");
+#endif
+    effects = L1_INDEX;
+  }
+  else if(ps2x.ButtonReleased(PSB_L2)) {
+#ifdef DEBUG
+    Serial.println("Released L2");
+#endif
+    effects = L2_INDEX;
+  }
+  else if(ps2x.ButtonReleased(PSB_L3)) {
+#ifdef DEBUG
+    Serial.println("Released L3");
+#endif
+    effects = L3_INDEX;
+  }
+  else if(ps2x.ButtonReleased(PSB_R1)) {
+#ifdef DEBUG
+    Serial.println("Released R1");
+#endif
+    effects = R1_INDEX;
+  }
+  else if(ps2x.ButtonReleased(PSB_R2)) {
+#ifdef DEBUG
+    Serial.println("Released R2");
+#endif
+    effects = R2_INDEX;
+  }
+  else if(ps2x.ButtonReleased(PSB_R3)) {
+#ifdef DEBUG
+    Serial.println("Released R3");
+#endif
+    effects = R3_INDEX;
+  }
+  else if(ps2x.ButtonReleased(PSB_PAD_LEFT)) {
+#ifdef DEBUG
+    Serial.println("Released pad left");
+#endif
+    effects--;
+  }
+  else if(ps2x.ButtonReleased(PSB_PAD_RIGHT)) {
+#ifdef DEBUG
+    Serial.println("Released pad right");
+#endif
+    effects++;
   }
   
-  switch (effect) {
-    case 0:
-      stars_individual(2,70,0x00F330,0x000001);   
-      if(!continuous_flow) break;
-    case 1:
-      wipe_color(strip.Color(255, 0, 0), 5, 0, NUM_LEDS); // Red
-      if(!continuous_flow) break;
-    case 2:
-      wipe_color(strip.Color(0, 255, 0), 5, NUM_LEDS,0); // Green
-      if(!continuous_flow) break;
-    case 3:
-      wipe_color(strip.Color(0, 0, 255), 5, 0, NUM_LEDS); // Blue
-      if(!continuous_flow) break;
-    case 4:
-      rainbow(20);
-      if(!continuous_flow) break;
-    case 5:
-      static_commet(strip.Color(100,255,255), 100);
-      if(!continuous_flow) break;
-    case 6:
-      cometa(strip.Color(200, 100, 80), 0, 5, 15);
-      if(!continuous_flow) break;
-    case 7:
-      fade_color_deprecated(0x890712,5);
-      if(!continuous_flow) break;
-    case 8:
-      flash(0x832190,500);
-      if(!continuous_flow) break;
-    case 9:
-      flash_and_dim(0xEEEEEE,50,18,8);
-      delay(1000);
-      if(!continuous_flow) break;
-    case 10:
-      flash_and_dim(0xEE00EE,50,18,8,0,100);
-      delay(1000);
-      if(!continuous_flow) break;
-    case 11:
-      color_mixer(0xFF00FF,0x000000,2,150);
-      if(!continuous_flow) break;
-    case 12:
-      stars_individual(10,10,0x00F3FF,0x000000);
-      if(!continuous_flow) break;
-    case 13:
-      {
-        uint32_t colors2[] = {0xFF0000,0x00FF00,0x0000FF};  cross_fade(colors2,3,10,10);
-      if(!continuous_flow) break; 
-      }
-    case 14:
-      three_fades(0x00FF00,0xFF0000,0x0000FF,10);
-      if(!continuous_flow) break;
-    case 15:
-      {
-        uint32_t colors[NUM_LEDS]; colors[0]=0x00; for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]+0xF; scroller(colors,NUM_LEDS,NUM_LEDS/2,10,false);
-      }
-      if(!continuous_flow) break;
-    case 16:
-      stars_individual(10,10,0x00F3FF,0x00000f);
-      if(!continuous_flow) break;
-    case 17:
-      flash(random_color(),250,NUM_LEDS/2+NUM_LEDS/4, NUM_LEDS);
-      if(!continuous_flow) break;
-    case 18:
-      flash(random_color(),200,NUM_LEDS/2, NUM_LEDS/2+NUM_LEDS/4);
-      if(!continuous_flow) break;
-    case 19:
-      flash(random_color(),300, 0, NUM_LEDS/4);
-      if(!continuous_flow) break;
-    case 20:
-      flash(random_color(),300, 0, NUM_LEDS/4);
-      if(!continuous_flow) break;
-    case 21:
-      flash_and_dim(random_color(),10,15,8, 0, NUM_LEDS);
-      if(!continuous_flow) break;
-    case 22:
-      flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
-      if(!continuous_flow) break;
-    case 23:
-      flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
-      if(!continuous_flow) break;
-    case 24:
-      {
-        uint32_t colors[NUM_LEDS];
-        colors[0]=random_color(); for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]-0x5; scroller(colors,NUM_LEDS,200,10,true);
-      }
-      if(!continuous_flow) break;
-    case 25:
-      {
-        uint32_t colors[NUM_LEDS];
-        colors[0]=random_color(); for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]-0x5; scroller(colors,NUM_LEDS,50,10,false);
-      }
-      if(!continuous_flow) break;
-    case 255:
-      // Set colors
-      all_off();
-      /*
-      while(!analogRead(ENTER)){
-        uint8_t r = map(analogRead(R_POT),0,255,0,1024);
-        uint8_t g = map(analogRead(G_POT),0,255,0,1024);
-        uint8_t b = map(analogRead(B_POT),0,255,0,1024);
-        for(uint16_t led = 0; led < NUM_LEDS; led++)
-          strip.setPixelColor(led,strip.Color(r,g,b));
-        strip.show()      
-      }
-      */
-    default:
-      all_off();
+  // Speed control
+  if(ps2x.ButtonReleased(PSB_PAD_UP)) {
+#ifdef DEBUG
+    Serial.println("Released pad up");
+#endif
+    
+    if (wait_factor < 255) wait_factor++;
   }
+  else if(ps2x.ButtonReleased(PSB_PAD_DOWN)) {
+#ifdef DEBUG
+    Serial.println("Released pad down");
+#endif
+    if (wait_factor > 0) wait_factor--;
+  }
+  
+  //switch (effects) {
+    //case 0:
+      //stars_individual(2,70,0x00F330,0x000001);   
+      //if(!continuous_flow) effects++; break;
+    //case 1:
+      //wipe_color(strip.Color(255, 0, 0), 5, 0, NUM_LEDS); // Red
+      //if(!continuous_flow) effects++; break;
+    //case 2:
+      //wipe_color(strip.Color(0, 255, 0), 5, NUM_LEDS,0); // Green
+      //if(!continuous_flow) effects++; break;
+    //case 3:
+      //wipe_color(strip.Color(0, 0, 255), 5, 0, NUM_LEDS); // Blue
+      //if(!continuous_flow) effects++; break;
+    //case 4:
+      //rainbow(20);
+      //if(!continuous_flow) effects++; break;
+    //case 5:
+      //static_commet(strip.Color(100,255,255), 100);
+      //if(!continuous_flow) effects++; break;
+    //case 6:
+      //cometa(strip.Color(200, 100, 80), 0, 5, 15);
+      //if(!continuous_flow) effects++; break;
+    //case 7:
+      //fade_color_deprecated(0x890712,5);
+      //if(!continuous_flow) effects++; break;
+    //case 8:
+      //flash(0x832190,500);
+      //if(!continuous_flow) effects++; break;
+    //case 9:
+      //flash_and_dim(0xEEEEEE,50,18,8);
+      //delay(1000);
+      //if(!continuous_flow) effects++; break;
+    //case 10:
+      //flash_and_dim(0xEE00EE,50,18,8,0,100);
+      //delay(1000);
+      //if(!continuous_flow) effects++; break;
+    //case 11:
+      //color_mixer(0xFF00FF,0x000000,2,150);
+      //if(!continuous_flow) effects++; break;
+    //case 12:
+      //stars_individual(10,10,0x00F3FF,0x000000);
+      //if(!continuous_flow) effects++; break;
+    //case 13:
+      //{
+        //uint32_t colors2[] = {0xFF0000,0x00FF00,0x0000FF};  cross_fade(colors2,3,10,10);
+      //if(!continuous_flow) effects++; break; 
+      //}
+    //case 14:
+      //three_fades(0x00FF00,0xFF0000,0x0000FF,10);
+      //if(!continuous_flow) effects++; break;
+    //case 15:
+      //{
+        //uint32_t colors[NUM_LEDS]; colors[0]=0x00; for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]+0xF; scroller(colors,NUM_LEDS,NUM_LEDS/2,10,false);
+      //}
+      //if(!continuous_flow) effects++; break;
+    //case 16:
+      //stars_individual(10,10,0x00F3FF,0x00000f);
+      //if(!continuous_flow) effects++; break;
+    //case 17:
+      //flash(random_color(),250,NUM_LEDS/2+NUM_LEDS/4, NUM_LEDS);
+      //if(!continuous_flow) effects++; break;
+    //case 18:
+      //flash(random_color(),200,NUM_LEDS/2, NUM_LEDS/2+NUM_LEDS/4);
+      //if(!continuous_flow) effects++; break;
+    //case 19:
+      //flash(random_color(),300, 0, NUM_LEDS/4);
+      //if(!continuous_flow) effects++; break;
+    //case 20:
+      //flash(random_color(),300, 0, NUM_LEDS/4);
+      //if(!continuous_flow) effects++; break;
+    //case 21:
+      //flash_and_dim(random_color(),10,15,8, 0, NUM_LEDS);
+      //if(!continuous_flow) effects++; break;
+    //case 22:
+      //flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
+      //if(!continuous_flow) effects++; break;
+    //case 23:
+      //flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
+      //if(!continuous_flow) effects++; break;
+    //case 24:
+      //{
+        //uint32_t colors[NUM_LEDS];
+        //colors[0]=random_color(); for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]-0x5; scroller(colors,NUM_LEDS,200,10,true);
+      //}
+      //if(!continuous_flow) effects++; break;
+    //case 25:
+      //{
+        //uint32_t colors[NUM_LEDS];
+        //colors[0]=random_color(); for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]-0x5; scroller(colors,NUM_LEDS,50,10,false);
+      //}
+      //if(!continuous_flow) effects++; break;
+    //case 255:
+      //// Set colors
+      //all_off();
+      ///*
+      //while(!analogRead(ENTER)){
+        //uint8_t r = map(analogRead(R_POT),0,255,0,1024);
+        //uint8_t g = map(analogRead(G_POT),0,255,0,1024);
+        //uint8_t b = map(analogRead(B_POT),0,255,0,1024);
+        //for(uint16_t led = 0; led < NUM_LEDS; led++)
+          //strip.setPixelColor(led,strip.Color(r,g,b));
+        //strip.show()      
+      //}
+      //*/
+    //default:
+      //all_off();
+  //}
 }

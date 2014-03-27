@@ -1,3 +1,7 @@
+#ifndef DEBUG
+  #define DEBUG
+#endif
+
 /********************** PS2 Controller library and variables *******/
 include "PS2X_lib.h" //for v1.6
 #define PS2_DAT 13  //14 data
@@ -15,16 +19,30 @@ PS2X ps2x; // create PS2 Controller Class
 // You must always either restart your Arduino after you connect the controller, 
 // or call config_gamepad(pins) again after connecting the controller.
 
+/********************** Effects variables ************************/
+
+# define TRIANGLE_INDEX 0
+# define CIRCLE_INDEX 50
+# define CROSS_INDEX 100
+# define SQUARE_INDEX 150
+# define L1_INDEX 200
+# define L2_INDEX 210
+# define L3_INDEX 219
+# define R1_INDEX 228
+# define R2_INDEX 237
+# define R3_INDEX 246
+
+uint8_t effect = 0; // Effect Counter
+uint8_t wait_factor = 5;
+// Flag when set, one effect will be followed by the other 
+// else, only one effect or one family of effects will play
+bool continuous_flow = true; 
+
 /********************** LED strip library and variables **********/
 #include <Adafruit_NeoPixel.h>
 
 #define STRIP_PIN 6 // Signal Pin that controls strip
 #define NUM_LEDS 60*3
-
-uint8_t effect = 0; // Effect Counter
-// Flag when set, one effect will be followed by the other 
-// else, only one effect or one family of effects will play
-bool continuous_flow = false; 
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = pin number (most are valid)

@@ -58,7 +58,3 @@ void setup() {
   strip.begin();
   strip.show();
 }
-
-void loop(){
-  ps2_cases();
-}
