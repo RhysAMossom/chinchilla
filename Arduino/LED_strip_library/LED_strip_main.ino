@@ -1,47 +1,64 @@
-/********************** Interrupt Functions **************************/
-
-void increment_effect(){
-  effect = (effect + 1) % REGULAR_EFFECTS;
-}
-
-void toggle_effect_flow(){
-  //continuous_flow = digitalRead(FLOW_PIN);
-  continuous_flow = !continuous_flow;
-}
-
-void special_effect(){
-  effect = REGULAR_EFFECTS;
-}
-
-
 /********************** Arduino Functions **************************/
 void setup() {
+  Serial.begin(57600);
+  delay(300);  // Give wireless ps2 module some time to startup, before configuring it
+  
+  // Initialize PS2 Controller
+  int error = 0;
+  byte type = 0;
+  byte vibrate = 0;
+  //setup pins and settings: GamePad(clock, command, attention, data, Pressures?, Rumble?) check for error
+  error = ps2x.config_gamepad(PS2_CLK, PS2_CMD, PS2_SEL, PS2_DAT, pressures, rumble);
+  
+  if(error == 0){
+    Serial.print("Found Controller, configured successful ");
+    Serial.print("pressures = ");
+  if (pressures)
+    Serial.println("true ");
+  else
+    Serial.println("false");
+  Serial.print("rumble = ");
+  if (rumble)
+    Serial.println("true");
+  else
+    Serial.println("false");  }  
+  else if(error == 1)
+    Serial.println("No controller found, check wiring, see readme.txt to enable debug. visit www.billporter.info for troubleshooting tips");
+  else if(error == 2)
+    Serial.println("Controller found but not accepting commands. see readme.txt to enable debug. Visit www.billporter.info for troubleshooting tips");
+  else if(error == 3)
+    Serial.println("Controller refusing to enter Pressures mode, may not support it. ");
+
+  type = ps2x.readType(); 
+  switch(type) {
+    case 0:
+      Serial.print("Unknown Controller type found");
+      break;
+    case 1:
+      Serial.print("DualShock Controller found");
+      break;
+    case 2:
+      Serial.print("GuitarHero Controller found ");
+      break;
+    case 3:
+      Serial.print("Wireless Sony DualShock Controller found");
+      break;
+    default:
+      Serial.print("Received unhandled controller type ");
+      Serial.println(type);
+   }
+  
+  // Show demo if no controller found or Guitar Hero Controller
+  if(error == 1 || type == 2){
+    Serial.println("Starting demo effects")
+    continuous_flow = true;
+  }
+  
+  // Initialize strip
   strip.begin();
-  strip.show(); // Initialize all pixels to 'off'
-
-  // add random seed
-  randomSeed(analogRead(1));
-
-  // Attach interrupts
-  attachInterrupt(0, increment_effect, RISING); // pin 2
-  attachInterrupt(1, toggle_effect_flow, CHANGE); // pin 3
-  attachInterrupt(2, special_effect, RISING); // pin 21
-//  attachInterrupt(3, int3, FALLING); // pin 20
-//  attachInterrupt(4, int4, LOW); // pin 19
-//  attachInterrupt(5, int5, RISING); // pin 18
-
-  Serial.begin(9600);
-  pinMode(FLOW_LED_PIN,OUTPUT);
+  strip.show();
 }
 
 void loop(){
-  fast_flashes();
-}
-
-void loop_TODO(){
-  Serial.print("effect: ");
-  Serial.print(effect);
-  digitalWrite(FLOW_LED_PIN,continuous_flow);
-  Serial.print("\tcontinuous flow: ");
-  Serial.println(continuous_flow);
+  ps2_cases();
 }

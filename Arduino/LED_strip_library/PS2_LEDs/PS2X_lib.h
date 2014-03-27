@@ -73,7 +73,6 @@ GNU General Public License for more details.
 ******************************************************************/
 
 // $$$$$$$$$$$$ DEBUG ENABLE SECTION $$$$$$$$$$$$$$$$
-// to debug ps2 controller, uncomment these two lines to print out debug to uart
 //#define PS2X_DEBUG
 //#define PS2X_COM_DEBUG
 
@@ -125,15 +124,15 @@ GNU General Public License for more details.
 #define PSB_SQUARE      0x8000
 
 //Guitar  button constants
-#define UP_STRUM		0x0010
-#define DOWN_STRUM		0x0040
-#define STAR_POWER		0x0100
-#define GREEN_FRET		0x0200
-#define YELLOW_FRET		0x1000
-#define RED_FRET		0x2000
-#define BLUE_FRET		0x4000
-#define ORANGE_FRET		0x8000
-#define WHAMMY_BAR		8
+#define UP_STRUM    0x0010
+#define DOWN_STRUM  0x0040
+#define STAR_POWER  0x0100
+#define GREEN_FRET  0x0200
+#define YELLOW_FRET 0x1000
+#define RED_FRET    0x2000
+#define BLUE_FRET   0x4000
+#define ORANGE_FRET 0x8000
+#define WHAMMY_BAR  8
 
 //These are stick values
 #define PSS_RX 5

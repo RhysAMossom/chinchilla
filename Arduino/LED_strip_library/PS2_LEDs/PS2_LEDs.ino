@@ -15,14 +15,14 @@ PS2X ps2x; // create PS2 Controller Class
 // You must always either restart your Arduino after you connect the controller, 
 // or call config_gamepad(pins) again after connecting the controller.
 
-int error = 0;
-byte type = 0;
-byte vibrate = 0;
+
 
 void setup(){
   Serial.begin(57600);
   delay(300);  // Give wireless ps2 module some time to startup, before configuring it
-
+  int error = 0;
+  byte type = 0;
+  byte vibrate = 0;
   //setup pins and settings: GamePad(clock, command, attention, data, Pressures?, Rumble?) check for error
   error = ps2x.config_gamepad(PS2_CLK, PS2_CMD, PS2_SEL, PS2_DAT, pressures, rumble);
   
@@ -63,28 +63,27 @@ void setup(){
       Serial.print("Received unhandled controller type ");
       Serial.println(type);
    }
-}
-
-void loop() {
   // Show demo if no controller found or Guitar Hero Controller
   if(error == 1 || type == 2){
-    demo_effects();
+    Serial.println("Starting demo effects")
+    continuous_flow = true;
   }
-  else { //DualShock Controller
-    ps2_cases();
 }
 
-void ps2_cases(){
+void loop(){
     ps2x.read_gamepad(); //read controller
-    if(ps2x.ButtonReleased(PSB_SQUARE))//will be TRUE if button was JUST released
-      Serial.println("Square just released");     
+    if(ps2x.ButtonReleased(PSB_START)){
+      // Start demo effects
+      Serial.println("Starting demo effects");
+      demo_effects();
+    }
 
     else if(ps2x.ButtonReleased(PSB_SELECT)) {
       // Select RBG colors from joystic values
       Serial.println("Ly\tLx\tRy\tRx");
       delay(50);
       ps2x.read_gamepad();
-      while(ps2x.ButtonReleased(PSB_SELECT)){
+      while(!ps2x.ButtonReleased(PSB_SELECT)){
         Serial.print(ps2x.Analog(PSS_LY), DEC);
         Serial.print("\t");
         Serial.print(ps2x.Analog(PSS_LX), DEC); 
@@ -92,10 +91,20 @@ void ps2_cases(){
         Serial.print(ps2x.Analog(PSS_RY), DEC); 
         Serial.print("\t");
         Serial.println(ps2x.Analog(PSS_RX), DEC);
+        
+        // Set colors
+        // all_on(strip.Colors(LY, LX, RY));
+        // Read gamepad for 
         ps2x.read_gamepad();
         delay(50);
       }
-    }     
+      Serial.println("done choosing colors");
+    }
+    else { // PS2 Control Cases
+    // Star effects
+    // Triangle effects
+    // Circle effects
+    // Cross effects
   }
   delay(50);  
 }

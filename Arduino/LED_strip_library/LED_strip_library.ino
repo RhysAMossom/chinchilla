@@ -1,15 +1,30 @@
+/********************** PS2 Controller library and variables *******/
+include "PS2X_lib.h" //for v1.6
+#define PS2_DAT 13  //14 data
+#define PS2_CMD 11  //15 command
+#define PS2_SEL 10  //16 attention
+#define PS2_CLK 12  //17 clock
+
+// - pressures = analog reading of push-butttons 
+// - rumble    = motor rumbling
+#define pressures   false
+#define rumble      false
+
+PS2X ps2x; // create PS2 Controller Class
+// The library does not support hot pluggable controllers. 
+// You must always either restart your Arduino after you connect the controller, 
+// or call config_gamepad(pins) again after connecting the controller.
+
+/********************** LED strip library and variables **********/
 #include <Adafruit_NeoPixel.h>
 
 #define STRIP_PIN 6 // Signal Pin that controls strip
 #define NUM_LEDS 60*3
-#define FLOW_LED_PIN 12 //LED displays flow setting state
 
-#define REGULAR_EFFECTS 250
-
-volatile uint8_t effect = 0; // Effect Counter
+uint8_t effect = 0; // Effect Counter
 // Flag when set, one effect will be followed by the other 
 // else, only one effect or one family of effects will play
-volatile bool continuous_flow = false; 
+bool continuous_flow = false; 
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = pin number (most are valid)

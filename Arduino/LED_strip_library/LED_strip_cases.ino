@@ -90,14 +90,54 @@ void fast_flashes(){
   delay(1000);
 }
 
-/********************** Cases  *****************************************/
+/********************** PS2 Cases *****************************************/
 /* Cases will be devided as follows. 
   0-REGULAR_EFFECT: regular routines
   REGULAR_EFFECTS-254: special effects
   255: setup colors  
 */
 
-void cases(){
+void ps2_cases(){
+  ps2x.read_gamepad(); //read controller
+  if(ps2x.ButtonReleased(PSB_START)){
+    // Start demo effects
+    Serial.println("Starting demo effects");
+    demo_effects();
+  }
+
+  else if(ps2x.ButtonReleased(PSB_SELECT)) {
+    // Select RBG colors from joystic values
+    Serial.println("Ly\tLx\tRy\tRx");
+    delay(50);
+    ps2x.read_gamepad();
+    while(!ps2x.ButtonReleased(PSB_SELECT)){
+      Serial.print(ps2x.Analog(PSS_LY), DEC);
+      Serial.print("\t");
+      Serial.print(ps2x.Analog(PSS_LX), DEC); 
+      Serial.print("\t");
+      Serial.print(ps2x.Analog(PSS_RY), DEC); 
+      Serial.print("\t");
+      Serial.println(ps2x.Analog(PSS_RX), DEC);
+      
+      // Set colors
+      // all_on(strip.Colors(LY, LX, RY));
+      // Read gamepad for 
+      ps2x.read_gamepad();
+      delay(50);
+    }
+    Serial.println("done choosing colors");
+  }
+  else { // PS2 Control Cases
+  // Star effects
+  // Triangle effects
+  // Circle effects
+  // Cross effects
+  // Arrow left - move to last effect
+  // Arrow right - move to next step
+  // Arrow up - faster
+  // Arrow down - slower
+  }
+  
   switch (effect) {
     case 0:
       stars_individual(2,70,0x00F330,0x000001);   
