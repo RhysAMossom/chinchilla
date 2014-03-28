@@ -318,7 +318,7 @@ void loop(){
     //case 255:
       //// Set colors
       //all_off();
-      ///*
+      ///*/
       //while(!analogRead(ENTER)){
         //uint8_t r = map(analogRead(R_POT),0,255,0,1024);
         //uint8_t g = map(analogRead(G_POT),0,255,0,1024);

@@ -1,3 +1,9 @@
+/*
+ * LED strip program controlled with a PS2 controller
+ * Author: Carlos Chinchilla
+ * 2013-2014
+ * 
+*/
 /********************** Arduino Functions **************************/
 void setup() {
   Serial.begin(57600);
