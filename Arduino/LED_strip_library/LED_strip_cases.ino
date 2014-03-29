@@ -110,14 +110,26 @@ void loop(){
   }
 
   else if(ps2x.ButtonReleased(PSB_SELECT)) {
+    uint8_t LY, LX, RY, RX;
     // Select RBG colors from joystic values
 #ifdef DEBUG
-    Serial.println("Ly\tLx\tRy\tRx");
+    Serial.println("Exit with R1\nLy\tLx\tRy\tRx");
 #endif
     delay(50);
     ps2x.read_gamepad();
-    while(!ps2x.ButtonReleased(PSB_SELECT)){
-      uint8_t LY, LX, RY, RX;
+    while(!ps2x.ButtonReleased(PSB_R1)){
+      if (ps2x.ButtonReleased(PSB_START)){
+    // Turn all off if START is pressed after SELECT
+#ifdef DEBUG
+      Serial.println("all off");
+#endif
+        effect = 255;
+        LY = 0;
+        LX = 0;
+        RY = 0;
+        RX = 0;
+        break;
+      }
       LY = ps2x.Analog(PSS_LY);
       LX = ps2x.Analog(PSS_LX);
       RY = ps2x.Analog(PSS_RY);
@@ -140,6 +152,14 @@ void loop(){
 #ifdef DEBUG
     Serial.println("done choosing colors");
 #endif
+    // Acknowledge selection
+    for(uint8_t i = 0; i < 2; i++){
+      all_off();
+      delay(500);
+      all_on(strip.Color(LY, LX, RY));
+      delay(500);
+
+    }
   }
   else if(ps2x.ButtonReleased(PSB_TRIANGLE)) {
 #ifdef DEBUG
@@ -323,16 +343,6 @@ void loop(){
     //case 255:
       //// Set colors
       //all_off();
-      ///*/
-      //while(!analogRead(ENTER)){
-        //uint8_t r = map(analogRead(R_POT),0,255,0,1024);
-        //uint8_t g = map(analogRead(G_POT),0,255,0,1024);
-        //uint8_t b = map(analogRead(B_POT),0,255,0,1024);
-        //for(uint16_t led = 0; led < NUM_LEDS; led++)
-          //strip.setPixelColor(led,strip.Color(r,g,b));
-        //strip.show()      
-      //}
-      //*/
     //default:
       //all_off();
   //}
