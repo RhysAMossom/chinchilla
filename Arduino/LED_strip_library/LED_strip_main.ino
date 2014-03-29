@@ -7,7 +7,7 @@
 /********************** Arduino Functions **************************/
 void setup() {
   Serial.begin(57600);
-  delay(300);  // Give wireless ps2 module some time to startup, before configuring it
+  delay(1000);  // Give wireless ps2 module some time to startup, before configuring it
   
   // Initialize PS2 Controller
   int error = 0;
@@ -56,7 +56,7 @@ void setup() {
   
   // Show demo if no controller found or Guitar Hero Controller
   if(error == 1 || type == 2){
-    Serial.println("Starting demo effects")
+    Serial.println("Starting demo effects");
     continuous_flow = true;
   }
   
