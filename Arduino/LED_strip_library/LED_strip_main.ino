@@ -38,16 +38,16 @@ void setup() {
   type = ps2x.readType(); 
   switch(type) {
     case 0:
-      Serial.print("Unknown Controller type found");
+      Serial.println("Unknown Controller type found");
       break;
     case 1:
-      Serial.print("DualShock Controller found");
+      Serial.println("DualShock Controller found");
       break;
     case 2:
-      Serial.print("GuitarHero Controller found ");
+      Serial.println("GuitarHero Controller found ");
       break;
     case 3:
-      Serial.print("Wireless Sony DualShock Controller found");
+      Serial.println("Wireless Sony DualShock Controller found");
       break;
     default:
       Serial.print("Received unhandled controller type ");

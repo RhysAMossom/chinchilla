@@ -32,8 +32,8 @@ PS2X ps2x; // create PS2 Controller Class
 # define R2_INDEX 237
 # define R3_INDEX 246
 
-uint8_t effect = 0; // Effect Counter
-uint8_t wait_factor = 5;
+uint8_t effect = 10; // Effect Counter
+uint8_t wait_factor = 128;
 // Flag when set, one effect will be followed by the other 
 // else, only one effect or one family of effects will play
 bool continuous_flow = true; 
