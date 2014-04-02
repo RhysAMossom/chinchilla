@@ -346,6 +346,696 @@ void loop(){
 //      // Set colors
 //      all_off();
 //      if(continuous_flow) effect++; break;
+    case 26:
+      
+      if(continuous_flow) effect++; break;
+    case 27:
+      
+      if(continuous_flow) effect++; break;
+    case 28:
+      
+      if(continuous_flow) effect++; break;
+    case 29:
+      
+      if(continuous_flow) effect++; break;
+    case 30:
+      
+      if(continuous_flow) effect++; break;
+    case 31:
+      
+      if(continuous_flow) effect++; break;
+    case 32:
+      
+      if(continuous_flow) effect++; break;
+    case 33:
+      
+      if(continuous_flow) effect++; break;
+    case 34:
+      
+      if(continuous_flow) effect++; break;
+    case 35:
+      
+      if(continuous_flow) effect++; break;
+    case 36:
+      
+      if(continuous_flow) effect++; break;
+    case 37:
+      
+      if(continuous_flow) effect++; break;
+    case 38:
+      
+      if(continuous_flow) effect++; break;
+    case 39:
+      
+      if(continuous_flow) effect++; break;
+    case 40:
+      
+      if(continuous_flow) effect++; break;
+    case 41:
+      
+      if(continuous_flow) effect++; break;
+    case 42:
+      
+      if(continuous_flow) effect++; break;
+    case 43:
+      
+      if(continuous_flow) effect++; break;
+    case 44:
+      
+      if(continuous_flow) effect++; break;
+    case 45:
+      
+      if(continuous_flow) effect++; break;
+    case 46:
+      
+      if(continuous_flow) effect++; break;
+    case 47:
+      
+      if(continuous_flow) effect++; break;
+    case 48:
+      
+      if(continuous_flow) effect++; break;
+    case 49:
+      
+      if(continuous_flow) effect++; break;
+    case 50:
+      
+      if(continuous_flow) effect++; break;
+    case 51:
+      
+      if(continuous_flow) effect++; break;
+    case 52:
+      
+      if(continuous_flow) effect++; break;
+    case 53:
+      
+      if(continuous_flow) effect++; break;
+    case 54:
+      
+      if(continuous_flow) effect++; break;
+    case 55:
+      
+      if(continuous_flow) effect++; break;
+    case 56:
+      
+      if(continuous_flow) effect++; break;
+    case 57:
+      
+      if(continuous_flow) effect++; break;
+    case 58:
+      
+      if(continuous_flow) effect++; break;
+    case 59:
+      
+      if(continuous_flow) effect++; break;
+    case 60:
+      
+      if(continuous_flow) effect++; break;
+    case 61:
+      
+      if(continuous_flow) effect++; break;
+    case 62:
+      
+      if(continuous_flow) effect++; break;
+    case 63:
+      
+      if(continuous_flow) effect++; break;
+    case 64:
+      
+      if(continuous_flow) effect++; break;
+    case 65:
+      
+      if(continuous_flow) effect++; break;
+    case 66:
+      
+      if(continuous_flow) effect++; break;
+    case 67:
+      
+      if(continuous_flow) effect++; break;
+    case 68:
+      
+      if(continuous_flow) effect++; break;
+    case 69:
+      
+      if(continuous_flow) effect++; break;
+    case 70:
+      
+      if(continuous_flow) effect++; break;
+    case 71:
+      
+      if(continuous_flow) effect++; break;
+    case 72:
+      
+      if(continuous_flow) effect++; break;
+    case 73:
+      
+      if(continuous_flow) effect++; break;
+    case 74:
+      
+      if(continuous_flow) effect++; break;
+    case 75:
+      
+      if(continuous_flow) effect++; break;
+    case 76:
+      
+      if(continuous_flow) effect++; break;
+    case 77:
+      
+      if(continuous_flow) effect++; break;
+    case 78:
+      
+      if(continuous_flow) effect++; break;
+    case 79:
+      
+      if(continuous_flow) effect++; break;
+    case 80:
+      
+      if(continuous_flow) effect++; break;
+    case 81:
+      
+      if(continuous_flow) effect++; break;
+    case 82:
+      
+      if(continuous_flow) effect++; break;
+    case 83:
+      
+      if(continuous_flow) effect++; break;
+    case 84:
+      
+      if(continuous_flow) effect++; break;
+    case 85:
+      
+      if(continuous_flow) effect++; break;
+    case 86:
+      
+      if(continuous_flow) effect++; break;
+    case 87:
+      
+      if(continuous_flow) effect++; break;
+    case 88:
+      
+      if(continuous_flow) effect++; break;
+    case 89:
+      
+      if(continuous_flow) effect++; break;
+    case 90:
+      
+      if(continuous_flow) effect++; break;
+    case 91:
+      
+      if(continuous_flow) effect++; break;
+    case 92:
+      
+      if(continuous_flow) effect++; break;
+    case 93:
+      
+      if(continuous_flow) effect++; break;
+    case 94:
+      
+      if(continuous_flow) effect++; break;
+    case 95:
+      
+      if(continuous_flow) effect++; break;
+    case 96:
+      
+      if(continuous_flow) effect++; break;
+    case 97:
+      
+      if(continuous_flow) effect++; break;
+    case 98:
+      
+      if(continuous_flow) effect++; break;
+    case 99:
+      
+      if(continuous_flow) effect++; break;
+    case 100:
+      
+      if(continuous_flow) effect++; break;
+    case 101:
+      
+      if(continuous_flow) effect++; break;
+    case 102:
+      
+      if(continuous_flow) effect++; break;
+    case 103:
+      
+      if(continuous_flow) effect++; break;
+    case 104:
+      
+      if(continuous_flow) effect++; break;
+    case 105:
+      
+      if(continuous_flow) effect++; break;
+    case 106:
+      
+      if(continuous_flow) effect++; break;
+    case 107:
+      
+      if(continuous_flow) effect++; break;
+    case 108:
+      
+      if(continuous_flow) effect++; break;
+    case 109:
+      
+      if(continuous_flow) effect++; break;
+    case 110:
+      
+      if(continuous_flow) effect++; break;
+    case 111:
+      
+      if(continuous_flow) effect++; break;
+    case 112:
+      
+      if(continuous_flow) effect++; break;
+    case 113:
+      
+      if(continuous_flow) effect++; break;
+    case 114:
+      
+      if(continuous_flow) effect++; break;
+    case 115:
+      
+      if(continuous_flow) effect++; break;
+    case 116:
+      
+      if(continuous_flow) effect++; break;
+    case 117:
+      
+      if(continuous_flow) effect++; break;
+    case 118:
+      
+      if(continuous_flow) effect++; break;
+    case 119:
+      
+      if(continuous_flow) effect++; break;
+    case 120:
+      
+      if(continuous_flow) effect++; break;
+    case 121:
+      
+      if(continuous_flow) effect++; break;
+    case 122:
+      
+      if(continuous_flow) effect++; break;
+    case 123:
+      
+      if(continuous_flow) effect++; break;
+    case 124:
+      
+      if(continuous_flow) effect++; break;
+    case 125:
+      
+      if(continuous_flow) effect++; break;
+    case 126:
+      
+      if(continuous_flow) effect++; break;
+    case 127:
+      
+      if(continuous_flow) effect++; break;
+    case 128:
+      
+      if(continuous_flow) effect++; break;
+    case 129:
+      
+      if(continuous_flow) effect++; break;
+    case 130:
+      
+      if(continuous_flow) effect++; break;
+    case 131:
+      
+      if(continuous_flow) effect++; break;
+    case 132:
+      
+      if(continuous_flow) effect++; break;
+    case 133:
+      
+      if(continuous_flow) effect++; break;
+    case 134:
+      
+      if(continuous_flow) effect++; break;
+    case 135:
+      
+      if(continuous_flow) effect++; break;
+    case 136:
+      
+      if(continuous_flow) effect++; break;
+    case 137:
+      
+      if(continuous_flow) effect++; break;
+    case 138:
+      
+      if(continuous_flow) effect++; break;
+    case 139:
+      
+      if(continuous_flow) effect++; break;
+    case 140:
+      
+      if(continuous_flow) effect++; break;
+    case 141:
+      
+      if(continuous_flow) effect++; break;
+    case 142:
+      
+      if(continuous_flow) effect++; break;
+    case 143:
+      
+      if(continuous_flow) effect++; break;
+    case 144:
+      
+      if(continuous_flow) effect++; break;
+    case 145:
+      
+      if(continuous_flow) effect++; break;
+    case 146:
+      
+      if(continuous_flow) effect++; break;
+    case 147:
+      
+      if(continuous_flow) effect++; break;
+    case 148:
+      
+      if(continuous_flow) effect++; break;
+    case 149:
+      
+      if(continuous_flow) effect++; break;
+    case 150:
+      
+      if(continuous_flow) effect++; break;
+    case 151:
+      
+      if(continuous_flow) effect++; break;
+    case 152:
+      
+      if(continuous_flow) effect++; break;
+    case 153:
+      
+      if(continuous_flow) effect++; break;
+    case 154:
+      
+      if(continuous_flow) effect++; break;
+    case 155:
+      
+      if(continuous_flow) effect++; break;
+    case 156:
+      
+      if(continuous_flow) effect++; break;
+    case 157:
+      
+      if(continuous_flow) effect++; break;
+    case 158:
+      
+      if(continuous_flow) effect++; break;
+    case 159:
+      
+      if(continuous_flow) effect++; break;
+    case 160:
+      
+      if(continuous_flow) effect++; break;
+    case 161:
+      
+      if(continuous_flow) effect++; break;
+    case 162:
+      
+      if(continuous_flow) effect++; break;
+    case 163:
+      
+      if(continuous_flow) effect++; break;
+    case 164:
+      
+      if(continuous_flow) effect++; break;
+    case 165:
+      
+      if(continuous_flow) effect++; break;
+    case 166:
+      
+      if(continuous_flow) effect++; break;
+    case 167:
+      
+      if(continuous_flow) effect++; break;
+    case 168:
+      
+      if(continuous_flow) effect++; break;
+    case 169:
+      
+      if(continuous_flow) effect++; break;
+    case 170:
+      
+      if(continuous_flow) effect++; break;
+    case 171:
+      
+      if(continuous_flow) effect++; break;
+    case 172:
+      
+      if(continuous_flow) effect++; break;
+    case 173:
+      
+      if(continuous_flow) effect++; break;
+    case 174:
+      
+      if(continuous_flow) effect++; break;
+    case 175:
+      
+      if(continuous_flow) effect++; break;
+    case 176:
+      
+      if(continuous_flow) effect++; break;
+    case 177:
+      
+      if(continuous_flow) effect++; break;
+    case 178:
+      
+      if(continuous_flow) effect++; break;
+    case 179:
+      
+      if(continuous_flow) effect++; break;
+    case 180:
+      
+      if(continuous_flow) effect++; break;
+    case 181:
+      
+      if(continuous_flow) effect++; break;
+    case 182:
+      
+      if(continuous_flow) effect++; break;
+    case 183:
+      
+      if(continuous_flow) effect++; break;
+    case 184:
+      
+      if(continuous_flow) effect++; break;
+    case 185:
+      
+      if(continuous_flow) effect++; break;
+    case 186:
+      
+      if(continuous_flow) effect++; break;
+    case 187:
+      
+      if(continuous_flow) effect++; break;
+    case 188:
+      
+      if(continuous_flow) effect++; break;
+    case 189:
+      
+      if(continuous_flow) effect++; break;
+    case 190:
+      
+      if(continuous_flow) effect++; break;
+    case 191:
+      
+      if(continuous_flow) effect++; break;
+    case 192:
+      
+      if(continuous_flow) effect++; break;
+    case 193:
+      
+      if(continuous_flow) effect++; break;
+    case 194:
+      
+      if(continuous_flow) effect++; break;
+    case 195:
+      
+      if(continuous_flow) effect++; break;
+    case 196:
+      
+      if(continuous_flow) effect++; break;
+    case 197:
+      
+      if(continuous_flow) effect++; break;
+    case 198:
+      
+      if(continuous_flow) effect++; break;
+    case 199:
+      
+      if(continuous_flow) effect++; break;
+    case 200:
+      
+      if(continuous_flow) effect++; break;
+    case 201:
+      
+      if(continuous_flow) effect++; break;
+    case 202:
+      
+      if(continuous_flow) effect++; break;
+    case 203:
+      
+      if(continuous_flow) effect++; break;
+    case 204:
+      
+      if(continuous_flow) effect++; break;
+    case 205:
+      
+      if(continuous_flow) effect++; break;
+    case 206:
+      
+      if(continuous_flow) effect++; break;
+    case 207:
+      
+      if(continuous_flow) effect++; break;
+    case 208:
+      
+      if(continuous_flow) effect++; break;
+    case 209:
+      
+      if(continuous_flow) effect++; break;
+    case 210:
+      
+      if(continuous_flow) effect++; break;
+    case 211:
+      
+      if(continuous_flow) effect++; break;
+    case 212:
+      
+      if(continuous_flow) effect++; break;
+    case 213:
+      
+      if(continuous_flow) effect++; break;
+    case 214:
+      
+      if(continuous_flow) effect++; break;
+    case 215:
+      
+      if(continuous_flow) effect++; break;
+    case 216:
+      
+      if(continuous_flow) effect++; break;
+    case 217:
+      
+      if(continuous_flow) effect++; break;
+    case 218:
+      
+      if(continuous_flow) effect++; break;
+    case 219:
+      
+      if(continuous_flow) effect++; break;
+    case 220:
+      
+      if(continuous_flow) effect++; break;
+    case 221:
+      
+      if(continuous_flow) effect++; break;
+    case 222:
+      
+      if(continuous_flow) effect++; break;
+    case 223:
+      
+      if(continuous_flow) effect++; break;
+    case 224:
+      
+      if(continuous_flow) effect++; break;
+    case 225:
+      
+      if(continuous_flow) effect++; break;
+    case 226:
+      
+      if(continuous_flow) effect++; break;
+    case 227:
+      
+      if(continuous_flow) effect++; break;
+    case 228:
+      
+      if(continuous_flow) effect++; break;
+    case 229:
+      
+      if(continuous_flow) effect++; break;
+    case 230:
+      
+      if(continuous_flow) effect++; break;
+    case 231:
+      
+      if(continuous_flow) effect++; break;
+    case 232:
+      
+      if(continuous_flow) effect++; break;
+    case 233:
+      
+      if(continuous_flow) effect++; break;
+    case 234:
+      
+      if(continuous_flow) effect++; break;
+    case 235:
+      
+      if(continuous_flow) effect++; break;
+    case 236:
+      
+      if(continuous_flow) effect++; break;
+    case 237:
+      
+      if(continuous_flow) effect++; break;
+    case 238:
+      
+      if(continuous_flow) effect++; break;
+    case 239:
+      
+      if(continuous_flow) effect++; break;
+    case 240:
+      
+      if(continuous_flow) effect++; break;
+    case 241:
+      
+      if(continuous_flow) effect++; break;
+    case 242:
+      
+      if(continuous_flow) effect++; break;
+    case 243:
+      
+      if(continuous_flow) effect++; break;
+    case 244:
+      
+      if(continuous_flow) effect++; break;
+    case 245:
+      
+      if(continuous_flow) effect++; break;
+    case 246:
+      
+      if(continuous_flow) effect++; break;
+    case 247:
+      
+      if(continuous_flow) effect++; break;
+    case 248:
+      
+      if(continuous_flow) effect++; break;
+    case 249:
+      
+      if(continuous_flow) effect++; break;
+    case 250:
+      
+      if(continuous_flow) effect++; break;
+    case 251:
+      
+      if(continuous_flow) effect++; break;
+    case 252:
+      
+      if(continuous_flow) effect++; break;
+    case 253:
+      
+      if(continuous_flow) effect++; break;
+    case 254:
+      
+      if(continuous_flow) effect++; break;
+    case 255:
+      
+      if(continuous_flow) effect++; break;
     default:
 #ifdef DEBUG    
       Serial.println("default case");
@@ -354,3 +1044,12 @@ void loop(){
       effect = 0; 
   }
 }
+
+/*
+ * TO DO:
+ * - Light up acknowledge when pressing buttons
+ * - change from RELEASED to PRESSED
+ * - Loop within family of effects
+ * - finish 255 effects
+
+*/
