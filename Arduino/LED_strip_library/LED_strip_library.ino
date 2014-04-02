@@ -19,25 +19,6 @@ PS2X ps2x; // create PS2 Controller Class
 // You must always either restart your Arduino after you connect the controller, 
 // or call config_gamepad(pins) again after connecting the controller.
 
-/********************** Effects variables ************************/
-
-# define TRIANGLE_INDEX 0
-# define CIRCLE_INDEX 50
-# define CROSS_INDEX 100
-# define SQUARE_INDEX 150
-# define L1_INDEX 200
-# define L2_INDEX 210
-# define L3_INDEX 219
-# define R1_INDEX 228
-# define R2_INDEX 237
-# define R3_INDEX 246
-
-uint8_t effect = 10; // Effect Counter
-uint8_t wait_factor = 128;
-// Flag when set, one effect will be followed by the other 
-// else, only one effect or one family of effects will play
-bool continuous_flow = true; 
-
 /********************** LED strip library and variables **********/
 #include <Adafruit_NeoPixel.h>
 
@@ -52,6 +33,24 @@ bool continuous_flow = true;
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, STRIP_PIN, NEO_GRB + NEO_KHZ800);
+/********************** Effects variables ************************/
+
+# define TRIANGLE_INDEX 0
+# define CIRCLE_INDEX 50
+# define CROSS_INDEX 100
+# define SQUARE_INDEX 150
+# define L1_INDEX 200
+# define L2_INDEX 210
+# define L3_INDEX 219
+# define R1_INDEX 228
+# define R2_INDEX 237
+# define R3_INDEX 246
+
+uint8_t effect = 0; // Effect Counter
+uint8_t wait_factor = 128;
+// Flag when set, one effect will be followed by the other 
+// else, only one effect or one family of effects will play
+bool continuous_flow = true; 
 
 /********************** Basic Functions **************************/
 

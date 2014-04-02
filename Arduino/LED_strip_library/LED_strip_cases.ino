@@ -154,6 +154,12 @@ void loop(){
       delay(500);
 
     }
+    // Stay on with that color
+    while(!ps2x.ButtonReleased(PSB_START)){
+      ps2x.read_gamepad();
+      delay(100);
+    }
+    
   }
   else if(ps2x.ButtonReleased(PSB_TRIANGLE)) {
 #ifdef DEBUG
@@ -252,60 +258,59 @@ void loop(){
     Serial.print("Current effect: ");
     Serial.println(effect);
 #endif  
-//  switch (effect) {
-//    case 0:
-//      stars_individual(2,70,0x00F330,0x000001);   
-//      if(continuous_flow) {effect++;} break;
-//    case 1:
-//      wipe_color(strip.Color(255, 0, 0), 5, 0, NUM_LEDS); // Red
-//      if(continuous_flow) effect++; break;
-//    case 2:
-//      wipe_color(strip.Color(0, 255, 0), 5, NUM_LEDS,0); // Green
-//      if(continuous_flow) effect++; break;
-//    case 3:
-//      wipe_color(strip.Color(0, 0, 255), 5, 0, NUM_LEDS); // Blue
-//      if(continuous_flow) effect++; break;
-//    case 4:
-//      rainbow(20);
-//      if(continuous_flow) effect++; break;
-//    case 5:
-//      static_commet(strip.Color(100,255,255), 100);
-//      if(continuous_flow) effect++; break;
-//    case 6:
-//      cometa(strip.Color(200, 100, 80), 0, 5, 15);
-//      if(continuous_flow) effect++; break;
-//    case 7:
-//      fade_color_deprecated(0x890712,5);
-//      if(continuous_flow) effect++; break;
-//    case 8:
-//      flash(0x832190,500);
-//      if(continuous_flow) effect++; break;
-//    case 9:
-//      flash_and_dim(0xEEEEEE,50,18,8);
-//      delay(1000);
-//      if(continuous_flow) effect++; break;
-//    case 10:
-//      flash_and_dim(0xEE00EE,50,18,8,0,100);
-//      delay(1000);
-//      if(continuous_flow) effect++; break;
-//    case 11:
-//      color_mixer(0xFF00FF,0x000000,2,150);
-//      if(continuous_flow) effect++; break;
-//    case 12:
-//      stars_individual(10,10,0x00F3FF,0x000000);
-//      if(continuous_flow) effect++; break;
-//    case 13:
-//      {
-//        uint32_t colors2[] = {0xFF0000,0x00FF00,0x0000FF};  cross_fade(colors2,3,10,10);
-//      if(continuous_flow) effect++; break; 
-//      }
-//    case 14:
-//      three_fades(0x00FF00,0xFF0000,0x0000FF,10);
-//      if(continuous_flow) effect++; break;
+  switch (effect) {
+    case 0:
+      stars_individual(2,70,0x00F330,0x000001);   
+      if(continuous_flow) effect++; break;
+    case 1:
+      wipe_color(strip.Color(255, 0, 0), 5, 0, NUM_LEDS); // Red
+      if(continuous_flow) effect++; break;
+    case 2:
+      wipe_color(strip.Color(0, 255, 0), 5, NUM_LEDS,0); // Green
+      if(continuous_flow) effect++; break;
+    case 3:
+      wipe_color(strip.Color(0, 0, 255), 5, 0, NUM_LEDS); // Blue
+      if(continuous_flow) effect++; break;
+    case 4:
+      rainbow(20);
+      if(continuous_flow) effect++; break;
+    case 5:
+      static_commet(strip.Color(100,255,255), 100);
+      if(continuous_flow) effect++; break;
+    case 6:
+      //cometa(strip.Color(200, 100, 80), 0, 5, 15);
+      if(continuous_flow) effect++; break;
+    case 7:
+      fade_color_deprecated(0x890712,5);
+      if(continuous_flow) effect++; break;
+    case 8:
+      flash(0x832190,500);
+      if(continuous_flow) effect++; break;
+    case 9:
+      flash_and_dim(0xEEEEEE,50,18,8);
+      //delay(1000);
+      if(continuous_flow) effect++; break;
+    case 10:
+      flash_and_dim(0xEE00EE,50,18,8,0,100);
+      //delay(1000);
+      if(continuous_flow) effect++; break;
+    case 11:
+      color_mixer(0xFF00FF,0x000000,2,150);
+      if(continuous_flow) effect++; break;
+    case 12:
+      stars_individual(10,10,0x00F3FF,0x000000);
+      if(continuous_flow) effect++; break;
+    case 13:
+//      colors[0] = 0xFF0000;
+//      colors[1] = 0x00FF00;
+//      colors[2] = 0x0000FF;
+//      cross_fade(colors,3,10,10);
+      if(continuous_flow) effect++; break; 
+    case 14:
+      three_fades(0x00FF00,0xFF0000,0x0000FF,10);
+      if(continuous_flow) effect++; break;
 //    case 15:
-//      {
-//        uint32_t colors[NUM_LEDS]; colors[0]=0x00; for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]+0xF; scroller(colors,NUM_LEDS,NUM_LEDS/2,10,false);
-//      }
+//      uint32_t colors[NUM_LEDS]; colors[0]=0x00; for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]+0xF; scroller(colors,NUM_LEDS,NUM_LEDS/2,10,false);
 //      if(continuous_flow) effect++; break;
 //    case 16:
 //      stars_individual(10,10,0x00F3FF,0x00000f);
@@ -332,22 +337,20 @@ void loop(){
 //      flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
 //      if(continuous_flow) effect++; break;
 //    case 24:
-//      {
-//        uint32_t colors[NUM_LEDS];
 //        colors[0]=random_color(); for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]-0x5; scroller(colors,NUM_LEDS,200,10,true);
-//      }
 //      if(continuous_flow) effect++; break;
 //    case 25:
-//      {
-//        uint32_t colors[NUM_LEDS];
 //        colors[0]=random_color(); for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]-0x5; scroller(colors,NUM_LEDS,50,10,false);
-//      }
 //      if(continuous_flow) effect++; break;
 //    case 255:
 //      // Set colors
 //      all_off();
-//      break;
-//    default:
-//      all_off();
-//  }
+//      if(continuous_flow) effect++; break;
+    default:
+#ifdef DEBUG    
+      Serial.println("default case");
+#endif      
+      all_off();
+      effect = 0; 
+  }
 }
