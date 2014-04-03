@@ -95,7 +95,7 @@ void loop(){
   ps2x.read_gamepad(); //read controller
   
   // Cases Control
-  if(ps2x.ButtonReleased(PSB_START)){
+  if(ps2x.ButtonPressed(PSB_START)){
     // Start demo effect
 #ifdef DEBUG
     Serial.println("Starting demo effect");
@@ -103,7 +103,7 @@ void loop(){
     continuous_flow = !continuous_flow;
   }
 
-  else if(ps2x.ButtonReleased(PSB_SELECT)) {
+  else if(ps2x.ButtonPressed(PSB_SELECT)) {
     uint8_t LY, LX, RY, RX;
     // Select RBG colors from joystic values
 #ifdef DEBUG
@@ -111,8 +111,8 @@ void loop(){
 #endif
     delay(50);
     ps2x.read_gamepad();
-    while(!ps2x.ButtonReleased(PSB_R1)){
-      if (ps2x.ButtonReleased(PSB_START)){
+    while(!ps2x.ButtonPressed(PSB_R1)){
+      if (ps2x.ButtonPressed(PSB_START)){
     // Turn all off if START is pressed after SELECT
 #ifdef DEBUG
       Serial.println("all off");
@@ -155,79 +155,79 @@ void loop(){
 
     }
     // Stay on with that color
-    while(!ps2x.ButtonReleased(PSB_START)){
+    while(!ps2x.ButtonPressed(PSB_START)){
       ps2x.read_gamepad();
       delay(100);
     }
     
   }
-  else if(ps2x.ButtonReleased(PSB_TRIANGLE)) {
+  else if(ps2x.ButtonPressed(PSB_TRIANGLE)) {
 #ifdef DEBUG
     Serial.println("Released triangle");
 #endif
     effect = TRIANGLE_INDEX;
   }
-  else if(ps2x.ButtonReleased(PSB_CIRCLE)) {
+  else if(ps2x.ButtonPressed(PSB_CIRCLE)) {
 #ifdef DEBUG
     Serial.println("Released circle");
 #endif
     effect = CIRCLE_INDEX;
   }
-  else if(ps2x.ButtonReleased(PSB_CROSS)) {
+  else if(ps2x.ButtonPressed(PSB_CROSS)) {
 #ifdef DEBUG
     Serial.println("Released cross");
 #endif
     effect = CROSS_INDEX;
   }
-  else if(ps2x.ButtonReleased(PSB_SQUARE)) {
+  else if(ps2x.ButtonPressed(PSB_SQUARE)) {
 #ifdef DEBUG
     Serial.println("Released square");
 #endif
     effect = SQUARE_INDEX;
   }
-  else if(ps2x.ButtonReleased(PSB_L1)) {
+  else if(ps2x.ButtonPressed(PSB_L1)) {
 #ifdef DEBUG
     Serial.println("Released L1");
 #endif
     effect = L1_INDEX;
   }
-  else if(ps2x.ButtonReleased(PSB_L2)) {
+  else if(ps2x.ButtonPressed(PSB_L2)) {
 #ifdef DEBUG
     Serial.println("Released L2");
 #endif
     effect = L2_INDEX;
   }
-  else if(ps2x.ButtonReleased(PSB_L3)) {
+  else if(ps2x.ButtonPressed(PSB_L3)) {
 #ifdef DEBUG
     Serial.println("Released L3");
 #endif
     effect = L3_INDEX;
   }
-  else if(ps2x.ButtonReleased(PSB_R1)) {
+  else if(ps2x.ButtonPressed(PSB_R1)) {
 #ifdef DEBUG
     Serial.println("Released R1");
 #endif
     effect = R1_INDEX;
   }
-  else if(ps2x.ButtonReleased(PSB_R2)) {
+  else if(ps2x.ButtonPressed(PSB_R2)) {
 #ifdef DEBUG
     Serial.println("Released R2");
 #endif
     effect = R2_INDEX;
   }
-  else if(ps2x.ButtonReleased(PSB_R3)) {
+  else if(ps2x.ButtonPressed(PSB_R3)) {
 #ifdef DEBUG
     Serial.println("Released R3");
 #endif
     effect = R3_INDEX;
   }
-  else if(ps2x.ButtonReleased(PSB_PAD_LEFT)) {
+  else if(ps2x.ButtonPressed(PSB_PAD_LEFT)) {
 #ifdef DEBUG
     Serial.println("Released pad left");
 #endif
     effect--;
   }
-  else if(ps2x.ButtonReleased(PSB_PAD_RIGHT)) {
+  else if(ps2x.ButtonPressed(PSB_PAD_RIGHT)) {
 #ifdef DEBUG
     Serial.println("Released pad right");
 #endif
@@ -235,7 +235,7 @@ void loop(){
   }
   
   // Speed control
-  if(ps2x.ButtonReleased(PSB_PAD_UP)) {
+  if(ps2x.ButtonPressed(PSB_PAD_UP)) {
     if (wait_factor < 255) wait_factor++;
 #ifdef DEBUG
     Serial.println("Released pad up");
@@ -243,7 +243,7 @@ void loop(){
     Serial.println(wait_factor);    
 #endif
   }
-  else if(ps2x.ButtonReleased(PSB_PAD_DOWN)) {
+  else if(ps2x.ButtonPressed(PSB_PAD_DOWN)) {
     if (wait_factor > 0) wait_factor--;
 #ifdef DEBUG
     Serial.println("Released pad down");
@@ -1048,7 +1048,6 @@ void loop(){
 /*
  * TO DO:
  * - Light up acknowledge when pressing buttons
- * - change from RELEASED to PRESSED
  * - Loop within family of effects
  * - finish 255 effects
 
