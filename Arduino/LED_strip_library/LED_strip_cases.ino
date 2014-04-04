@@ -96,11 +96,30 @@ void loop(){
   
   // Cases Control
   if(ps2x.ButtonPressed(PSB_START)){
-    // Start demo effect
+    if (continuous_flow){
+      if (continuous_family_flow){
+        // Was green turns yellow
+        continuous_family_flow = false;
+        flash(0xFFFF00,500);
+        flash(0xFFFF00,500);
+      }
+      else {
+        // was yellow turns red
+        continuous_flow = false;
+        flash(0xFF0000,500);
+        flash(0xFF0000,500);
+      }
+    else{
+      // was red turns green
+      continuous_family_flow = true;
+      continuous_flow =  true;
+    }
 #ifdef DEBUG
-    Serial.println("Starting demo effect");
+    Serial.print("flow: ");
+    Serial.print(continuous_flow);
+    Serial.print("\tfamily flow: ");
+    Serial.println(continuous_family_flow);
 #endif
-    continuous_flow = !continuous_flow;
   }
 
   else if(ps2x.ButtonPressed(PSB_SELECT)) {
@@ -161,6 +180,7 @@ void loop(){
     }
     
   }
+  // Effects Family Control
   else if(ps2x.ButtonPressed(PSB_TRIANGLE)) {
 #ifdef DEBUG
     Serial.println("Released triangle");
@@ -225,7 +245,7 @@ void loop(){
 #ifdef DEBUG
     Serial.println("Released pad left");
 #endif
-    effect--;
+    effect -= 2;
   }
   else if(ps2x.ButtonPressed(PSB_PAD_RIGHT)) {
 #ifdef DEBUG
@@ -235,22 +255,26 @@ void loop(){
   }
   
   // Speed control
-  if(ps2x.ButtonPressed(PSB_PAD_UP)) {
-    if (wait_factor < 255) wait_factor++;
+  if(ps2x.ButtonPressed(PSB_PAD_DOWN) || ps2x.ButtonPressed(PSB_PAD_UP)){
+    if(ps2x.ButtonPressed(PSB_PAD_UP)) {
+      if (wait_factor < 255) wait_factor += 20;
 #ifdef DEBUG
-    Serial.println("Released pad up");
-    Serial.print("Wait factor: ");
-    Serial.println(wait_factor);    
+      Serial.println("Released pad up");
+      Serial.print("Wait factor: ");
+      Serial.println(wait_factor);    
 #endif
-  }
-  else if(ps2x.ButtonPressed(PSB_PAD_DOWN)) {
-    if (wait_factor > 0) wait_factor--;
+    }
+    else{
+      if (wait_factor > 0) wait_factor -= 20;
 #ifdef DEBUG
-    Serial.println("Released pad down");
-    Serial.print("Wait factor: ");
-    Serial.println(wait_factor);
+      Serial.println("Released pad down");
+      Serial.print("Wait factor: ");
+      Serial.println(wait_factor);
 #endif
-
+    }
+    flash(0x0000FF,200);
+    delay(100+wait_factor*3);
+    flash(0x0000FF,200);
   }
   
   // Cases and Effects
@@ -259,6 +283,40 @@ void loop(){
     Serial.println(effect);
 #endif  
   switch (effect) {
+    // Start of Family of Effects
+    case TRIANGLE_INDEX-1:
+    
+      if(continuous_flow) effect = continuous_family_flow ? R3_INDEX: effect++; break;
+    case CIRCLE_INDEX-1:
+    
+      if(continuous_flow) effect = continuous_family_flow ? TRIANGLE_INDEX: effect++; break;
+    case CROSS_INDEX-1:
+    
+      if(continuous_flow) effect = continuous_family_flow ? CIRCLE_INDEX: effect++; break;
+    case SQUARE_INDEX-1:
+    
+      if(continuous_flow) effect = continuous_family_flow ? CROSS_INDEX: effect++; break;
+    case L1_INDEX-1:
+    
+      if(continuous_flow) effect = continuous_family_flow ? SQUARE_INDEX: effect++; break;
+    case L2_INDEX-1:
+    
+      if(continuous_flow) effect = continuous_family_flow ? L1_INDEX: effect++; break;
+    case L3_INDEX-1:
+    
+      if(continuous_flow) effect = continuous_family_flow ? L2_INDEX: effect++; break;
+    case R1_INDEX-1:
+    
+      if(continuous_flow) effect = continuous_family_flow ? L3_INDEX: effect++; break;
+    case R2_INDEX-1:
+    
+      if(continuous_flow) effect = continuous_family_flow ? R1_INDEX: effect++; break;
+    case R3_INDEX-1:
+    
+      if(continuous_flow) effect = continuous_family_flow ? R2_INDEX: effect++; break;
+    case TRIANGLE_INDEX-1:
+    
+      if(continuous_flow) effect = continuous_family_flow ? R3_INDEX: effect++; break;
     case 0:
       stars_individual(2,70,0x00F330,0x000001);   
       if(continuous_flow) effect++; break;
@@ -1047,8 +1105,11 @@ void loop(){
 
 /*
  * TO DO:
- * - Light up acknowledge when pressing buttons
- * - Loop within family of effects
+ * - Check functionality on
+ * -- up Light up acknowledge when pressing buttons
+ * --- START button
+ * --- Speed
+ * - Check Loop within family of effects
  * - finish 255 effects
 
 */

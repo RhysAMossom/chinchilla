@@ -50,7 +50,8 @@ uint8_t effect = 0; // Effect Counter
 uint8_t wait_factor = 128;
 // Flag when set, one effect will be followed by the other 
 // else, only one effect or one family of effects will play
-bool continuous_flow = true; 
+bool continuous_flow = true;
+bool continuous_family_flow = true;
 
 /********************** Basic Functions **************************/
 
