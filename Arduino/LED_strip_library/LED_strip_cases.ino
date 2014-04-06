@@ -101,19 +101,28 @@ void loop(){
         // Was green turns yellow
         continuous_family_flow = false;
         flash(0xFFFF00,500);
+        delay(500);
         flash(0xFFFF00,500);
+        delay(500);
       }
       else {
         // was yellow turns red
         continuous_flow = false;
         flash(0xFF0000,500);
+        delay(500);
         flash(0xFF0000,500);
+        delay(500);
       }
+    }
     else{
       // was red turns green
       continuous_family_flow = true;
       continuous_flow =  true;
-    }
+      flash(0x009900,500);
+      delay(500);
+      flash(0x009900,500);
+      delay(500);
+      }
 #ifdef DEBUG
     Serial.print("flow: ");
     Serial.print(continuous_flow);
@@ -166,13 +175,9 @@ void loop(){
     Serial.println("done choosing colors");
 #endif
     // Acknowledge selection
-    for(uint8_t i = 0; i < 2; i++){
-      all_off();
-      delay(500);
-      all_on(strip.Color(LY, LX, RY));
-      delay(500);
-
-    }
+    flash(strip.Color(LY, LX, RY),500);
+    delay(500);
+    flash(strip.Color(LY, LX, RY),500);
     // Stay on with that color
     while(!ps2x.ButtonPressed(PSB_START)){
       ps2x.read_gamepad();
@@ -183,73 +188,73 @@ void loop(){
   // Effects Family Control
   else if(ps2x.ButtonPressed(PSB_TRIANGLE)) {
 #ifdef DEBUG
-    Serial.println("Released triangle");
+    Serial.println("Pressed triangle");
 #endif
     effect = TRIANGLE_INDEX;
   }
   else if(ps2x.ButtonPressed(PSB_CIRCLE)) {
 #ifdef DEBUG
-    Serial.println("Released circle");
+    Serial.println("Pressed circle");
 #endif
     effect = CIRCLE_INDEX;
   }
   else if(ps2x.ButtonPressed(PSB_CROSS)) {
 #ifdef DEBUG
-    Serial.println("Released cross");
+    Serial.println("Pressed cross");
 #endif
     effect = CROSS_INDEX;
   }
   else if(ps2x.ButtonPressed(PSB_SQUARE)) {
 #ifdef DEBUG
-    Serial.println("Released square");
+    Serial.println("Pressed square");
 #endif
     effect = SQUARE_INDEX;
   }
   else if(ps2x.ButtonPressed(PSB_L1)) {
 #ifdef DEBUG
-    Serial.println("Released L1");
+    Serial.println("Pressed L1");
 #endif
     effect = L1_INDEX;
   }
   else if(ps2x.ButtonPressed(PSB_L2)) {
 #ifdef DEBUG
-    Serial.println("Released L2");
+    Serial.println("Pressed L2");
 #endif
     effect = L2_INDEX;
   }
   else if(ps2x.ButtonPressed(PSB_L3)) {
 #ifdef DEBUG
-    Serial.println("Released L3");
+    Serial.println("Pressed L3");
 #endif
     effect = L3_INDEX;
   }
   else if(ps2x.ButtonPressed(PSB_R1)) {
 #ifdef DEBUG
-    Serial.println("Released R1");
+    Serial.println("Pressed R1");
 #endif
     effect = R1_INDEX;
   }
   else if(ps2x.ButtonPressed(PSB_R2)) {
 #ifdef DEBUG
-    Serial.println("Released R2");
+    Serial.println("Pressed R2");
 #endif
     effect = R2_INDEX;
   }
   else if(ps2x.ButtonPressed(PSB_R3)) {
 #ifdef DEBUG
-    Serial.println("Released R3");
+    Serial.println("Pressed R3");
 #endif
     effect = R3_INDEX;
   }
   else if(ps2x.ButtonPressed(PSB_PAD_LEFT)) {
 #ifdef DEBUG
-    Serial.println("Released pad left");
+    Serial.println("Pressed pad left");
 #endif
     effect -= 2;
   }
   else if(ps2x.ButtonPressed(PSB_PAD_RIGHT)) {
 #ifdef DEBUG
-    Serial.println("Released pad right");
+    Serial.println("Pressed pad right");
 #endif
     effect++;
   }
@@ -257,17 +262,19 @@ void loop(){
   // Speed control
   if(ps2x.ButtonPressed(PSB_PAD_DOWN) || ps2x.ButtonPressed(PSB_PAD_UP)){
     if(ps2x.ButtonPressed(PSB_PAD_UP)) {
-      if (wait_factor < 255) wait_factor += 20;
+      // Increase speed
+      wait_factor = (wait_factor > 50) ? wait_factor - 50 : 0;      
 #ifdef DEBUG
-      Serial.println("Released pad up");
+      Serial.println("Pressed pad up");
       Serial.print("Wait factor: ");
       Serial.println(wait_factor);    
 #endif
     }
     else{
-      if (wait_factor > 0) wait_factor -= 20;
+      // Decrease speed
+      wait_factor = (wait_factor < 255 - 50) ? wait_factor + 50: 255;
 #ifdef DEBUG
-      Serial.println("Released pad down");
+      Serial.println("Pressed pad down");
       Serial.print("Wait factor: ");
       Serial.println(wait_factor);
 #endif
@@ -275,6 +282,7 @@ void loop(){
     flash(0x0000FF,200);
     delay(100+wait_factor*3);
     flash(0x0000FF,200);
+    delay(500);
   }
   
   // Cases and Effects
@@ -313,10 +321,7 @@ void loop(){
       if(continuous_flow) effect = continuous_family_flow ? R1_INDEX: effect++; break;
     case R3_INDEX-1:
     
-      if(continuous_flow) effect = continuous_family_flow ? R2_INDEX: effect++; break;
-    case TRIANGLE_INDEX-1:
-    
-      if(continuous_flow) effect = continuous_family_flow ? R3_INDEX: effect++; break;
+      if(continuous_flow) effect = continuous_family_flow ? TRIANGLE_INDEX: effect++; break;
     case 0:
       stars_individual(2,70,0x00F330,0x000001);   
       if(continuous_flow) effect++; break;
@@ -473,9 +478,6 @@ void loop(){
     case 48:
       
       if(continuous_flow) effect++; break;
-    case 49:
-      
-      if(continuous_flow) effect++; break;
     case 50:
       
       if(continuous_flow) effect++; break;
@@ -621,9 +623,6 @@ void loop(){
       
       if(continuous_flow) effect++; break;
     case 98:
-      
-      if(continuous_flow) effect++; break;
-    case 99:
       
       if(continuous_flow) effect++; break;
     case 100:
@@ -773,9 +772,6 @@ void loop(){
     case 148:
       
       if(continuous_flow) effect++; break;
-    case 149:
-      
-      if(continuous_flow) effect++; break;
     case 150:
       
       if(continuous_flow) effect++; break;
@@ -923,9 +919,6 @@ void loop(){
     case 198:
       
       if(continuous_flow) effect++; break;
-    case 199:
-      
-      if(continuous_flow) effect++; break;
     case 200:
       
       if(continuous_flow) effect++; break;
@@ -953,9 +946,6 @@ void loop(){
     case 208:
       
       if(continuous_flow) effect++; break;
-    case 209:
-      
-      if(continuous_flow) effect++; break;
     case 210:
       
       if(continuous_flow) effect++; break;
@@ -978,9 +968,6 @@ void loop(){
       
       if(continuous_flow) effect++; break;
     case 217:
-      
-      if(continuous_flow) effect++; break;
-    case 218:
       
       if(continuous_flow) effect++; break;
     case 219:
@@ -1007,9 +994,6 @@ void loop(){
     case 226:
       
       if(continuous_flow) effect++; break;
-    case 227:
-      
-      if(continuous_flow) effect++; break;
     case 228:
       
       if(continuous_flow) effect++; break;
@@ -1034,9 +1018,6 @@ void loop(){
     case 235:
       
       if(continuous_flow) effect++; break;
-    case 236:
-      
-      if(continuous_flow) effect++; break;
     case 237:
       
       if(continuous_flow) effect++; break;
@@ -1059,9 +1040,6 @@ void loop(){
       
       if(continuous_flow) effect++; break;
     case 244:
-      
-      if(continuous_flow) effect++; break;
-    case 245:
       
       if(continuous_flow) effect++; break;
     case 246:
@@ -1105,11 +1083,5 @@ void loop(){
 
 /*
  * TO DO:
- * - Check functionality on
- * -- up Light up acknowledge when pressing buttons
- * --- START button
- * --- Speed
- * - Check Loop within family of effects
  * - finish 255 effects
-
 */
