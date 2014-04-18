@@ -1,49 +1,3 @@
-void demo_effect() {
-
-  // Demo effect
-
-  wipe_color(strip.Color(255, 0, 0), 5, 0, NUM_LEDS); // Red
-  wipe_color(strip.Color(0, 255, 0), 5, NUM_LEDS,0); // Green
-  wipe_color(strip.Color(0, 0, 255), 5, 0, NUM_LEDS); // Blue
-  rainbow(20);
-  // rainbowCycle(20);
-  //theaterChaseRainbow(200); // takes very long to finish
-
-  // Tested effect
-
-  static_commet(strip.Color(100,255,255), 100);
-  cometa(strip.Color(200, 100, 80), 0, 5, 15);
-  fade_color_deprecated(0x890712,5);
-  flash(0x832190,500);
-  flash_and_dim(0xEEEEEE,50,18,8);
-  delay(1000);
-  flash_and_dim(0xEE00EE,50,18,8,0,10);
-  delay(1000);
-  color_mixer(0xFF00FF,0x000000,2,150);
-  stars_individual(10,10,0x00F3FF,0x000000);
-  uint32_t colors2[] = {0xFF0000,0x00FF00,0x0000FF};  cross_fade(colors2,3,100);
-  three_fades(0x00FF00,0xFF0000,0x0000FF,10);
-  uint32_t colors[NUM_LEDS]; colors[0]=0x00; for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]+0xF; scroller(colors,NUM_LEDS,NUM_LEDS/2,10,false);
-
-
-  // Effects not finished
- // stars_overlapping(100,100,random_color(),0x000000);
-stars_individual(10,10,0x00F3FF,0x00000f);
-
-  // Various flashes
-
-  flash(random_color(),250,NUM_LEDS/2+NUM_LEDS/4, NUM_LEDS);
-  flash(random_color(),200,NUM_LEDS/2, NUM_LEDS/2+NUM_LEDS/4);
-  flash(random_color(),300, 0, NUM_LEDS/4);
-  flash(random_color(),300, 0, NUM_LEDS/4);
-  flash_and_dim(random_color(),10,15,8, 0, NUM_LEDS);
-  flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
-  flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
-  colors[0]=random_color(); for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]-0x5; scroller(colors,NUM_LEDS,200,10,true);
-  colors[0]=random_color(); for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]-0x5; scroller(colors,NUM_LEDS,50,10,false);
-
-}
-
 void slow_routine(){
   // Let's create routines
   uint32_t tonos[] = { 0x900100,0x000200,0x013300,0xFF8001,0x990300,0xCC0066,0xCC0066};
@@ -84,13 +38,12 @@ void fast_flashes(){
     flash(0x100305,100, 0, NUM_LEDS);
     flash(0x090110,100, 0, NUM_LEDS);
   }
-  flash_and_dim(0x073982,300,50,8, 0, NUM_LEDS);
-  flash_and_dim(0x170902,300,50,8, 0, NUM_LEDS);
-  flash_and_dim(0x808080,300,50,8, 0, NUM_LEDS);
+
   delay(1000);
 }
 
 /********************** PS2 Cases *****************************************/
+#ifndef TESTING_EFFECT
 void loop(){
   ps2x.read_gamepad(); //read controller
   
@@ -294,34 +247,34 @@ void loop(){
     // Start of Family of Effects
     case TRIANGLE_INDEX-1:
     
-      if(continuous_flow) effect = continuous_family_flow ? R3_INDEX: effect++; break;
+      if(continuous_flow) effect = continuous_family_flow ? ++effect : R3_INDEX; break;
     case CIRCLE_INDEX-1:
     
-      if(continuous_flow) effect = continuous_family_flow ? TRIANGLE_INDEX: effect++; break;
+      if(continuous_flow) effect = continuous_family_flow ? ++effect : TRIANGLE_INDEX; break;
     case CROSS_INDEX-1:
     
-      if(continuous_flow) effect = continuous_family_flow ? CIRCLE_INDEX: effect++; break;
+      if(continuous_flow) effect = continuous_family_flow ? ++effect : CIRCLE_INDEX; break;
     case SQUARE_INDEX-1:
     
-      if(continuous_flow) effect = continuous_family_flow ? CROSS_INDEX: effect++; break;
+      if(continuous_flow) effect = continuous_family_flow ? ++effect : CROSS_INDEX; break;
     case L1_INDEX-1:
     
-      if(continuous_flow) effect = continuous_family_flow ? SQUARE_INDEX: effect++; break;
+      if(continuous_flow) effect = continuous_family_flow ? ++effect : SQUARE_INDEX; break;
     case L2_INDEX-1:
     
-      if(continuous_flow) effect = continuous_family_flow ? L1_INDEX: effect++; break;
+      if(continuous_flow) effect = continuous_family_flow ? ++effect : L1_INDEX; break;
     case L3_INDEX-1:
     
-      if(continuous_flow) effect = continuous_family_flow ? L2_INDEX: effect++; break;
+      if(continuous_flow) effect = continuous_family_flow ? ++effect : L2_INDEX; break;
     case R1_INDEX-1:
     
-      if(continuous_flow) effect = continuous_family_flow ? L3_INDEX: effect++; break;
+      if(continuous_flow) effect = continuous_family_flow ? ++effect : L3_INDEX; break;
     case R2_INDEX-1:
     
-      if(continuous_flow) effect = continuous_family_flow ? R1_INDEX: effect++; break;
+      if(continuous_flow) effect = continuous_family_flow ? ++effect : R1_INDEX; break;
     case R3_INDEX-1:
     
-      if(continuous_flow) effect = continuous_family_flow ? TRIANGLE_INDEX: effect++; break;
+      if(continuous_flow) effect = continuous_family_flow ? ++effect : TRIANGLE_INDEX; break;
     case 0:
       stars_individual(2,70,0x00F330,0x000001);   
       if(continuous_flow) effect++; break;
@@ -364,51 +317,44 @@ void loop(){
       stars_individual(10,10,0x00F3FF,0x000000);
       if(continuous_flow) effect++; break;
     case 13:
-//      colors[0] = 0xFF0000;
-//      colors[1] = 0x00FF00;
-//      colors[2] = 0x0000FF;
-//      cross_fade(colors,3,10,10);
+      flash_and_dim(0x073982,300,50,8, 0, NUM_LEDS);
       if(continuous_flow) effect++; break; 
     case 14:
       three_fades(0x00FF00,0xFF0000,0x0000FF,10);
       if(continuous_flow) effect++; break;
-//    case 15:
-//      uint32_t colors[NUM_LEDS]; colors[0]=0x00; for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]+0xF; scroller(colors,NUM_LEDS,NUM_LEDS/2,10,false);
-//      if(continuous_flow) effect++; break;
-//    case 16:
-//      stars_individual(10,10,0x00F3FF,0x00000f);
-//      if(continuous_flow) effect++; break;
-//    case 17:
-//      flash(random_color(),250,NUM_LEDS/2+NUM_LEDS/4, NUM_LEDS);
-//      if(continuous_flow) effect++; break;
-//    case 18:
-//      flash(random_color(),200,NUM_LEDS/2, NUM_LEDS/2+NUM_LEDS/4);
-//      if(continuous_flow) effect++; break;
-//    case 19:
-//      flash(random_color(),300, 0, NUM_LEDS/4);
-//      if(continuous_flow) effect++; break;
-//    case 20:
-//      flash(random_color(),300, 0, NUM_LEDS/4);
-//      if(continuous_flow) effect++; break;
-//    case 21:
-//      flash_and_dim(random_color(),10,15,8, 0, NUM_LEDS);
-//      if(continuous_flow) effect++; break;
-//    case 22:
-//      flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
-//      if(continuous_flow) effect++; break;
-//    case 23:
-//      flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
-//      if(continuous_flow) effect++; break;
-//    case 24:
-//        colors[0]=random_color(); for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]-0x5; scroller(colors,NUM_LEDS,200,10,true);
-//      if(continuous_flow) effect++; break;
-//    case 25:
-//        colors[0]=random_color(); for(int l=1;l<NUM_LEDS;l++) colors[l]=colors[l-1]-0x5; scroller(colors,NUM_LEDS,50,10,false);
-//      if(continuous_flow) effect++; break;
-//    case 255:
-//      // Set colors
-//      all_off();
-//      if(continuous_flow) effect++; break;
+    case 15:
+      flash_and_dim(0x170902,300,50,8, 0, NUM_LEDS);
+      if(continuous_flow) effect++; break;
+    case 16:
+        flash_and_dim(0x808080,300,50,8, 0, NUM_LEDS);
+      if(continuous_flow) effect++; break;
+    case 17:
+      flash(random_color(),250,NUM_LEDS/2+NUM_LEDS/4, NUM_LEDS);
+      if(continuous_flow) effect++; break;
+    case 18:
+      flash(random_color(),200,NUM_LEDS/2, NUM_LEDS/2+NUM_LEDS/4);
+      if(continuous_flow) effect++; break;
+    case 19:
+      flash(random_color(),300, 0, NUM_LEDS/4);
+      if(continuous_flow) effect++; break;
+    case 20:
+      flash(random_color(),300, 0, NUM_LEDS/4);
+      if(continuous_flow) effect++; break;
+    case 21:
+      flash_and_dim(random_color(),10,15,8, 0, NUM_LEDS);
+      if(continuous_flow) effect++; break;
+    case 22:
+      flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
+      if(continuous_flow) effect++; break;
+    case 23:
+      flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
+      if(continuous_flow) effect++; break;
+    case 24:
+
+      if(continuous_flow) effect++; break;
+    case 25:
+
+      if(continuous_flow) effect++; break;
     case 26:
       
       if(continuous_flow) effect++; break;
@@ -1080,6 +1026,13 @@ void loop(){
       effect = 0; 
   }
 }
+
+#else
+void loop(){
+  // Effect testing
+}
+#endif
+  
 
 /*
  * TO DO:
