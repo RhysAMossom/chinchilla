@@ -93,8 +93,8 @@ void loop(){
     delay(50);
     ps2x.read_gamepad();
     while(!ps2x.ButtonPressed(PSB_R1)){
-      if (ps2x.ButtonPressed(PSB_START)){
-    // Turn all off if START is pressed after SELECT
+      if (ps2x.ButtonPressed(PSB_L1)){
+    // Turn all off if L1 is pressed after SELECT
 #ifdef DEBUG
       Serial.println("all off");
 #endif
@@ -131,6 +131,7 @@ void loop(){
     flash(strip.Color(LY, LX, RY),500);
     delay(500);
     flash(strip.Color(LY, LX, RY),500);
+    all_on(strip.Color(LY, LX, RY));
     // Stay on with that color
     while(!ps2x.ButtonPressed(PSB_START)){
       ps2x.read_gamepad();
