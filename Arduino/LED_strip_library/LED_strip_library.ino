@@ -55,16 +55,14 @@ bool continuous_family_flow = true;
 
 /********************** Basic Functions **************************/
 
-void all_off(uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1) {
+void all_off(uint16_t led1 = 0, uint16_t led2 = NUM_LEDS) {
   // all inclusive leds in [leds1,leds2] turn off
-  for( uint16_t i = led1; i <= led2; i++)
-    strip.setPixelColor(i, 0x000000);
-  strip.show();
+  all_on(0x000000,led1,led2);
 }
 
-void all_on(uint32_t color, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
+void all_on(uint32_t color, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS){
   // all inclusive leds in [leds1,leds2] light up to a color
-  for( int i = 0; i<NUM_LEDS; i++)
+  for( int i = led1; i < led2; i++)
     strip.setPixelColor(i, color);
   strip.show();
 }
