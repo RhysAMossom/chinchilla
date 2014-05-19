@@ -1,6 +1,5 @@
-#ifndef DEBUG
-  #define DEBUG
-#endif
+#define DEBUG
+#define TESTING_EFFECT
 
 /********************** PS2 Controller library and variables *******/
 #include "PS2X_lib.h" //for v1.6
@@ -55,16 +54,16 @@ bool continuous_family_flow = true;
 
 /********************** Basic Functions **************************/
 
-void all_off(uint16_t led1 = 0, uint16_t led2 = NUM_LEDS) {
-  // all inclusive leds in [leds1,leds2] turn off
-  all_on(0x000000,led1,led2);
-}
-
 void all_on(uint32_t color, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS){
   // all inclusive leds in [leds1,leds2] light up to a color
   for( int i = led1; i < led2; i++)
     strip.setPixelColor(i, color);
   strip.show();
+}
+
+void all_off(uint16_t led1 = 0, uint16_t led2 = NUM_LEDS) {
+  // all inclusive leds in [leds1,leds2] turn off
+  all_on(0x000000,led1,led2);
 }
 
 void fade_to(const uint32_t current_color, const uint32_t target_color,int16_t wait = 100, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
@@ -75,6 +74,20 @@ void fade_to(const uint32_t current_color, const uint32_t target_color,int16_t w
       strip.setPixelColor(i, color);
     strip.show();
     color = color_to_target(color, target_color, 10);
+    delay(wait);
+  }
+}
+
+void shift_strip(uint16_t steps = 1, uint16_t wait = 100, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
+  int16_t increment = (led1 <= led2) ? 1 : -1;
+  
+  for (uint16_t s = 0; s <= steps; s++){ 
+    uint32_t color1 = strip.getPixelColor(led1);
+    for(uint16_t led = led1; led != led2 + increment; led += increment) {
+      strip.setPixelColor(led, strip.getPixelColor(led + increment));
+    }
+    strip.setPixelColor(led2,color1);
+    strip.show();
     delay(wait);
   }
 }

@@ -987,6 +987,35 @@ void loop(){
 #else
 void loop(){
   // Effect testing
+  wipe_color(random_color(),0);
+  explosion(0x003900, 0, NUM_LEDS/2,15,false);
+  delay(100);
+  explosion(0x390000, 0, random(NUM_LEDS),10,false);
+  delay(500);
+  explosion(0x000039, 0, random(NUM_LEDS),25,false);
+  delay(1000);
+  explosion(0x094500, 0, random(NUM_LEDS),5,false);
+  delay(100);
+  explosion(0x395500, 0, NUM_LEDS/3,15,false);
+  delay(500);
+  explosion(0x330039, 0, NUM_LEDS*(3/4),15,false);
+  delay(1000);
+  
+  shift_strip(100,100,0,NUM_LEDS-1);
+  shift_strip(30,10,NUM_LEDS-1,0);
+  
+  wipe_color(0x33FF33,0,NUM_LEDS-1,0);
+  wipe_color(0x898080,0,0,NUM_LEDS/3);
+  wipe_color(0x000066,0,NUM_LEDS*(3/4),NUM_LEDS/2);
+  wipe_color(0xFFFF03,0);
+  wipe_color(0xCC0000,0,NUM_LEDS-1,0);
+  wipe_color(0x99FFFF,0);
+  for (uint16_t i = 0; i < NUM_LEDS-10; i+= 10){
+    wipe_color(0x090F3F<<i/10,0,0,NUM_LEDS -i);
+  }
+  delay(3000);
+  shift_strip(50,0,0,NUM_LEDS-1);
+  shift_strip(300,0,NUM_LEDS-1,0);
 }
 #endif
   
