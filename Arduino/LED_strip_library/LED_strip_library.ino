@@ -92,30 +92,6 @@ void shift_strip(uint16_t steps = 1, uint16_t wait = 100, uint16_t led1 = 0, uin
   }
 }
 
-void scroller_deprecated(uint32_t * colors, uint8_t num_colors,uint16_t steps = 0, int16_t wait = 100, bool left_to_right = true){
-  // Create an array of color values, preferably the same size as LED pixes, and scroll through it.
-  if (steps == 0)
-    steps = num_colors;
-  if(left_to_right){
-    for(uint16_t offset = 0; offset < steps; offset++){
-      for(uint16_t led = 0; led < NUM_LEDS; led++){
-        strip.setPixelColor(led,colors[(led+offset)%(num_colors-1)]);
-      }
-      strip.show();
-      delay(wait);
-    }
-  }
-  else{
-    for(uint16_t offset = steps; offset > 0; offset--){
-      for(uint16_t led = 0; led < NUM_LEDS; led++){
-        strip.setPixelColor(led,colors[(led+offset)%(num_colors-1)]);
-      }
-      strip.show();
-      delay(wait);
-    }
-  }
-}
-
 /********************** Color-returning Functions **************************/
 
 uint32_t random_color(){
