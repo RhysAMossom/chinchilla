@@ -987,6 +987,10 @@ void loop(){
 #else
 void loop(){
   // Effect testing
+  /* DROP
+  static_commet(0x0000ED,15);
+  delay(5000);*/
+  
   wipe_color(random_color(),0);
   explosion(0x003900, 0, NUM_LEDS/2,15,false);
   delay(100);
@@ -1024,7 +1028,13 @@ void loop(){
   for (uint8_t i = 0; i < 10; i++){
     shift_strip(random(250),0,0,NUM_LEDS-1);
     shift_strip(random(250),0,NUM_LEDS-1,0);
+    
   }
+  for (uint8_t i = 0; i < 10; i++)
+    explosion(strip.Color(random(8),random(8),random(8)), 0, random(NUM_LEDS),15,false);
+  delay(1000);
+  
+  single_flash(strip.Color(random(10),random(10),random(10)),50);
 }
 #endif
   
@@ -1032,4 +1042,6 @@ void loop(){
 /*
  * TO DO:
  * - finish 255 effects
+ * - brightness control functions (higher/lower)
+ * - fade with current color
 */

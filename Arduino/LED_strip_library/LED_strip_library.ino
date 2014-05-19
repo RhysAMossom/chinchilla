@@ -79,6 +79,7 @@ void fade_to(const uint32_t current_color, const uint32_t target_color,int16_t w
 }
 
 void shift_strip(uint16_t steps = 1, uint16_t wait = 100, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
+  // Take drawon sequence and shift it many steps, wait between each step, from led1 to led2 inclusive
   int16_t increment = (led1 <= led2) ? 1 : -1;
   
   for (uint16_t s = 0; s <= steps; s++){ 
@@ -187,30 +188,43 @@ void static_commet(uint32_t color, uint8_t tail_shortness){
   strip.show();
 }
 
-void flash(uint32_t color, uint16_t wait, uint16_t first = 0, uint16_t last = NUM_LEDS){
+void flash(uint32_t color, uint16_t wait, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS){
   // Quick flash
   all_off();
-  for(uint16_t led = first; led < last; led++)
+  for(uint16_t led = led1; led < led2; led++)
     strip.setPixelColor(led, color);
   strip.show();
   delay(wait);
   all_off();
 }
 
-void flash_and_dim(uint32_t color, uint16_t wait, uint16_t wait_dim, uint32_t chunk, uint16_t first = 0, uint16_t last = NUM_LEDS){
+void flash_and_dim(uint32_t color, uint16_t wait, uint16_t wait_dim, uint32_t chunk, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS){
   // Quick flash and slow dimmer
   all_off();
-  for(uint16_t led = first; led < last; led++)
+  for(uint16_t led = led1; led < led2; led++)
     strip.setPixelColor(led, color);
   strip.show();
   delay(wait);
   while (color > 0x000000){
     color = dim_color(color,chunk);
-    for(uint16_t led = first; led < last; led++)
+    for(uint16_t led = led1; led < led2; led++)
       strip.setPixelColor(led, color);
     strip.show();
     delay(wait_dim);
   } 
+}
+
+void single_flash(uint32_t color = 0, uint8_t wait = 5, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
+  // single LED flashing on current drawn sequence
+  int16_t increment = (led1 <= led2) ? 1 : -1;
+  for (uint16_t led = led1; led != led2; led += increment){
+    uint32_t color_temp = strip.getPixelColor(led);
+    strip.setPixelColor(led,color);
+    strip.show();
+    delay(wait);
+    strip.setPixelColor(led,color_temp);
+    strip.show();
+  }
 }
 
 /********************** Complex Effects **************************/
