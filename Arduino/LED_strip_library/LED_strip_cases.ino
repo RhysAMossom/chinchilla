@@ -1004,6 +1004,13 @@ void loop(){
   shift_strip(100,100,0,NUM_LEDS-1);
   shift_strip(30,10,NUM_LEDS-1,0);
   
+  for (uint8_t i = 0; i < 20; i+=2){
+    shift_strip(i,50,0,NUM_LEDS-1);
+    shift_strip(i,50,NUM_LEDS-1,0);
+    if(i < 10)
+      explosion(0x030401<<i/2, 0, random(NUM_LEDS),15,false);
+  }
+  
   wipe_color(0x33FF33,0,NUM_LEDS-1,0);
   wipe_color(0x898080,0,0,NUM_LEDS/3);
   wipe_color(0x000066,0,NUM_LEDS*(3/4),NUM_LEDS/2);
@@ -1014,8 +1021,10 @@ void loop(){
     wipe_color(0x090F3F<<i/10,0,0,NUM_LEDS -i);
   }
   delay(3000);
-  shift_strip(50,0,0,NUM_LEDS-1);
-  shift_strip(300,0,NUM_LEDS-1,0);
+  for (uint8_t i = 0; i < 10; i++){
+    shift_strip(random(250),0,0,NUM_LEDS-1);
+    shift_strip(random(250),0,NUM_LEDS-1,0);
+  }
 }
 #endif
   

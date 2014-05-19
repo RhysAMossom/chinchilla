@@ -92,7 +92,7 @@ void shift_strip(uint16_t steps = 1, uint16_t wait = 100, uint16_t led1 = 0, uin
   }
 }
 
-void scroller(uint32_t * colors, uint8_t num_colors,uint16_t steps = 0, int16_t wait = 100, bool left_to_right = true){
+void scroller_deprecated(uint32_t * colors, uint8_t num_colors,uint16_t steps = 0, int16_t wait = 100, bool left_to_right = true){
   // Create an array of color values, preferably the same size as LED pixes, and scroll through it.
   if (steps == 0)
     steps = num_colors;
@@ -126,11 +126,6 @@ uint32_t random_color(){
   color += random(0xFF);
   color = color << 8;
   return  color + random(0xFF);
-}
-
-uint32_t dim_color_deprecated(uint32_t color, uint8_t width) {
-  // deprecated dimmer
-  return (((color & 0xFF0000)/width) & 0xFF0000) + (((color & 0x00FF00)/width) & 0x00FF00) + (((color & 0x0000FF)/width) & 0x0000FF);
 }
 
 uint32_t dim_color(uint32_t color, uint32_t chunk) {
@@ -207,14 +202,6 @@ void wipe_color(uint32_t color, uint16_t wait, uint16_t led1 = 0, uint16_t led2 
   }
 }
 
-void static_commet_deprecated(uint32_t color){
-  for (int led = 0; led < NUM_LEDS; led++){ 
-    strip.setPixelColor(led,color);
-    color = dim_color_deprecated(color,2);
-  }
-  strip.show();
-}
-
 void static_commet(uint32_t color, uint8_t tail_shortness){
   // for tail_shortness the shorted the value, the longer it is
   for (int led = 0; led < NUM_LEDS; led++){ 
@@ -248,29 +235,6 @@ void flash_and_dim(uint32_t color, uint16_t wait, uint16_t wait_dim, uint32_t ch
     strip.show();
     delay(wait_dim);
   } 
-}
-
-void fade_color_deprecated(uint32_t color, uint16_t wait) {
-  uint8_t rgbColour[3];
-
-  rgbColour[0] = color & 0xFF0000;
-  rgbColour[1] = color & 0x00FF00;
-  rgbColour[2] = color & 0x0000FF;
-
-  // Choose the colours to increment and decrement.
-  for (uint8_t decColour = 0; decColour < 3; decColour += 1) {
-    uint8_t incColour = decColour == 2 ? 0 : decColour + 1;
-
-    // cross-fade the two colours.
-    for(uint8_t i = 0; i < 255; i += 1) {
-      rgbColour[decColour] -= 1;
-      rgbColour[incColour] += 1;
-      for(uint16_t led = 0; led < NUM_LEDS; led++)
-        strip.setPixelColor(led,strip.Color(rgbColour[0], rgbColour[1], rgbColour[2]));
-      strip.show();
-      delay(wait);
-    }
-  }
 }
 
 /********************** Complex Effects **************************/
@@ -526,21 +490,8 @@ void fireworks(const uint32_t background_color){
   all_on(background_color);
 }
 
-// Rainbows
-void rainbow(uint8_t wait) {
-  uint16_t i, j;
-
-  for(j=0; j<256; j++) {
-    for(i=0; i<strip.numPixels(); i++) {
-      strip.setPixelColor(i, Wheel((i+j) & 255));
-    }
-    strip.show();
-    delay(wait);
-  }
-}
-
 // Slightly different, this makes the rainbow equally distributed throughout
-void rainbowCycle(uint8_t wait) {
+void rainbow(uint8_t wait) {
   uint16_t i, j;
 
   for(j=0; j<256*5; j++) { // 5 cycles of all colors on wheel
@@ -552,7 +503,7 @@ void rainbowCycle(uint8_t wait) {
   }
 }
 
-void theaterChaseRainbow(uint16_t wait) {
+void theater_chase_rainbow(uint16_t wait) {
   //Theatre-style crawling lights with rainbow effect
   for (uint8_t j=0; j < 256; j++) { // cycle all 256 colors in the wheel
     for (uint8_t q=0; q < 3; q++) {
@@ -569,27 +520,3 @@ void theaterChaseRainbow(uint16_t wait) {
     }
   }
 }
-
-/***************** Accidentally created cool effects *********************/
-
-void trencitos(uint16_t cycles, uint16_t wait, uint8_t width, uint32_t color) {
-  uint32_t values[NUM_LEDS];
-
-  // create static values array
-  values[NUM_LEDS] = color;
-  for(uint16_t v = NUM_LEDS; v > 0; v--){
-    values[v-1] = dim_color_deprecated(values[v-1], width);
-  }
-
-  // Cycles
-  for(uint16_t i = 0; i < cycles; i++){
-    for (uint16_t count = 0; count < NUM_LEDS; count++) {
-      for(uint16_t led = 0; led < NUM_LEDS; led++){
-        strip.setPixelColor(led,values[(count+led) % NUM_LEDS]);
-      }
-      strip.show();
-      delay(wait);
-    }
-  }
-}
-
