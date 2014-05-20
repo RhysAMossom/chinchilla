@@ -990,6 +990,7 @@ void loop(){
   /* DROP
   static_commet(0x0000ED,15);
   delay(5000);*/
+ 
   
   wipe_color(random_color(),0);
   explosion(0x003900, 0, NUM_LEDS/2,15,false);
@@ -1005,6 +1006,9 @@ void loop(){
   explosion(0x330039, 0, NUM_LEDS*(3/4),15,false);
   delay(1000);
   
+  set_brightness(false,0x30);
+  delay(3000);
+  
   shift_strip(100,100,0,NUM_LEDS-1);
   shift_strip(30,10,NUM_LEDS-1,0);
   
@@ -1015,26 +1019,31 @@ void loop(){
       explosion(0x030401<<i/2, 0, random(NUM_LEDS),15,false);
   }
   
-  wipe_color(0x33FF33,0,NUM_LEDS-1,0);
+  wipe_color(0x33FF33,0,NUM_LEDS,0);
   wipe_color(0x898080,0,0,NUM_LEDS/3);
   wipe_color(0x000066,0,NUM_LEDS*(3/4),NUM_LEDS/2);
   wipe_color(0xFFFF03,0);
-  wipe_color(0xCC0000,0,NUM_LEDS-1,0);
+  wipe_color(0xCC0000,0,NUM_LEDS,0);
   wipe_color(0x99FFFF,0);
   for (uint16_t i = 0; i < NUM_LEDS-10; i+= 10){
     wipe_color(0x090F3F<<i/10,0,0,NUM_LEDS -i);
   }
   delay(3000);
   for (uint8_t i = 0; i < 10; i++){
-    shift_strip(random(250),0,0,NUM_LEDS-1);
-    shift_strip(random(250),0,NUM_LEDS-1,0);
+    shift_strip(random(200),0,0,NUM_LEDS-1);
+    shift_strip(random(200),0,NUM_LEDS-1,0);
     
   }
   for (uint8_t i = 0; i < 10; i++)
     explosion(strip.Color(random(8),random(8),random(8)), 0, random(NUM_LEDS),15,false);
   delay(1000);
+ 
   
-  single_flash(strip.Color(random(10),random(10),random(10)),50);
+  //single_flash(strip.Color(random(10),random(10),random(10)),50);
+  blend(0x070723,100);
+  delay(3000);
+  all_off();
+  delay(3000);
 }
 #endif
   
@@ -1042,6 +1051,4 @@ void loop(){
 /*
  * TO DO:
  * - finish 255 effects
- * - brightness control functions (higher/lower)
- * - fade with current color
 */

@@ -105,7 +105,7 @@ uint32_t random_color(){
   return  color + random(0xFF);
 }
 
-uint32_t dim_color(uint32_t color, uint32_t chunk) {
+uint32_t dim_color(const uint32_t color,const uint32_t chunk) {
   // Improved dimmer, that takes a decrement value, chunk, from each of the r,g,b values.
   // Takes care of underflow by setting respective value to 0
   uint32_t r = (color & 0xFF0000) > (chunk << 16) ? (color - (chunk << 16)) & 0xFF0000 : 0x000000;
@@ -228,6 +228,37 @@ void single_flash(uint32_t color = 0, uint8_t wait = 5, uint16_t led1 = 0, uint1
 }
 
 /********************** Complex Effects **************************/
+void set_brightness(bool increase = false, uint32_t chunk = 10, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
+  // set brightness of current drawn sequence
+  // NOTE: because of overflow, this is destructive (i.e. color cannot be recovered)
+  uint32_t color_target = increase ? 0xFFFFFF : 0x000000;
+
+  for(uint16_t led=led1; led <= led2; led++){
+    uint32_t color = strip.getPixelColor(led);
+    strip.setPixelColor(led,color_to_target(color,color_target,chunk));
+  }
+  strip.show();
+}
+
+void blend(uint32_t color, uint8_t wait=50, uint32_t chunk = 10, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
+  // blend current drawn sequence to a color
+  uint32_t color_temp;
+  bool done = false;
+  
+  while (!done){
+    done = true;
+    for(uint16_t led=led1; led <= led2; led++){
+      color_temp = strip.getPixelColor(led);
+      if (color_temp != color){
+        strip.setPixelColor(led,color_to_target(color_temp,color,chunk));
+        done = false;
+      }
+    }
+    strip.show();
+    delay(wait);
+  }
+}
+
 void color_mixer(const uint32_t color1,const uint32_t color2,const uint16_t led1,const uint16_t led2){
   // mix colors along strip
   uint32_t chunk = 255/(led2 - led1);
@@ -493,7 +524,7 @@ void rainbow(uint8_t wait) {
   }
 }
 
-void theater_chase_rainbow(uint16_t wait) {
+void theater_chase_rainbow(uint16_t wait=50) {
   //Theatre-style crawling lights with rainbow effect
   for (uint8_t j=0; j < 256; j++) { // cycle all 256 colors in the wheel
     for (uint8_t q=0; q < 3; q++) {
