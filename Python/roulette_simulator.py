@@ -103,6 +103,8 @@ if __name__ == "__main__":
 		method2('2Outer_15',15,range(13,25),range(25,37)),
 		method3('2Outer3Inner_25_5',15,25,range(13,25),range(25,37),[1,2,4,5],[2,3,5,6],[7,8,10,11])
 		]
+	number_count = 39*[0]
+	color_count = {'r':0,'g':0,'b':0}
 	file_name = 'roulette_simulated_results.csv'
 	with open(file_name,'w') as f:
 		print('Welcome to roulette simulator')
@@ -124,11 +126,18 @@ if __name__ == "__main__":
 			# get stats
 			results['play'] = play
 			results['color'] = color
+			color_count[color] += 1
 			results['number'] = number
+			number_count[number] += 1
 			for m in methods:
 				results[m.name] = m.spin(number,color)
 			# log stats
 			results_file.writerow(results)
 			print(results)
+
 	print("done gambling. You have a problem")
+	for n in range(1,39):
+		print("%d came out %.1f%% of the time" % (n, (100*number_count[n]/float(sys.argv[1]))))
+	for k,v in color_count.iteritems():
+		print("color %s came out %.1f%% of the time"% (k,(100*v/float(sys.argv[1]))))
 	print('results saved to %s' % file_name)
