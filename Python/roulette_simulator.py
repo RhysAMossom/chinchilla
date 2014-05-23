@@ -101,7 +101,7 @@ if __name__ == "__main__":
 		method1('2Cols_black',15,'r',range(3,37,3),range(1,35,3)),
 		method1('2Cols_red',15,'b',range(3,37,3),range(1,35,3)),
 		method2('2Outer_15',15,range(13,25),range(25,37)),
-		method3('2Outer3Inner_25_5',15,25,range(13,25),range(25,37),[1,2,4,5],[2,3,5,6],[7,8,10,11])
+		method3('2Outer3Inner_25_5',5,25,range(13,25),range(25,37),[1,2,4,5],[2,3,5,6],[7,8,10,11])
 		]
 	number_count = 39*[0]
 	color_count = {'r':0,'g':0,'b':0}
