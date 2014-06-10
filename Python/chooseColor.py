@@ -218,3 +218,7 @@ def chooseColor():
     t.sleep(1)
     win.close()
     return chosenColor
+
+if __name__ == '__main__':
+    while True:
+        print(chooseColor())
