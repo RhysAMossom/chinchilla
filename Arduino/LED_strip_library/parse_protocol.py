@@ -29,16 +29,16 @@ if __name__ == "__main__":
                     effects_list.append((variable.replace('_EFFECT',''),variable))
 
         # Parse theme constants
-        fh.write('themes_list = {\n')
+        fh.write('themes_list = [\n')
         for t_name,t_variable in themes_list:
-            fh.write("'%s':%s,\n" % (t_name,t_variable))
-        fh.write('}\n')
+            fh.write("('%s',%s),\n" % (t_name,t_variable))
+        fh.write(']\n')
 
         # Parse effect constants
-        fh.write('effects_list = {\n')
+        fh.write('effects_list = [\n')
         for t_name,t_variable in effects_list:
-            fh.write("'%s':%s,\n" % (t_name,t_variable))
-        fh.write('}\n')
+            fh.write("('%s',%s),\n" % (t_name,t_variable))
+        fh.write(']\n')
         
         # add passed flag
         msg = "passed = True"

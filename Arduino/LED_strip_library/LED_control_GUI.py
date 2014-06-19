@@ -161,7 +161,7 @@ if __name__ == '__main__':
         # Effects buttons
         c = 1
         r = 4
-        for effect_name, effect_code in p.effects_list.iteritems():
+        for effect_name, effect_code in p.effects_list:
             b = ttk.Button(effects_frame, text=effect_name, command=lambda code=effect_code,com=p.EFFECT:button_down(com,code)).grid(column=c,row=r,sticky=W)
             c += 1
             if c == 3:
@@ -180,7 +180,7 @@ if __name__ == '__main__':
         # Theme buttons
         c = 1
         r = 2
-        for theme_name, theme_code in p.themes_list.iteritems():
+        for theme_name, theme_code in p.themes_list:
             b = ttk.Button(themes_frame, text=theme_name, command=lambda code=theme_code,com=p.THEME_SELECT:button_down(com,code)).grid(column=c,row=r,sticky=W)
             c += 1
             if c == 3:

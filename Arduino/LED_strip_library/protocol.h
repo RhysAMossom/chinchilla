@@ -58,4 +58,4 @@
 #define R1_THEME '7'
 #define R2_THEME '8'
 #define R3_THEME '9'
-#define RANDOM_THEME 'x'
+#define RANDOM_THEME ':'
