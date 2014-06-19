@@ -10,7 +10,6 @@
 */
 
 #define DEBUG
-#define TESTING_EFFECT
 
 /********************** PS2 Controller library and variables *******/
 #include "PS2X_lib.h" //for v1.6
@@ -60,7 +59,7 @@ uint8_t wait_factor = SPEED_M;
 // Flag when set, one effect will be followed by the other 
 // else, only one effect or one family of effects will play
 bool continuous_flow = true;
-bool continuous_family_flow = true;
+bool continuous_themes = true;
 
 /********************** Basic Functions **************************/
 
@@ -522,7 +521,7 @@ void fireworks(const uint32_t background_color){
 }
 
 // Slightly different, this makes the rainbow equally distributed throughout
-void rainbow(uint8_t wait) {
+void rainbow(uint8_t wait=10) {
   uint16_t i, j;
 
   for(j=0; j<256*5; j++) { // 5 cycles of all colors on wheel

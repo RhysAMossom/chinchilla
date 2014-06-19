@@ -17,9 +17,9 @@ void loop(){
   // Cases Control
   if(ps2x.ButtonPressed(PSB_START)){
     if (continuous_flow){
-      if (continuous_family_flow){
+      if (continuous_themes){
         // Was green turns yellow
-        continuous_family_flow = false;
+        continuous_themes = false;
         flash(0xFFFF00,500);
         delay(500);
         flash(0xFFFF00,500);
@@ -36,7 +36,7 @@ void loop(){
     }
     else{
       // was red turns green
-      continuous_family_flow = true;
+      continuous_themes = true;
       continuous_flow =  true;
       flash(0x009900,500);
       delay(500);
@@ -47,7 +47,7 @@ void loop(){
     Serial.print("flow: ");
     Serial.print(continuous_flow);
     Serial.print("\tfamily flow: ");
-    Serial.println(continuous_family_flow);
+    Serial.println(continuous_themes);
 #endif
   }
 
@@ -111,61 +111,61 @@ void loop(){
 #ifdef DEBUG
     Serial.println("Pressed triangle");
 #endif
-    effect = TRIANGLE_INDEX;
+    effect = TRIANGLE_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_CIRCLE)) {
 #ifdef DEBUG
     Serial.println("Pressed circle");
 #endif
-    effect = CIRCLE_INDEX;
+    effect = CIRCLE_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_CROSS)) {
 #ifdef DEBUG
     Serial.println("Pressed cross");
 #endif
-    effect = CROSS_INDEX;
+    effect = CROSS_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_SQUARE)) {
 #ifdef DEBUG
     Serial.println("Pressed square");
 #endif
-    effect = SQUARE_INDEX;
+    effect = SQUARE_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_L1)) {
 #ifdef DEBUG
     Serial.println("Pressed L1");
 #endif
-    effect = L1_INDEX;
+    effect = L1_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_L2)) {
 #ifdef DEBUG
     Serial.println("Pressed L2");
 #endif
-    effect = L2_INDEX;
+    effect = L2_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_L3)) {
 #ifdef DEBUG
     Serial.println("Pressed L3");
 #endif
-    effect = L3_INDEX;
+    effect = L3_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_R1)) {
 #ifdef DEBUG
     Serial.println("Pressed R1");
 #endif
-    effect = R1_INDEX;
+    effect = R1_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_R2)) {
 #ifdef DEBUG
     Serial.println("Pressed R2");
 #endif
-    effect = R2_INDEX;
+    effect = R2_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_R3)) {
 #ifdef DEBUG
     Serial.println("Pressed R3");
 #endif
-    effect = R3_INDEX;
+    effect = R3_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_PAD_LEFT)) {
 #ifdef DEBUG
@@ -379,87 +379,76 @@ void loop(){
 #endif
 
   switch (effect) {
-    // Start of Family of Effects
-    case TRIANGLE_INDEX-1:
-    
-      if(continuous_flow) effect = continuous_family_flow ? ++effect : R3_INDEX; break;
-    case CIRCLE_INDEX-1:
-    
-      if(continuous_flow) effect = continuous_family_flow ? ++effect : TRIANGLE_INDEX; break;
-    case CROSS_INDEX-1:
-    
-      if(continuous_flow) effect = continuous_family_flow ? ++effect : CIRCLE_INDEX; break;
-    case SQUARE_INDEX-1:
-    
-      if(continuous_flow) effect = continuous_family_flow ? ++effect : CROSS_INDEX; break;
-    case L1_INDEX-1:
-    
-      if(continuous_flow) effect = continuous_family_flow ? ++effect : SQUARE_INDEX; break;
-    case L2_INDEX-1:
-    
-      if(continuous_flow) effect = continuous_family_flow ? ++effect : L1_INDEX; break;
-    case L3_INDEX-1:
-    
-      if(continuous_flow) effect = continuous_family_flow ? ++effect : L2_INDEX; break;
-    case R1_INDEX-1:
-    
-      if(continuous_flow) effect = continuous_family_flow ? ++effect : L3_INDEX; break;
-    case R2_INDEX-1:
-    
-      if(continuous_flow) effect = continuous_family_flow ? ++effect : R1_INDEX; break;
-    case R3_INDEX-1:
-    
-      if(continuous_flow) effect = continuous_family_flow ? ++effect : TRIANGLE_INDEX; break;
-// Handle theme boundaries
     case WAIT:
       // Wait for next serial command
       if(continuous_flow) effect++; break;
       
     case THEME_CHOOSER:
       switch(theme){
-        case RED_THEME:
+        case TRIANGLE_THEME:
           C1 = 0xFF0000;
           C2 = 0xA00000;
           C3 = 0x551010;
           C4 = 0xB01010;
           C5 = 0xDF4040;
           break;
-        case BLUE_THEME:
+        case CIRCLE_THEME:
           C1 = 0x3914AF;
           C2 = 0x412CB4;
           C3 = 0x0609FF;
           C4 = 0x447BFD;
           C5 = 0x0526DE;
           break;
-        case GREEN_THEME:
+        case CROSS_THEME:
           C1 = 0x39E639;
           C2 = 0x00CC00;
           C3 = 0x002D00;
           C4 = 0x07E507;
           C5 = 0x269926;
           break;
-        case YELLOW_THEME:
+        case SQUARE_THEME:
           C1 = 0xFFE500;
           C2 = 0xA69500;
           C3 = 0xFFF173;
           C4 = 0xFFFF00;
           C5 = 0xBFB130;
           break;
-        case PURPLE_THEME:
+        case L1_THEME:
           C1 = 0x8001A0;
           C2 = 0xF000B0;
           C3 = 0x68006C;
           C4 = 0xFF00FF;
           C5 = 0x300021;
           break;
-        case FIRE_THEME:
+        case L2_THEME:
           C1 = 0x440000;
           C2 = 0xFF0500;
           C3 = 0xFF7300;
           C4 = 0xFFFF00;
           C5 = 0x771300;
           break;
-        case ICE_THEME:
+        case L3_THEME:
+          C1 = 0x44CCCC;
+          C2 = 0x3AA6B0;
+          C3 = 0xFF73FF;
+          C4 = 0x3F3F3F;
+          C5 = 0x0079AF;
+          break;
+        case R1_THEME:
+          C1 = 0x8001A0;
+          C2 = 0xF000B0;
+          C3 = 0x68006C;
+          C4 = 0xFF00FF;
+          C5 = 0x300021;
+          break;
+        case R2_THEME:
+          C1 = 0x440000;
+          C2 = 0xFF0500;
+          C3 = 0xFF7300;
+          C4 = 0xFFFF00;
+          C5 = 0x771300;
+          break;
+        case R3_THEME:
           C1 = 0x44CCCC;
           C2 = 0x3AA6B0;
           C3 = 0xFF73FF;
@@ -1337,4 +1326,5 @@ void loop(){
 /*
  * TO DO:
  * - finish 255 effects
+ * - PICK COLORS FOR R1 R2 R3 THEMES
 */
