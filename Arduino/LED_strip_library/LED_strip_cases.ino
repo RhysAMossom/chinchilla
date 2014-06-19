@@ -184,7 +184,7 @@ void loop(){
   if(ps2x.ButtonPressed(PSB_PAD_DOWN) || ps2x.ButtonPressed(PSB_PAD_UP)){
     if(ps2x.ButtonPressed(PSB_PAD_UP)) {
       // Increase speed
-      wait_factor = (wait_factor > 50) ? wait_factor - 50 : 0;      
+      wait_factor = (wait_factor - 50 < wait_factor) ? wait_factor - 50 : SPEED_L;
 #ifdef DEBUG
       Serial.println("Pressed pad up");
       Serial.print("Wait factor: ");
@@ -193,7 +193,7 @@ void loop(){
     }
     else{
       // Decrease speed
-      wait_factor = (wait_factor < 255 - 50) ? wait_factor + 50: 255;
+      wait_factor = (wait_factor + 50 > wait_factor) ? wait_factor + 50: SPEED_H;
 #ifdef DEBUG
       Serial.println("Pressed pad down");
       Serial.print("Wait factor: ");
@@ -206,11 +206,178 @@ void loop(){
     delay(500);
   }
   
+  // Parse serial input
+    uint8_t c_in, num_bytes = Serial.available();    
+    c_in = Serial.read();
+    
+    if (c_in == UID) {
+      switch (num_bytes) {
+        case 0:
+          break;
+        case 3:
+          c_in = Serial.read();
+          switch(c_in) {
+            case RANDOM_COLOR:
+              all_on(random_color());
+              effect = WAIT;
+              continuous_flow = false;
+#ifdef DEBUG
+              Serial.println("random color");
+#endif
+              break;
+            case RANDOM_EFFECT:
+              effect = random(1,255);
+              break;
+            case RAINBOW_EFFECT:
+              rainbow();
+              effect = WAIT;
+              continuous_flow = false;
+              break;
+#ifdef DEBUG
+            default: 
+              Serial.println("unhandled buffer size 1");
+#endif
+          }
+          break;
+        case 4:
+          c_in = Serial.read();
+          switch(c_in) {
+            case SPEED:
+              c_in = Serial.read();
+              if (c_in ==  FAST){
+                if(wait_factor - 50 < wait_factor)
+                  wait_factor -= 50;
+                else
+                  wait_factor = SPEED_L;
+                }
+              else if(c_in == SLOW){
+                if(wait_factor + 50 > wait_factor)
+                  wait_factor += 50;
+                else
+                  wait_factor = SPEED_H;
+                }
+              else
+                wait_factor = SPEED_M;
+              break;
+            case EFFECT:
+              effect = Serial.read();
+              break;
+            case THEME_SELECT:
+              theme = Serial.read();
+              effect = THEME_CHOOSER;
+              break;  
+            case TOGGLE:
+              continuous_flow = (Serial.read() == ON) ? true : false;
+              break;
+            case THEME_TOGGLE:
+              continuous_themes = (Serial.read() == ON) ? true : false;
+              break;
+#ifdef DEBUG
+            default:
+              Serial.print("unhandled buffer size 2");
+#endif
+          }
+          break;
+        case 6:
+          c_in = Serial.read();
+          uint8_t R,G,B;
+          R = Serial.read();
+          G = Serial.read();
+          B = Serial.read();
+#ifdef DEBUG
+          Serial.print("R: ");
+          Serial.print(R);
+          Serial.print(" G: ");
+          Serial.print(G);
+          Serial.print(" B: ");
+          Serial.println(B);
+          delay(1000);
+#endif
+          switch(c_in){
+            case COLOR:
+              effect = WAIT;
+              continuous_flow = false;
+              all_on(strip.Color(R,G,B));
+              break;
+            case FLASH_EFFECT:
+              flash(strip.Color(R,G,B),500);
+              delay(100);
+              break;
+            case WIPE_EFFECT:
+              wipe_color(strip.Color(R,G,B),5);
+              break;
+#ifdef DEBUG
+            default:
+              Serial.print("unhandled buffer size 3");
+#endif    
+        }
+          break;
+        case 8:
+          if (Serial.read() == FULL_PACKET) {
+            effect = Serial.read();
+            continuous_flow = (Serial.read() == ON) ? true : false;
+            continuous_themes = (Serial.read() == ON) ? true : false;
+            c_in = Serial.read();
+            if (c_in ==  FAST){
+              if(wait_factor - 50 < wait_factor)
+                wait_factor -= 50;
+              else
+                wait_factor = SPEED_L;
+              }
+            else if(c_in == SLOW){
+              if(wait_factor + 50 > wait_factor)
+                wait_factor += 50;
+              else
+                wait_factor = SPEED_H;
+              }
+            else
+              wait_factor = SPEED_M;
+          }
+#ifdef DEBUG
+          else 
+            Serial.println("unhandled buffer size 5");
+#endif
+          break;
+#ifdef DEBUG
+        default:
+          Serial.print("unhandled buffer size ");
+          Serial.println(num_bytes);
+#endif
+      }
+    }
+#ifdef DEBUG
+      Serial.print("message not for me ");
+      Serial.println(c_in);
+#endif
+    
+    // Flush serial (since the flush opiton does not empty buffer anymore)
+    Serial.read();
+    num_bytes = Serial.available();
+    while (num_bytes > 0){
+#ifdef DEBUG
+      Serial.print(num_bytes);
+      Serial.println(" bytes in buffer");
+#endif
+      Serial.read();
+      num_bytes = Serial.available();
+    }
+  
   // Cases and Effects
 #ifdef DEBUG
+    // Report status on global variables
     Serial.print("Current effect: ");
-    Serial.println(effect);
-#endif  
+    Serial.print(effect);
+    Serial.print(" Continuous effects: ");
+    Serial.print(continuous_flow);
+    Serial.print(" Continuous themes: ");
+    Serial.print(continuous_themes);
+    Serial.print(" Speed: ");
+    if (wait_factor)
+      Serial.println("fast");
+    else
+      Serial.println("slow");
+#endif
+
   switch (effect) {
     // Start of Family of Effects
     case TRIANGLE_INDEX-1:
@@ -243,130 +410,214 @@ void loop(){
     case R3_INDEX-1:
     
       if(continuous_flow) effect = continuous_family_flow ? ++effect : TRIANGLE_INDEX; break;
-    case 0:
-      stars_individual(2,70,0x00F330,0x000001);   
+// Handle theme boundaries
+    case WAIT:
+      // Wait for next serial command
       if(continuous_flow) effect++; break;
-    case 1:
-      wipe_color(strip.Color(255, 0, 0), 5, 0, NUM_LEDS); // Red
+      
+    case THEME_CHOOSER:
+      switch(theme){
+        case RED_THEME:
+          C1 = 0xFF0000;
+          C2 = 0xA00000;
+          C3 = 0x551010;
+          C4 = 0xB01010;
+          C5 = 0xDF4040;
+          break;
+        case BLUE_THEME:
+          C1 = 0x3914AF;
+          C2 = 0x412CB4;
+          C3 = 0x0609FF;
+          C4 = 0x447BFD;
+          C5 = 0x0526DE;
+          break;
+        case GREEN_THEME:
+          C1 = 0x39E639;
+          C2 = 0x00CC00;
+          C3 = 0x002D00;
+          C4 = 0x07E507;
+          C5 = 0x269926;
+          break;
+        case YELLOW_THEME:
+          C1 = 0xFFE500;
+          C2 = 0xA69500;
+          C3 = 0xFFF173;
+          C4 = 0xFFFF00;
+          C5 = 0xBFB130;
+          break;
+        case PURPLE_THEME:
+          C1 = 0x8001A0;
+          C2 = 0xF000B0;
+          C3 = 0x68006C;
+          C4 = 0xFF00FF;
+          C5 = 0x300021;
+          break;
+        case FIRE_THEME:
+          C1 = 0x440000;
+          C2 = 0xFF0500;
+          C3 = 0xFF7300;
+          C4 = 0xFFFF00;
+          C5 = 0x771300;
+          break;
+        case ICE_THEME:
+          C1 = 0x44CCCC;
+          C2 = 0x3AA6B0;
+          C3 = 0xFF73FF;
+          C4 = 0x3F3F3F;
+          C5 = 0x0079AF;
+          break;
+        default:
+          C1 = random_color();
+          C2 = random_color();
+          C3 = random_color();
+          C4 = random_color();
+          C5 = random_color();
+          theme = RANDOM_THEME;
+      }
+        if(continuous_themes) theme++;
+        effect++;
+        break;
+
+    case RAINBOW:
+      rainbow();
+      delay(2000);
+      shift_strip(3*NUM_LEDS,20);
       if(continuous_flow) effect++; break;
     case 2:
-      wipe_color(strip.Color(0, 255, 0), 5, NUM_LEDS,0); // Green
+      wipe_color(strip.Color(0, 255, 0), 15, NUM_LEDS, 0); // Green
       if(continuous_flow) effect++; break;
     case 3:
-      wipe_color(strip.Color(0, 0, 255), 5, 0, NUM_LEDS); // Blue
+      wipe_color(strip.Color(0, 0, 255), 15, 0, NUM_LEDS); // Blue
       if(continuous_flow) effect++; break;
     case 4:
-      rainbow(20);
+      wipe_color(strip.Color(255, 0, 0), 15, NUM_LEDS, 0); // Red
       if(continuous_flow) effect++; break;
     case 5:
-      static_commet(strip.Color(100,255,255), 100);
+      flash_and_dim(C1,100,100,10,0,NUM_LEDS);
+      delay(300);
       if(continuous_flow) effect++; break;
     case 6:
-      //cometa(strip.Color(200, 100, 80), 0, 5, 15);
+      flash_and_dim(C2,50,120,10,0,NUM_LEDS);
+      delay(100);      
       if(continuous_flow) effect++; break;
     case 7:
-      fade_color_deprecated(0x890712,5);
+      flash_and_dim(C3,150,150,10,0,NUM_LEDS);
+      delay(100);
       if(continuous_flow) effect++; break;
     case 8:
-      flash(0x832190,500);
+      flash(C4,1000);
+      delay(200);
       if(continuous_flow) effect++; break;
     case 9:
-      flash_and_dim(0xEEEEEE,50,18,8);
-      //delay(1000);
+      flash_and_dim(C5,50,18,8,0,NUM_LEDS);
       if(continuous_flow) effect++; break;
     case 10:
-      flash_and_dim(0xEE00EE,50,18,8,0,100);
-      //delay(1000);
+      blend(C2,80,10,0,NUM_LEDS-1);
+      delay(1000);
       if(continuous_flow) effect++; break;
     case 11:
-      color_mixer(0xFF00FF,0x000000,2,150);
+      color_mixer(C3,0x000000,0,NUM_LEDS);
+      delay(1000);
       if(continuous_flow) effect++; break;
     case 12:
-      stars_individual(10,10,0x00F3FF,0x000000);
+      explosion(C4,0x000000,random(NUM_LEDS),15,false);
+      delay(500);
       if(continuous_flow) effect++; break;
     case 13:
-      flash_and_dim(0x073982,300,50,8, 0, NUM_LEDS);
+      explosion(C2,0x000000,random(NUM_LEDS),25,false);
+      delay(1000);
       if(continuous_flow) effect++; break; 
     case 14:
-      three_fades(0x00FF00,0xFF0000,0x0000FF,10);
+      explosion(C1,0x000000,random(NUM_LEDS),10,false);
+      delay(100);
       if(continuous_flow) effect++; break;
     case 15:
-      flash_and_dim(0x170902,300,50,8, 0, NUM_LEDS);
+      explosion(C1,0x000000,random(NUM_LEDS),10,false);
+      delay(1000);
       if(continuous_flow) effect++; break;
     case 16:
-        flash_and_dim(0x808080,300,50,8, 0, NUM_LEDS);
+      explosion(C3,0x000000,random(NUM_LEDS),10,false);
+      delay(100);
       if(continuous_flow) effect++; break;
     case 17:
-      flash(random_color(),250,NUM_LEDS/2+NUM_LEDS/4, NUM_LEDS);
+      shift_strip(NUM_LEDS/6,70,0,NUM_LEDS-1);
       if(continuous_flow) effect++; break;
     case 18:
-      flash(random_color(),200,NUM_LEDS/2, NUM_LEDS/2+NUM_LEDS/4);
+      shift_strip(NUM_LEDS/4,40,NUM_LEDS-1,0);
       if(continuous_flow) effect++; break;
     case 19:
-      flash(random_color(),300, 0, NUM_LEDS/4);
+      shift_strip(NUM_LEDS/2,35,0,NUM_LEDS-1);
       if(continuous_flow) effect++; break;
     case 20:
-      flash(random_color(),300, 0, NUM_LEDS/4);
+      shift_strip(NUM_LEDS,30,NUM_LEDS-1,0);
       if(continuous_flow) effect++; break;
     case 21:
-      flash_and_dim(random_color(),10,15,8, 0, NUM_LEDS);
+      shift_strip(NUM_LEDS/2,25,0,NUM_LEDS-1);
       if(continuous_flow) effect++; break;
     case 22:
-      flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
+      shift_strip(NUM_LEDS/4,20,NUM_LEDS-1,0);      
       if(continuous_flow) effect++; break;
     case 23:
-      flash_and_dim(random_color(),100,15,8, 0, NUM_LEDS);
+      shift_strip(NUM_LEDS,15,NUM_LEDS-1,0);
       if(continuous_flow) effect++; break;
     case 24:
-
+      blend(0x000000,50,10,0,NUM_LEDS-1);
+      delay(1000);    
       if(continuous_flow) effect++; break;
     case 25:
-
+      flash(C4,500,3*NUM_LEDS/5, 4*NUM_LEDS/5);
+      delay(500);
       if(continuous_flow) effect++; break;
     case 26:
-      
+      flash(C5,500,4*NUM_LEDS/5, NUM_LEDS);
+      delay(500);
       if(continuous_flow) effect++; break;
     case 27:
-      
+      all_on(C1,4*NUM_LEDS/5, NUM_LEDS);
       if(continuous_flow) effect++; break;
     case 28:
-      
+      all_on(C2,3*NUM_LEDS/5,4*NUM_LEDS/5);
       if(continuous_flow) effect++; break;
     case 29:
-      
+      all_on(C3,2*NUM_LEDS/5,3*NUM_LEDS/5);
       if(continuous_flow) effect++; break;
     case 30:
-      
+      all_on(C4,NUM_LEDS/5,2*NUM_LEDS/5);
       if(continuous_flow) effect++; break;
     case 31:
-      
+      all_on(C5,0,NUM_LEDS/5);
+      delay(2000);    
       if(continuous_flow) effect++; break;
     case 32:
-      
+      all_on(C3,2*NUM_LEDS/5,3*NUM_LEDS/5);
       if(continuous_flow) effect++; break;
     case 33:
-      
+      all_on(C1,4*NUM_LEDS/5, NUM_LEDS);
       if(continuous_flow) effect++; break;
     case 34:
-      
+      flash(C1,500,0,NUM_LEDS/5);
+      delay(1000);
       if(continuous_flow) effect++; break;
     case 35:
-      
+      flash(C2,500, NUM_LEDS/5,2*NUM_LEDS/5);
+      delay(400);
       if(continuous_flow) effect++; break;
     case 36:
-      
+      flash(C3,500,2*NUM_LEDS/5, 3*NUM_LEDS/5);
+      delay(350);
       if(continuous_flow) effect++; break;
     case 37:
-      
+      blend(0x030250,50,10,0,NUM_LEDS-1);
+      delay(1000);
       if(continuous_flow) effect++; break;
     case 38:
-      
+      wipe_color(0x044000, 50, 0, NUM_LEDS);  
       if(continuous_flow) effect++; break;
     case 39:
-      
+      explosion(0x000000,C3,random(NUM_LEDS),100,false);
       if(continuous_flow) effect++; break;
     case 40:
-      
+      wipe_color(0x00000, 25, NUM_LEDS,0);
       if(continuous_flow) effect++; break;
     case 41:
       
@@ -392,6 +643,9 @@ void loop(){
     case 48:
       
       if(continuous_flow) effect++; break;
+    case 49:
+      
+      if(continuous_flow) effect++; break; 
     case 50:
       
       if(continuous_flow) effect++; break;
@@ -537,6 +791,9 @@ void loop(){
       
       if(continuous_flow) effect++; break;
     case 98:
+      
+      if(continuous_flow) effect++; break;
+    case 99:
       
       if(continuous_flow) effect++; break;
     case 100:
@@ -686,6 +943,9 @@ void loop(){
     case 148:
       
       if(continuous_flow) effect++; break;
+    case 149:
+      
+      if(continuous_flow) effect++; break;
     case 150:
       
       if(continuous_flow) effect++; break;
@@ -833,6 +1093,9 @@ void loop(){
     case 198:
       
       if(continuous_flow) effect++; break;
+    case 199:
+      
+      if(continuous_flow) effect++; break;
     case 200:
       
       if(continuous_flow) effect++; break;
@@ -860,6 +1123,9 @@ void loop(){
     case 208:
       
       if(continuous_flow) effect++; break;
+    case 209:
+      
+      if(continuous_flow) effect++; break;
     case 210:
       
       if(continuous_flow) effect++; break;
@@ -882,6 +1148,9 @@ void loop(){
       
       if(continuous_flow) effect++; break;
     case 217:
+      
+      if(continuous_flow) effect++; break;
+    case 218:
       
       if(continuous_flow) effect++; break;
     case 219:
@@ -908,6 +1177,9 @@ void loop(){
     case 226:
       
       if(continuous_flow) effect++; break;
+    case 227:
+      
+      if(continuous_flow) effect++; break;
     case 228:
       
       if(continuous_flow) effect++; break;
@@ -932,6 +1204,9 @@ void loop(){
     case 235:
       
       if(continuous_flow) effect++; break;
+    case 236:
+      
+      if(continuous_flow) effect++; break;
     case 237:
       
       if(continuous_flow) effect++; break;
@@ -954,6 +1229,9 @@ void loop(){
       
       if(continuous_flow) effect++; break;
     case 244:
+      
+      if(continuous_flow) effect++; break;
+    case 245:
       
       if(continuous_flow) effect++; break;
     case 246:
@@ -981,9 +1259,6 @@ void loop(){
       
       if(continuous_flow) effect++; break;
     case 254:
-      
-      if(continuous_flow) effect++; break;
-    case 255:
       
       if(continuous_flow) effect++; break;
     default:

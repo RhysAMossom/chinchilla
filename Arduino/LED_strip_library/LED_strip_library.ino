@@ -44,20 +44,19 @@ PS2X ps2x; // create PS2 Controller Class
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, STRIP_PIN, NEO_GRB + NEO_KHZ800);
 /********************** Effects variables ************************/
+#include "protocol.h"
+#define WAIT    0
+#define THEME_CHOOSER 1
+#define RAINBOW 255
 
-# define TRIANGLE_INDEX 0
-# define CIRCLE_INDEX 50
-# define CROSS_INDEX 100
-# define SQUARE_INDEX 150
-# define L1_INDEX 200
-# define L2_INDEX 210
-# define L3_INDEX 219
-# define R1_INDEX 228
-# define R2_INDEX 237
-# define R3_INDEX 246
-
+uint32_t C1,C2,C3,C4,C5; // Theme colors
+uint8_t theme = RANDOM_THEME; // theme Counter
 uint8_t effect = 0; // Effect Counter
-uint8_t wait_factor = 128;
+
+#define SPEED_L 0
+#define SPEED_M 128
+#define SPEED_H 255
+uint8_t wait_factor = SPEED_M;
 // Flag when set, one effect will be followed by the other 
 // else, only one effect or one family of effects will play
 bool continuous_flow = true;
