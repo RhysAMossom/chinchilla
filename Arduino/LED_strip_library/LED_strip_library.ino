@@ -520,17 +520,15 @@ void fireworks(const uint32_t background_color){
   all_on(background_color);
 }
 
-// Slightly different, this makes the rainbow equally distributed throughout
-void rainbow(uint8_t wait=10) {
-  uint16_t i, j;
-
-  for(j=0; j<256*5; j++) { // 5 cycles of all colors on wheel
-    for(i=0; i< strip.numPixels(); i++) {
-      strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
-    }
-    strip.show();
-    delay(wait);
+void rainbow(uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1) {
+  // Draw rainbot evenly distrubuted from led1 to led 2
+  int16_t increment = (led1 <= led2) ? 1 : -1;
+  int16_t block_size = (led1 <= led2) ? led2 - led1 + 1 : led1 - led2 + 1;
+  
+  for(uint16_t led = led1; led != led2 + increment; led += increment) {
+    strip.setPixelColor(led, Wheel(((led * 256 / block_size)) & 255));
   }
+  strip.show();
 }
 
 void theater_chase_rainbow(uint16_t wait=50) {
