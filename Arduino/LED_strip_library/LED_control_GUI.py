@@ -33,7 +33,16 @@ class ArduinoError(Exception):
         return repr(self.value)
 
 class Arduino(serial.Serial):
-    def __init__(self, port=None, baudrate=9600):
+    def __init__(self, port=None, baudrate=9600,retries=5,verbose=True):
+        self.retries = retries
+        self.verbose = verbose
+        self.DEBUG = False
+        if port == 'DEBUG':
+            self.DEBUG = True
+            if self.verbose:
+                print("Arduino in debug mode")
+            return
+        
         # connect to arduino
         if port is not None:
             ports = [port]
@@ -61,9 +70,28 @@ class Arduino(serial.Serial):
                 self = open_connection
                 time.sleep(3) # wait for arduino to finish resetting after connection
                 break
+    
+    def send_msg(self,msg_out):
+        if self.DEBUG:
+            if self.verbose:
+                print(msg_out)
+            return msg_out
+        if self.verbose:
+            print(str(msg_out))
+        
+        for r in range(self.retries):
+            self.write(msg_out)
+            time.sleep(1)
+            msg_in = self.readline()
+            if msg_in == msg_out:
+                if self.verbose:
+                    print(str(msg_in))
+                return msg_in
+            elif self.verbose:
+                print("retry %d received %s" % (r,str(msg_in)))
+        raise ArduinoError("Tried %d times, got: %s" % (self.retries,str(msg_in)))
 
 # Event handlers
-
 def choose_color(initialcolor,*args):
     xRGB = initialcolor
     RGB, hexRGB = tkColorChooser.askcolor(parent=mainframe,initialcolor=xRGB.get())
@@ -82,18 +110,23 @@ def choose_color(initialcolor,*args):
 def set_color(*args):
     print("UID + COLOR + R + G + B-xRGB")
     msg = "%s%s%s%s%s-%s\n" % (UID.get(),p.COLOR,chr(R.get()),chr(G.get()),chr(B.get()),xRGB.get())
-    print(msg)        
-
+    MSG_OUT.set(msg)
+    MSG_IN.set(arduino.send_msg(msg))
+    
 def check_box_change(com,*args):
     if com == p.TOGGLE:
         value = effect_continuity.get()
     elif com == p.THEME_TOGGLE:
         value = theme_continuity.get()
+    elif com == p.SPEED:
+        value = speed.get()
     else:
         print("unhandled check box with command %s" % str(com))
+        return
     print("UID + TOGGLE + TOGGLE_VALUE")
     msg = "%s%s%s\n" % (UID.get(),com,value)
-    print(msg)
+    MSG_OUT.set(msg)
+    MSG_IN.set(arduino.send_msg(msg))
 
 def button_down(com,code,*args):
     print("UID + COMMAND + EFFECT_CODE")
@@ -104,7 +137,8 @@ def button_down(com,code,*args):
         com = code
         code = "%s%s%s-%s" % (chr(R.get()),chr(G.get()),chr(B.get()),xRGB.get())
     msg = "%s%s%s\n" % (UID.get(),com,code)
-    print(msg)
+    MSG_OUT.set(msg)
+    MSG_IN.set(arduino.send_msg(msg))
 
 def effect_down(*args):
     try:
@@ -112,25 +146,27 @@ def effect_down(*args):
     except ValueError:
         print("could not convert %s to integer" % str(effect.get()))
         return
-    print("UID + EFFECT + EFFECT_NUMBER")
-    msg = "%s%s%s\n" % (UID.get(),p.EFFECT,chr(e))
-    print(msg)
+    print("UID + EFFECT + EFFECT_NUMBER + EFFECT_CONTINUITY + THEME_CONTINUITY + SPEED")
+    msg = "%s%s%s%s%s%s\n" % (UID.get(),p.EFFECT,chr(e),
+                effect_continuity.get(), theme_continuity.get(),speed.get())
+    MSG_OUT.set(msg)
+    MSG_IN.set(arduino.send_msg(msg)) 
 
 # Main program
-
 if __name__ == '__main__':
-    #if sys.argv[1] != '':
-    #    port = sys.argv[1]
-    #else:
-    #    port = '/dev/arduino0'
-    #print("using port %s" % port)
+    if len(sys.argv) > 1 and sys.argv[1] != '':
+        port = sys.argv[1]
+    else:
+        port = '/dev/arduino0'
+    print("using port %s" % port)
     try:
         #arduino = Arduino(port=port)
+        arduino = Arduino(port='DEBUG')
+        
         #arduino.write(chr(0)+chr(0)+chr(0)+'\n')
         #import array
         #array.array('B', [0xc0, 0x04, 0x00]).tostring()
         
-
         
         root = Tk()
         root.title("LED Strip Controller by Chinchillashark")
@@ -138,6 +174,14 @@ if __name__ == '__main__':
         mainframe.grid(column=0,row=0,sticky=(N, W, E, S))
         mainframe.columnconfigure(0,weight=1)
         mainframe.rowconfigure(0, weight=1)
+        
+        # Messages
+        MSG_OUT = StringVar()
+        MSG_IN = StringVar()
+        ttk.Label(mainframe, text="OUT:").grid(column=3,row=1,sticky=(W,E))
+        ttk.Label(mainframe, textvariable=MSG_OUT).grid(column=4,row=1,sticky=(W,E))
+        ttk.Label(mainframe, text="IN:").grid(column=5,row=1,sticky=(W,E))
+        ttk.Label(mainframe, textvariable=MSG_IN).grid(column=6,row=1,sticky=(W,E))
         
         # Controls
         # UIDs
@@ -172,6 +216,13 @@ if __name__ == '__main__':
         ttk.Checkbutton(effects_frame, variable=effect_continuity, 
                 text='Effects continuity',onvalue=p.ON, offvalue=p.OFF,
                 command=lambda com=p.TOGGLE:check_box_change(com)).grid(column=1,row=3,sticky=(W))
+        
+        # Speed
+        speed = StringVar()
+        ttk.Checkbutton(effects_frame, variable=speed,text="Speed",
+                onvalue=p.FAST, offvalue=p.SLOW,
+                command=lambda com=p.SPEED:check_box_change(com)).grid(column=2,row=3,sticky=(W))
+        speed.set(p.FAST)
         
         # Themes
         themes_frame = ttk.Labelframe(mainframe,text='Themes',padding="3 3 12 12",)
@@ -244,5 +295,3 @@ if __name__ == '__main__':
 # TO DO:
 # * test messages with arduino
 # * sending full packet instead of only effect number
-# *
-# *
