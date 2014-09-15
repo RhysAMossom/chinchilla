@@ -1,11 +1,9 @@
 /*
- * LED strip program
+ * LED & Sound with PS2 control strip program
  * Author: Carlos Chinchilla
  * 2013-2014
- * CIDERWARE LICENSE - TG version
- * The code is free to use and modify by the Thunder Gumbo community and
- * no one else. If you find the code useful and see the author
- * chinchillin' at a bar you may thank him with a cold apple cider.
+ * 
+ 
 */
 
 //#define DEBUG_LEDS
@@ -16,20 +14,19 @@
 // 44 pixels per fins, 3 fins per Arduino board
 // 148 pixels per ribs, 2 ribs per Arduino board
 
-#define NUM_LEDS 400
+#define NUM_LEDS 480
 #define NUM_STRIPS 1
 #define STRIP_PIN 6// Signal Pin that controls strip
-#define BRIGHTNESS  255
 #define LED_TYPE    WS2812
 #define COLOR_ORDER RGB
 CRGB strip[NUM_LEDS];
 
 /********************** PS2 controller library and variables ******/
 #include "PS2X_lib.h"
-#define PS2_DAT 13  //14 data
-#define PS2_CMD 11  //15 command
-#define PS2_SEL 10  //16 attention
-#define PS2_CLK 12  //17 clock
+#define PS2_DAT 12  //14 data (brown)
+#define PS2_CMD 10  //15 command (orange)
+#define PS2_SEL 9  //16 attention (yellow)
+#define PS2_CLK 11  //17 clock (blue)
 
 // - pressures = analog reading of push-butttons 
 // - rumble    = motor rumbling
@@ -38,7 +35,11 @@ CRGB strip[NUM_LEDS];
 
 PS2X ps2x; // create PS2 Controller Class
 
-/********************** Effects variables ************************/
+/********************** PSound variables **************************/
+#define GATE_PIN 2
+#define ENVELOPE_PIN A0
+
+/********************** Effects variables *************************/
 #define WAIT    0
 #define THEME_CHOOSER 1
 #define RAINBOW 2
@@ -46,6 +47,7 @@ PS2X ps2x; // create PS2 Controller Class
 #define FLASH 4
 
 uint8_t R,G,B;
+uint8_t brightness = 255;
 #define NUM_THEMES 5
 CRGB THEME_COLORS[NUM_THEMES]; // Theme colors
 uint8_t theme = 0; // Theme Counter
