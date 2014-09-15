@@ -804,12 +804,15 @@ void loop(){
 #else
 void loop(){
   // Effect testing
+  for(uint16_t led = 0; led <= 100; led++)
+    strip[led] = 0x030303;
+  FastLED.show();
   while(true){
-    for(uint16_t led = 0; led <= 100; led++)
-      strip[led] = 0x030303;
-    FastLED.show();
+    brightness = analogRead(ENVELOPE_PIN);
+    FastLED.setBrightness(brightness);
+    FastLED.show(); // is this necessary?
+    delay(100);
   }
-  br
   
   if (repeats <10){
     move_palette( repeats, NUM_LEDS,100, 0, NUM_LEDS-1);
