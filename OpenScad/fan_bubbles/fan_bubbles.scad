@@ -6,8 +6,8 @@ t = 1;
 // Side vent
 d = 3;
 l = 15;
-h = 8.6;
-w = 35;
+h = 12.5;
+w = 17.55;
 
 // Tube holders
 r = 2.6;
