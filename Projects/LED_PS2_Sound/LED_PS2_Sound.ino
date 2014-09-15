@@ -52,6 +52,7 @@ uint8_t brightness = 255;
 CRGB THEME_COLORS[NUM_THEMES]; // Theme colors
 uint8_t theme = 0; // Theme Counter
 uint8_t effect = 5; // Effect Counter
+uint8_t wait_factor = 5; // Used for speed Counter
 uint8_t repeats = 0; // Repeats Counter to avoid blocking loops in state machine
 
 // Flag when set, one effect will be followed by the other 

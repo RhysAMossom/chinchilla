@@ -12,43 +12,10 @@
 void loop(){
    ps2x.read_gamepad(); //read controller
   
-  // Cases Control
+  // PS2 Cases Control
   if(ps2x.ButtonPressed(PSB_START)){
-    if (continuous_flow){
-      if (continuous_themes){
-        // Was green turns yellow
-        continuous_themes = false;
-        flash(0xFFFF00,500);
-        delay(500);
-        flash(0xFFFF00,500);
-        delay(500);
-      }
-      else {
-        // was yellow turns red
-        continuous_flow = false;
-        flash(0xFF0000,500);
-        delay(500);
-        flash(0xFF0000,500);
-        delay(500);
-      }
-    }
-    else{
-      // was red turns green
-      continuous_themes = true;
-      continuous_flow =  true;
-      flash(0x009900,500);
-      delay(500);
-      flash(0x009900,500);
-      delay(500);
-      }
-#ifdef DEBUG
-    Serial.print("flow: ");
-    Serial.print(continuous_flow);
-    Serial.print("\tfamily flow: ");
-    Serial.println(continuous_themes);
-#endif
-  }
 
+  }
   else if(ps2x.ButtonPressed(PSB_SELECT)) {
     uint8_t LY, LX, RY, RX;
     // Select RBG colors from joystic values
@@ -109,61 +76,51 @@ void loop(){
 #ifdef DEBUG
     Serial.println("Pressed triangle");
 #endif
-    effect = TRIANGLE_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_CIRCLE)) {
 #ifdef DEBUG
     Serial.println("Pressed circle");
 #endif
-    effect = CIRCLE_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_CROSS)) {
 #ifdef DEBUG
     Serial.println("Pressed cross");
 #endif
-    effect = CROSS_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_SQUARE)) {
 #ifdef DEBUG
     Serial.println("Pressed square");
 #endif
-    effect = SQUARE_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_L1)) {
 #ifdef DEBUG
     Serial.println("Pressed L1");
 #endif
-    effect = L1_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_L2)) {
 #ifdef DEBUG
     Serial.println("Pressed L2");
 #endif
-    effect = L2_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_L3)) {
 #ifdef DEBUG
     Serial.println("Pressed L3");
 #endif
-    effect = L3_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_R1)) {
 #ifdef DEBUG
     Serial.println("Pressed R1");
 #endif
-    effect = R1_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_R2)) {
 #ifdef DEBUG
     Serial.println("Pressed R2");
 #endif
-    effect = R2_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_R3)) {
 #ifdef DEBUG
     Serial.println("Pressed R3");
 #endif
-    effect = R3_THEME;
   }
   else if(ps2x.ButtonPressed(PSB_PAD_LEFT)) {
 #ifdef DEBUG

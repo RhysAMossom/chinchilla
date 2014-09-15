@@ -33,4 +33,5 @@ if "__main__" == __name__:
 
 
 # To do: 
-# * get rid of numbers with repeated digits
+# * look at rules to see if this works
+# * get stats on existing numbers
