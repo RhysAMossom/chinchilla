@@ -1,12 +1,8 @@
 /*
- * LED strip program
+ * LED & Sound with PS2 control strip program
  * Author: Carlos Chinchilla
  * 2013-2014
  * 
- * CIDERWARE LICENSE - TG version
- * The code is free to use and modify by the Thunder Gumbo community and
- * no one else. If you find the code useful and see the author
- * chinchillin' at a bar you may thank him with a cold apple cider.
 */
 
 /********************** Arduino Functions **************************/
@@ -69,7 +65,7 @@ void setup() {
   
   // Initialize strips
    FastLED.addLeds<LED_TYPE, STRIP_PIN, COLOR_ORDER>(strip, NUM_LEDS);
-   FastLED.setBrightness(BRIGHTNESS);
+   FastLED.setBrightness(brightness);
 
   // Give initial value to theme colors
   THEME_COLORS[0] = random_color();
@@ -77,6 +73,9 @@ void setup() {
   THEME_COLORS[2] = random_color();
   THEME_COLORS[3] = random_color();
   THEME_COLORS[4] = random_color();
+  
+  // Initialize Sound
+  pinMode(GATE_PIN,INPUT);
   
   // Initialize Random Seed
   randomSeed(analogRead(0));
