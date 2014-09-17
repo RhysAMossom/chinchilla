@@ -804,21 +804,24 @@ void loop(){
 #else
 void loop(){
   // Effect testing
-  for(uint16_t led = 0; led <= 100; led++)
-    strip[led] = 0x030303;
-  FastLED.show();
-  while(true){
+  rainbow();
+  if(repeats < 255){
     brightness = analogRead(ENVELOPE_PIN);
-    FastLED.setBrightness(brightness);
+    FastLED.setBrightness(10*brightness);
     FastLED.show(); // is this necessary?
-    delay(100);
+    continuous_flow = false;
+    repeats++;
+  }
+  else{
+    continuous_flow = true;
+    repeats=0;
   }
   
   if (repeats <10){
     move_palette( repeats, NUM_LEDS,100, 0, NUM_LEDS-1);
     continuous_flow = false;
     repeats++;
-  }ightness
+  }
   else{
     continuous_flow = true;
     repeats=0;

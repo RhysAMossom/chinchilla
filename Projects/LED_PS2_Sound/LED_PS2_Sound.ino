@@ -6,7 +6,7 @@
  
 */
 
-//#define DEBUG_LEDS
+#define DEBUG_LEDS
 /********************** LED strip library and variables **********/
 #include <FastLED.h>
 
@@ -15,7 +15,6 @@
 // 148 pixels per ribs, 2 ribs per Arduino board
 
 #define NUM_LEDS 480
-#define NUM_STRIPS 1
 #define STRIP_PIN 6// Signal Pin that controls strip
 #define LED_TYPE    WS2812
 #define COLOR_ORDER RGB
@@ -363,7 +362,7 @@ void palette(uint8_t palette_num, uint16_t led1=0, uint16_t led2 = NUM_LEDS-1){
   }
  
   for(uint16_t led = led1; led != led2 + increment; led += increment) {
-    strip[led] = ColorFromPalette(current_palette, color_index, BRIGHTNESS, current_blending);
+    strip[led] = ColorFromPalette(current_palette, color_index, brightness, current_blending);
     color_index +=5;
   }
   FastLED.show();
