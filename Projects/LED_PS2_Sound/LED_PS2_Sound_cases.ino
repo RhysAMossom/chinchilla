@@ -6,37 +6,116 @@
 
 */
 
-/********************** Cases *****************************************/
-#define TESTING_EFFECT
+/********************** State Machine *********************************/
+//#define TESTING_EFFECT
 #ifndef TESTING_EFFECT
 void loop(){
-   ps2x.read_gamepad(); //read controller
+  ps2x.read_gamepad(); //read controller
   
-  // PS2 Cases Control
+/********************** Non-Blocking Cases ****************************/
   if(ps2x.ButtonPressed(PSB_START)){
-
+    //Toggle effect continuity
+    continuous_flow = !continuous_flow;
   }
+    else if(ps2x.ButtonPressed(PSB_L1)) {
+#ifdef DEBUG
+    Serial.println("Pressed L1");
+#endif
+    // Flash random color
+  }
+  else if(ps2x.ButtonPressed(PSB_L2)) {
+#ifdef DEBUG
+    Serial.println("Pressed L2");
+#endif
+    // Flash from center to outside
+  }
+  else if(ps2x.ButtonPressed(PSB_L3)) {
+#ifdef DEBUG
+    Serial.println("Pressed L3");
+#endif
+    // Wipe with brightness control
+  }
+  else if(ps2x.ButtonPressed(PSB_R1)) {
+#ifdef DEBUG
+    Serial.println("Pressed R1");
+#endif
+    // Explosion
+  }
+  else if(ps2x.ButtonPressed(PSB_R2)) {
+#ifdef DEBUG
+    Serial.println("Pressed R2");
+#endif
+    // Single Dot
+  }
+  else if(ps2x.ButtonPressed(PSB_R3)) {
+#ifdef DEBUG
+    Serial.println("Pressed R3");
+#endif
+    // Shift strip drawing and adjust brightness
+  }
+  else if(ps2x.ButtonPressed(PSB_PAD_LEFT)) {
+#ifdef DEBUG
+    Serial.println("Pressed pad left");
+#endif
+    // Previous effect
+    effect -= 2;
+  }
+  else if(ps2x.ButtonPressed(PSB_PAD_RIGHT)) {
+#ifdef DEBUG
+    Serial.println("Pressed pad right");
+#endif
+    // Next Effect
+    effect++;
+  }
+  
+  // Speed control
+  if(ps2x.ButtonPressed(PSB_PAD_DOWN) || ps2x.ButtonPressed(PSB_PAD_UP)){
+    if(ps2x.ButtonPressed(PSB_PAD_UP)) {
+      // Increase speed
+      wait_factor = (wait_factor - 50 < wait_factor) ? wait_factor - 50 : 0;
+#ifdef DEBUG
+      Serial.println("Pressed pad up");
+      Serial.print("Wait factor: ");
+      Serial.println(wait_factor);    
+#endif
+    }
+    else{
+      // Decrease speed
+      wait_factor = (wait_factor + 50 > wait_factor) ? wait_factor + 50: 255;
+#ifdef DEBUG
+      Serial.println("Pressed pad down");
+      Serial.print("Wait factor: ");
+      Serial.println(wait_factor);
+#endif
+    }
+    flash(0x0000FF,200);
+    delay(100+wait_factor*3);
+    flash(0x0000FF,200);
+    delay(500);
+  }
+  
+/********************** Blocking Cases ********************************/  
   else if(ps2x.ButtonPressed(PSB_SELECT)) {
     uint8_t LY, LX, RY, RX;
     // Select RBG colors from joystic values
 #ifdef DEBUG
-    Serial.println("Exit with R1\nLy\tLx\tRy\tRx");
+    Serial.println("Ly\tLx\tRy\tRx");
 #endif
     delay(50);
     ps2x.read_gamepad();
-    while(!ps2x.ButtonPressed(PSB_R1)){
-      if (ps2x.ButtonPressed(PSB_L1)){
-    // Turn all off if L1 is pressed after SELECT
+    while(!ps2x.ButtonPressed(PSB_SQUARE)){
+      if (ps2x.ButtonPressed(PSB_CROSS)){
+    // Turn all off if CROSS is pressed after SELECT
 #ifdef DEBUG
-      Serial.println("all off");
+        Serial.println("all off");
 #endif
-        effect = 255;
+        effect = WAIT;
         LY = 0;
         LX = 0;
         RY = 0;
         RX = 0;
         break;
-      }
+        }
       LY = ps2x.Analog(PSS_LY);
       LX = ps2x.Analog(PSS_LX);
       RY = ps2x.Analog(PSS_RY);
@@ -54,7 +133,7 @@ void loop(){
       all_on(CRGB(LY, LX, RY));
       // Read gamepad for 
       ps2x.read_gamepad();
-      delay(50);
+      FastLED.delay(50);
     }
 #ifdef DEBUG
     Serial.println("done choosing colors");
@@ -71,96 +150,32 @@ void loop(){
     }
     
   }
-  // Effects Family Control
   else if(ps2x.ButtonPressed(PSB_TRIANGLE)) {
 #ifdef DEBUG
     Serial.println("Pressed triangle");
 #endif
+    // Fade between colors
   }
   else if(ps2x.ButtonPressed(PSB_CIRCLE)) {
 #ifdef DEBUG
     Serial.println("Pressed circle");
 #endif
+    // Rainbows and Palettes
   }
   else if(ps2x.ButtonPressed(PSB_CROSS)) {
 #ifdef DEBUG
     Serial.println("Pressed cross");
 #endif
+    // Fast effects, flashes, and explosions
   }
   else if(ps2x.ButtonPressed(PSB_SQUARE)) {
 #ifdef DEBUG
     Serial.println("Pressed square");
 #endif
-  }
-  else if(ps2x.ButtonPressed(PSB_L1)) {
-#ifdef DEBUG
-    Serial.println("Pressed L1");
-#endif
-  }
-  else if(ps2x.ButtonPressed(PSB_L2)) {
-#ifdef DEBUG
-    Serial.println("Pressed L2");
-#endif
-  }
-  else if(ps2x.ButtonPressed(PSB_L3)) {
-#ifdef DEBUG
-    Serial.println("Pressed L3");
-#endif
-  }
-  else if(ps2x.ButtonPressed(PSB_R1)) {
-#ifdef DEBUG
-    Serial.println("Pressed R1");
-#endif
-  }
-  else if(ps2x.ButtonPressed(PSB_R2)) {
-#ifdef DEBUG
-    Serial.println("Pressed R2");
-#endif
-  }
-  else if(ps2x.ButtonPressed(PSB_R3)) {
-#ifdef DEBUG
-    Serial.println("Pressed R3");
-#endif
-  }
-  else if(ps2x.ButtonPressed(PSB_PAD_LEFT)) {
-#ifdef DEBUG
-    Serial.println("Pressed pad left");
-#endif
-    effect -= 2;
-  }
-  else if(ps2x.ButtonPressed(PSB_PAD_RIGHT)) {
-#ifdef DEBUG
-    Serial.println("Pressed pad right");
-#endif
-    effect++;
+    // Sound sensitive routine
   }
   
-  // Speed control
-  if(ps2x.ButtonPressed(PSB_PAD_DOWN) || ps2x.ButtonPressed(PSB_PAD_UP)){
-    if(ps2x.ButtonPressed(PSB_PAD_UP)) {
-      // Increase speed
-      wait_factor = (wait_factor - 50 < wait_factor) ? wait_factor - 50 : SPEED_L;
-#ifdef DEBUG
-      Serial.println("Pressed pad up");
-      Serial.print("Wait factor: ");
-      Serial.println(wait_factor);    
-#endif
-    }
-    else{
-      // Decrease speed
-      wait_factor = (wait_factor + 50 > wait_factor) ? wait_factor + 50: SPEED_H;
-#ifdef DEBUG
-      Serial.println("Pressed pad down");
-      Serial.print("Wait factor: ");
-      Serial.println(wait_factor);
-#endif
-    }
-    flash(0x0000FF,200);
-    delay(100+wait_factor*3);
-    flash(0x0000FF,200);
-    delay(500);
-  }
-  
+/********************** Main Effects Routine **************************/  
 #ifdef DEBUG_LEDS
     // Report status on global variables
     Serial.print("Current effect: ");
@@ -248,7 +263,15 @@ void loop(){
     case RAINBOW:
       rainbow();
       delay(2000);
-      shift_strip(3*NUM_LEDS,20);
+      if (repeats < 3){
+        shift_strip(NUM_LEDS,20);
+        continuous_flow = false;
+        repeats++;
+      }
+      else{
+        continuous_flow = true;
+        repeats=0;
+      }
       if(continuous_flow) effect++; break;
     case FLASH:
       flash(CRGB(R,G,B),500);
@@ -804,6 +827,11 @@ void loop(){
 #else
 void loop(){
   // Effect testing
+  for (uint8_t i= 0; i< 25; i++){
+    all_on(random_color());
+    FastLED.delay(1000);
+  }
+  
   rainbow();
   if(repeats < 255){
     brightness = analogRead(ENVELOPE_PIN);
@@ -816,9 +844,10 @@ void loop(){
     continuous_flow = true;
     repeats=0;
   }
-  
+
+  palette(random(1,15));
+
   if (repeats <10){
-    move_palette( repeats, NUM_LEDS,100, 0, NUM_LEDS-1);
     continuous_flow = false;
     repeats++;
   }
@@ -1170,7 +1199,7 @@ void loop(){
   else{
     continuous_flow = true;
     repeats=0;
-  }     
+  }
  
 }
 #endif

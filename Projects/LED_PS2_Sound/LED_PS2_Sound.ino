@@ -19,6 +19,7 @@
 #define LED_TYPE    WS2812
 #define COLOR_ORDER RGB
 CRGB strip[NUM_LEDS];
+CRGB backup_strip[NUM_LEDS];
 
 /********************** PS2 controller library and variables ******/
 #include "PS2X_lib.h"
@@ -98,6 +99,21 @@ void shift_strip(uint16_t steps = 1, uint16_t wait = 100, uint16_t led1 = 0, uin
   }
 }
 
+void backup(uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
+  // Backup strip drawing to be recovered later
+  for(uint16_t led = led1; led <= led2; led++) {
+      backup_strip[led] = strip[led];
+  }
+}
+
+void restore(uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
+  // Restore and show previously backed up strip drawing
+  for(uint16_t led = led1; led <= led2; led++) {
+      strip[led] = backup_strip[led];
+  }
+  FastLED.show();
+}
+
 void shake(uint16_t cycles = 10, uint16_t amplitude = 10, uint16_t wait = 5, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
   while(cycles > 0){
     cycles--;
@@ -109,9 +125,9 @@ void shake(uint16_t cycles = 10, uint16_t amplitude = 10, uint16_t wait = 5, uin
 
 /********************** Color-returning Functions **************************/
 
-CRGB random_color(uint8_t color_low = 0x00, uint8_t color_high = 0xFF){
+CRGB random_color(uint8_t saturation = 200, uint8_t value=200){
   // Return a random color
-  return CRGB(random(color_low,color_high),random(color_low,color_high),random(color_low,color_high));
+  return CHSV(random(0,255), saturation, value);
 }
 
 CRGB dim_color(CRGB color, uint8_t chunk) {
@@ -207,17 +223,6 @@ void single_flash(CRGB color, uint16_t wait = 5, uint16_t led1 = 0, uint16_t led
 }
 
 /********************** Complex Effects **************************/
-void set_brightness(bool increase = false, uint8_t chunk = 10, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
-  // set brightness of current drawn sequence
-  // NOTE: because of overflow, this is destructive (i.e. color cannot be recovered)
-  CRGB color_target = increase ? CRGB(0xFFFFFF) : CRGB(0x000000);
-
-  for(uint16_t led=led1; led <= led2; led++){
-    CRGB color = strip[led];
-    strip[led] = color_to_target(color,color_target,chunk);
-  }
-  FastLED.show();
-}
 
 void blend(CRGB color, uint16_t wait=50, uint8_t chunk = 10, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
   // blend current drawn sequence to a color
@@ -279,7 +284,7 @@ void explosion(CRGB color, CRGB background_color, uint16_t start = NUM_LEDS/2, u
   while (c0 != color){
     strip[start] = c0;
     FastLED.show();
-    FastLED.delay(random(3)*5);
+    FastLED.delay(random(2)*5);
     c0 = color_to_target(c0, color, 5);
   }
   strip[start-1] = c0;
