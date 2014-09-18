@@ -33,7 +33,8 @@ void loop(){
 #ifdef DEBUG
     Serial.println("Pressed L3");
 #endif
-    // Wipe with brightness control
+    // Draw dragging a single pixel with brightness control
+    // Press CROSS to save press SQUARE when done.
   }
   else if(ps2x.ButtonPressed(PSB_R1)) {
 #ifdef DEBUG
@@ -1208,7 +1209,7 @@ void loop(){
 /*
  * TO DO:
  * - figure out speed
- * - Solder wires together
+ * - write routines for each state in state machine
  * - Paletes:
  * -- Candy Cane
  * -- Green and Blue (Rainforest)
