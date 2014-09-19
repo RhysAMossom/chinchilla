@@ -7,7 +7,7 @@
 */
 
 /********************** State Machine *********************************/
-//#define TESTING_EFFECT
+#define TESTING_EFFECT
 #ifndef TESTING_EFFECT
 void loop(){
   ps2x.read_gamepad(); //read controller
@@ -22,12 +22,20 @@ void loop(){
     Serial.println("Pressed L1");
 #endif
     // Flash random color
+    backup();
+    flash_and_dim(random_color(),10*wait_factor,10,10);
+    FastLED.delay(100);
+    restore();
   }
   else if(ps2x.ButtonPressed(PSB_L2)) {
 #ifdef DEBUG
     Serial.println("Pressed L2");
 #endif
-    // Flash from center to outside
+    // flash black
+    backup();
+    all_off();
+    FastLED.delay(10*wait_factor);
+    restore();
   }
   else if(ps2x.ButtonPressed(PSB_L3)) {
 #ifdef DEBUG
@@ -41,12 +49,17 @@ void loop(){
     Serial.println("Pressed R1");
 #endif
     // Explosion
+    uint16_t led = random(0,NUM_LEDS-1);
+    explosion(random_color(), strip[led], led, random(10,50),false);
   }
   else if(ps2x.ButtonPressed(PSB_R2)) {
 #ifdef DEBUG
     Serial.println("Pressed R2");
 #endif
     // Single Dot
+    strip[random(0,NUM_LEDS-1)] = random_color();
+    strip[random(0,NUM_LEDS-1)] = random_color();
+    strip[random(0,NUM_LEDS-1)] = random_color();
   }
   else if(ps2x.ButtonPressed(PSB_R3)) {
 #ifdef DEBUG
@@ -797,22 +810,22 @@ void loop(){
           
       if(continuous_flow) effect++; break;
     case 98:
-          if (repeats < 5){
-                color_mixer(random_color(),random_color(),4*NUM_LEDS/5, NUM_LEDS-1);
-                color_mixer(random_color(),random_color(),3*NUM_LEDS/5,4*NUM_LEDS/5);
-                color_mixer(random_color(),random_color(),2*NUM_LEDS/5,3*NUM_LEDS/5);
-                color_mixer(random_color(),random_color(),NUM_LEDS/5,2*NUM_LEDS/5);
-                color_mixer(random_color(),random_color(),0,NUM_LEDS/5);
-                FastLED.delay(2000);
-                rainbow();
-                FastLED.delay(2000);
-                continuous_flow = false;
-            repeats++;
-          }
-          else{
-            continuous_flow = true;
-            repeats=0;
-          }     
+      if (repeats < 5){
+        color_mixer(random_color(),random_color(),4*NUM_LEDS/5, NUM_LEDS-1);
+        color_mixer(random_color(),random_color(),3*NUM_LEDS/5,4*NUM_LEDS/5);
+        color_mixer(random_color(),random_color(),2*NUM_LEDS/5,3*NUM_LEDS/5);
+        color_mixer(random_color(),random_color(),NUM_LEDS/5,2*NUM_LEDS/5);
+        color_mixer(random_color(),random_color(),0,NUM_LEDS/5);
+        FastLED.delay(2000);
+        rainbow();
+        FastLED.delay(2000);
+        continuous_flow = false;
+        repeats++;
+      }
+      else{
+        continuous_flow = true;
+        repeats=0;
+      }     
       if(continuous_flow) effect++; break;
     case 255:
       effect = 5; break;      
@@ -825,9 +838,27 @@ void loop(){
   }
 }
 
+
+/********************** Test Area **************************/  
 #else
 void loop(){
   // Effect testing
+  
+  flash_and_dim(random_color(),10*wait_factor,10,10);
+  
+  uint16_t led = random(0,NUM_LEDS-1);
+  explosion(random_color(), strip[led], led, random(10,50),false);
+
+  rainbow();
+  FastLED.delay(1000);
+  backup();
+  all_off();
+  FastLED.delay(2000);
+  restore();
+  
+  flash_grow(random_color(), 0,NUM_LEDS/8);
+  FastLED.delay(1000);
+  
   for (uint8_t i= 0; i< 25; i++){
     all_on(random_color());
     FastLED.delay(1000);
@@ -856,7 +887,6 @@ void loop(){
     continuous_flow = true;
     repeats=0;
   }
-  
   
   color_mixer(CRGB(0x000005),CRGB(0x090885),4*NUM_LEDS/5, NUM_LEDS-1);
   
@@ -1213,5 +1243,14 @@ void loop(){
  * - Paletes:
  * -- Candy Cane
  * -- Green and Blue (Rainforest)
+ * - Starty sky
  * - Change license to closed source
+ * - Button Effects to work on:
+ * -- R3 shift strip drawing
+ * -- L3 draw
+ * -- CROSS fast routine
+ * -- TRIANGLE fade between colors
+ * -- CIRCLE rainbows and coor palettes
+ * -- SQUARE sound routines
+ * -- SELECT choose color - needs testing
 */

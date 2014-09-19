@@ -23,10 +23,10 @@ CRGB backup_strip[NUM_LEDS];
 
 /********************** PS2 controller library and variables ******/
 #include "PS2X_lib.h"
-#define PS2_DAT 12  //14 data (brown)
-#define PS2_CMD 10  //15 command (orange)
-#define PS2_SEL 9  //16 attention (yellow)
-#define PS2_CLK 11  //17 clock (blue)
+#define PS2_DAT 12  //data (brown)
+#define PS2_CMD 10  // command (orange)
+#define PS2_SEL 9  // attention (yellow)
+#define PS2_CLK 11  // clock (blue)
 
 // - pressures = analog reading of push-butttons 
 // - rumble    = motor rumbling
@@ -83,6 +83,9 @@ void fade_to(const CRGB current_color, const CRGB target_color,int16_t wait = 10
     color = color_to_target(color, target_color, 10);
     FastLED.delay(wait);
   }
+  // Don't forget the last color step
+  for(uint16_t i = led1; i <= led2; i++)
+    strip[i] = color;
 }
 
 void shift_strip(uint16_t steps = 1, uint16_t wait = 100, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
@@ -220,6 +223,18 @@ void single_flash(CRGB color, uint16_t wait = 5, uint16_t led1 = 0, uint16_t led
     strip[led] = color_temp;
     FastLED.show();
   }
+}
+
+void flash_grow(CRGB color, uint16_t wait = 5,uint8_t start = NUM_LEDS/8, uint8_t length = NUM_LEDS/8){
+  for(uint16_t offset=0; offset < length; offset+=2){
+    strip[start + offset] = color;
+    strip[start - offset] = color;
+    strip[start + offset +1] = color;
+    strip[start - offset -1] = color;
+    FastLED.show();
+    FastLED.delay(wait);
+  }
+  fade_to(color,CRGB::Black,0,start-length,start+length);
 }
 
 /********************** Complex Effects **************************/
