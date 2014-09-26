@@ -117,9 +117,10 @@ void loop(){
 #endif
     delay(50);
     ps2x.read_gamepad();
-    while(!ps2x.ButtonPressed(PSB_SQUARE)){
-      if (ps2x.ButtonPressed(PSB_CROSS)){
-    // Turn all off if CROSS is pressed after SELECT
+    while(!ps2x.ButtonPressed(PSB_L1)){
+      //exit loop pressing L1
+      if (ps2x.ButtonPressed(PSB_START)){
+    // Turn all off if START is pressed after SELECT
 #ifdef DEBUG
         Serial.println("all off");
 #endif
@@ -157,30 +158,36 @@ void loop(){
     delay(500);
     flash(CRGB(LY, LX, RY),500);
     all_on(CRGB(LY, LX, RY));
+    R = LY;
+    G = LX;
+    B = RY;
     // Stay on with that color
-    while(!ps2x.ButtonPressed(PSB_START)){
-      ps2x.read_gamepad();
-      delay(100);
-    }
-    
+    effects = WAIT;
+    continuous_flow = false;
   }
   else if(ps2x.ButtonPressed(PSB_TRIANGLE)) {
 #ifdef DEBUG
     Serial.println("Pressed triangle");
 #endif
     // Fade between colors
+    effects = FADE;
+    continuous_flow = false;
   }
   else if(ps2x.ButtonPressed(PSB_CIRCLE)) {
 #ifdef DEBUG
     Serial.println("Pressed circle");
 #endif
     // Rainbows and Palettes
+    effects = RAINBOW;
+    continuous_flow = false;
   }
   else if(ps2x.ButtonPressed(PSB_CROSS)) {
 #ifdef DEBUG
     Serial.println("Pressed cross");
 #endif
     // Fast effects, flashes, and explosions
+    effects = FLASH;
+    continuous_flow = false;
   }
   else if(ps2x.ButtonPressed(PSB_SQUARE)) {
 #ifdef DEBUG
@@ -211,7 +218,7 @@ void loop(){
   switch (effect) {
     // Handle theme boundaries
     case WAIT:
-      // Wait for next serial command
+      // Wait for next command
       if(continuous_flow) effect++; break;
       
     case THEME_CHOOSER:
@@ -275,10 +282,13 @@ void loop(){
       }
       if(continuous_themes) theme++; effect++; break;
     case RAINBOW:
-      rainbow();
-      delay(2000);
+      if {repeats == 0){
+          rainbow();
+      else {
+        palette(random(1,255), 0,NUM_LEDS-1);
+      }
       if (repeats < 3){
-        shift_strip(NUM_LEDS,20);
+        shift_strip(NUM_LEDS,wait_factor);
         continuous_flow = false;
         repeats++;
       }
@@ -288,17 +298,19 @@ void loop(){
       }
       if(continuous_flow) effect++; break;
     case FLASH:
-      flash(CRGB(R,G,B),500);
-      delay(2000);
+      switch(repeats){
+        case 1:
+          rainbow();
+          all_off();
+          FastLED.delay(2000);
+          break;
+        default:
+          flash(CRGB(R,G,B),500);
+          FastLED.delay(2000);
+      }
       if(continuous_flow) effect++; break;
-    case WIPE:
-      wipe_color(CRGB(R,G,B),5);
-      wipe_color(CRGB::Black,5);
-      if(continuous_flow) effect++; break;
-
-    case 5:
-          move_palette( random(1,10), NUM_LEDS,100, NUM_LEDS-1,0);
-          
+    case FADE:
+      blend(random_color(),wait_factor*10,  10, 0, NUM_LEDS-1);
       if(continuous_flow) effect++; break;
     case 6:
           color_mixer(CRGB(0x000005),CRGB(0x090885),4*NUM_LEDS/5, NUM_LEDS-1);

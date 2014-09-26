@@ -43,8 +43,8 @@ PS2X ps2x; // create PS2 Controller Class
 #define WAIT    0
 #define THEME_CHOOSER 1
 #define RAINBOW 2
-#define WIPE 3
-#define FLASH 4
+#define FLASH 3
+#define FADE 4
 
 uint8_t R,G,B;
 uint8_t brightness = 255;
@@ -360,6 +360,8 @@ void palette(uint8_t palette_num, uint16_t led1=0, uint16_t led2 = NUM_LEDS-1){
   uint8_t color_index = 0;
   CRGBPalette16 current_palette = RainbowColors_p;
   TBlendType    current_blending = BLEND;
+  palette_num = palette_num %10;
+  
   switch(palette_num){
     case 1:
       current_palette = RainbowStripeColors_p; current_blending = NOBLEND; break;
@@ -386,9 +388,4 @@ void palette(uint8_t palette_num, uint16_t led1=0, uint16_t led2 = NUM_LEDS-1){
     color_index +=5;
   }
   FastLED.show();
-}
-
-void move_palette(uint8_t palette_num, uint16_t steps = 1, uint16_t wait = 100, uint16_t led1=0, uint16_t led2 = NUM_LEDS-1){
-  palette(palette_num, led1,led2);
-  shift_strip(steps,wait,led1,led2);
 }
