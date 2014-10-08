@@ -15,9 +15,11 @@ def unique_digits(n):
 if "__main__" == __name__:
     distinct_numbers_unique_digits =[]
     distinct_numbers = []
+    repeated_digits = []
     covered_for = []
     sums = []
     total_cost = 0
+    total_cost_sum = 0
     
     with open("lottery_numbers.csv","w") as fh:
         numbers = {'number':None,'buy':None,'sum':None,'buy sum':None,'cost':None}
@@ -44,20 +46,25 @@ if "__main__" == __name__:
                         sums.append(numbers['sum'])
                         numbers['buy sum'] = True
                         numbers['cost'] += 1
-                        total_cost += 1
+                        total_cost_sum += 1
+                else:
+                    repeated_digits.append(n)
 
                 for p in permutate(n):
                     if p not in covered_for:
                         covered_for.append(p)
-            log_file.writerow(numbers)
+            if numbers['buy']:
+                log_file.writerow(numbers)
     
-    print("$%d spent" % total_cost)
+    print("$%d spent on regular tickets and $%d on sums" % (total_cost,total_cost_sum))
     print("%d distinct numbers" % len(distinct_numbers))
     #print("chances of getting a distinct number: %.2f" %(len(distinct_numbers)/1000.0))
     #print(distinct_numbers)
     print("%d distinct numbers with unique digits" % len(distinct_numbers_unique_digits))
     #print("chances of getting a distinct number with unique digits: %.2f" %(len(distinct_numbers_unique_digits)/1000.0))
     #print(distinct_numbers_unique_digits)
+    print("%d repeated-digit numbers" % len(repeated_digits))
+    #print(repeated_digits)
 
 # To do: 
 # * get stats on existing numbers
