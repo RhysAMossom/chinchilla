@@ -863,6 +863,14 @@ void loop(){
 
   rainbow();
   FastLED.delay(1000);
+  for (uint8 a = SERVO_MIN; a <=SERVO_MAX; a++){
+    servo.write(a);
+    FastLED.delay(100);
+  }
+  for (uint8 a = SERVO_MAX; a <=SERVO_MIN; a--){
+    servo.write(a);
+    FastLED.delay(100);
+  }
   backup();
   all_off();
   FastLED.delay(2000);
