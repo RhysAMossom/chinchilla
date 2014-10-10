@@ -56,7 +56,7 @@ void loop(){
 #ifdef DEBUG
     Serial.println("Pressed R2");
 #endif
-    // Single Dot
+    // Galaxia
     strip[random(0,NUM_LEDS-1)] = random_color();
     strip[random(0,NUM_LEDS-1)] = random_color();
     strip[random(0,NUM_LEDS-1)] = random_color();
@@ -1246,6 +1246,7 @@ void loop(){
  * - Starty sky
  * - Change license to closed source
  * - Button Effects to work on:
+ * -- R2 Galaxy
  * -- R3 shift strip drawing
  * -- L3 draw
  * -- CROSS fast routine
