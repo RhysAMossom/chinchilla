@@ -14,7 +14,7 @@
 // 44 pixels per fins, 3 fins per Arduino board
 // 148 pixels per ribs, 2 ribs per Arduino board
 
-#define NUM_LEDS 480
+#define NUM_LEDS 15
 #define STRIP_PIN 6// Signal Pin that controls strip
 #define LED_TYPE    WS2812
 #define COLOR_ORDER RGB
@@ -35,9 +35,13 @@ CRGB backup_strip[NUM_LEDS];
 
 PS2X ps2x; // create PS2 Controller Class
 
-/********************** PSound variables **************************/
-#define GATE_PIN 2
-#define ENVELOPE_PIN A0
+/********************** Servo variables **************************/
+#include <Servo.h> 
+ 
+Servo servo;
+#define SERVO_PIN 5
+#define SERVO_MIN 0
+#define SERVO_MAX 180
 
 /********************** Effects variables *************************/
 #define WAIT    0
