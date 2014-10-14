@@ -21,20 +21,6 @@
 CRGB strip[NUM_LEDS];
 CRGB backup_strip[NUM_LEDS];
 
-/********************** PS2 controller library and variables ******/
-#include "PS2X_lib.h"
-#define PS2_DAT 12  //data (brown)
-#define PS2_CMD 10  // command (orange)
-#define PS2_SEL 9  // attention (yellow)
-#define PS2_CLK 11  // clock (blue)
-
-// - pressures = analog reading of push-butttons 
-// - rumble    = motor rumbling
-#define pressures   false
-#define rumble      false
-
-PS2X ps2x; // create PS2 Controller Class
-
 /********************** Servo variables **************************/
 #include <Servo.h> 
  
