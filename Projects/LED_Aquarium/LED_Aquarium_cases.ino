@@ -97,7 +97,7 @@ void loop(){
       }
       if(continuous_themes) theme++; effect++; break;
     case RAINBOW:
-      if {repeats == 0){
+      if (repeats == 0)
           rainbow();
       else {
         palette(random(1,255), 0,NUM_LEDS-1);
@@ -676,6 +676,7 @@ void loop(){
   uint16_t led = random(0,NUM_LEDS-1);
   explosion(random_color(), strip[led], led, random(10,50),false);
 
+#ifdef SERVO
   rainbow();
   FastLED.delay(1000);
   for (uint8_t a = SERVO_MIN; a <=SERVO_MAX; a++){
@@ -690,7 +691,8 @@ void loop(){
   all_off();
   FastLED.delay(2000);
   restore();
-  
+#endif
+
   flash_grow(random_color(), 0,NUM_LEDS/8);
   FastLED.delay(1000);
   

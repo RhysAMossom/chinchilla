@@ -22,11 +22,12 @@ void setup() {
   THEME_COLORS[2] = random_color();
   THEME_COLORS[3] = random_color();
   THEME_COLORS[4] = random_color();
-  
+
+#ifdef SERVO
   // Initialize Servo
   servo.attach(SERVO_PIN);
   servo.write(SERVO_MIN);
-  
+#endif
   // Initialize Random Seed
   randomSeed(analogRead(0));
 }

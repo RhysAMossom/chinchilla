@@ -35,7 +35,7 @@ module triangular_adapter(){
 	s1 = 12.5;
 	s2 = 17.55;
 	piramid_h = 25;
-	r_out = 3;
+	r_out = 5.0/2;
 	r_in = r_out -t;
 	hose_h = piramid_h + 10;
 

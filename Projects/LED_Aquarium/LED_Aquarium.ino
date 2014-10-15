@@ -22,13 +22,14 @@ CRGB strip[NUM_LEDS];
 CRGB backup_strip[NUM_LEDS];
 
 /********************** Servo variables **************************/
+#ifdef SERVO
 #include <Servo.h> 
  
 Servo servo;
-#define SERVO_PIN 5
-#define SERVO_MIN 0
-#define SERVO_MAX 180
-
+#define SERVO_PIN 3
+#define SERVO_MIN 10
+#define SERVO_MAX 170
+#endif
 /********************** Effects variables *************************/
 #define WAIT    0
 #define THEME_CHOOSER 1
