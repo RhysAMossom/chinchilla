@@ -295,8 +295,8 @@ for (uint8_t i= 0; i < 15; i++){
   
   
   for (uint8_t i= 0; i < 4; i++){
-    wipe_color(CRGB(0x044000<<repeats), 50, 0, 3*NUM_LEDS/8);
-    wipe_color(CRGB(0x044000<<repeats), 50,NUM_LEDS,5*NUM_LEDS/8);
+    wipe_color(CRGB(0x044000 << i), 50, 0, 3*NUM_LEDS/8);
+    wipe_color(CRGB(0x044000 << i), 50,NUM_LEDS,5*NUM_LEDS/8);
     explosion(CRGB::Black,THEME_COLORS[2],random(NUM_LEDS-1),100,false);
     shake();
   }

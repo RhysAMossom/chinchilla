@@ -37,7 +37,6 @@ uint8_t brightness = 255;
 #define NUM_THEMES 5
 CRGB THEME_COLORS[NUM_THEMES]; // Theme colors
 uint8_t theme = 0; // Theme Counter
-uint8_t repeats = 0; // Repeats Counter to avoid blocking loops in state machine
 
 // Flag when set, one effect will be followed by the other 
 // else, only one effect or one family of effects will play
