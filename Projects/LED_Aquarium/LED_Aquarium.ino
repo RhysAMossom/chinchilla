@@ -31,19 +31,12 @@ Servo servo;
 #define SERVO_MAX 170
 #endif
 /********************** Effects variables *************************/
-#define WAIT    0
-#define THEME_CHOOSER 1
-#define RAINBOW 2
-#define FLASH 3
-#define FADE 4
 
 uint8_t R,G,B;
 uint8_t brightness = 255;
 #define NUM_THEMES 5
 CRGB THEME_COLORS[NUM_THEMES]; // Theme colors
 uint8_t theme = 0; // Theme Counter
-uint8_t effect = 5; // Effect Counter
-uint8_t wait_factor = 5; // Used for speed Counter
 uint8_t repeats = 0; // Repeats Counter to avoid blocking loops in state machine
 
 // Flag when set, one effect will be followed by the other 
