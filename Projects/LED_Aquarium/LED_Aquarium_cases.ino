@@ -101,16 +101,7 @@ void loop(){
   }
 
   palette(random(1,15));
-
-  if (repeats <10){
-    continuous_flow = false;
-    repeats++;
-  }
-  else{
-    continuous_flow = true;
-    repeats=0;
-  }
-  
+ 
   color_mixer(CRGB(0x000005),CRGB(0x090885),4*NUM_LEDS/5, NUM_LEDS-1);
   
   color_mixer(CRGB(0x090885),CRGB(0x000005),3*NUM_LEDS/5,4*NUM_LEDS/5);
@@ -150,14 +141,8 @@ void loop(){
   
   flash_and_dim(THEME_COLORS[4],150,18,8,0,NUM_LEDS-1);
   
-  if (repeats < 15){
+  for (uint8_t i= 0; i < 15; i++){
     divided_inwards(random_color(),random_color(),10);
-    continuous_flow = false;
-    repeats++;
-  }
-  else{
-    continuous_flow = true;
-    repeats=0;
   }
   
   blend(THEME_COLORS[1],80,10,0,NUM_LEDS-1);
@@ -296,18 +281,12 @@ void loop(){
   
   flash(THEME_COLORS[4],50,4*NUM_LEDS/5, NUM_LEDS-1);
   
-  if (repeats < 15){
+for (uint8_t i= 0; i < 15; i++){
     flash(THEME_COLORS[0],75,0,NUM_LEDS/5);
     flash(THEME_COLORS[1],75, NUM_LEDS/5,2*NUM_LEDS/5);
     flash(THEME_COLORS[2],75,2*NUM_LEDS/5, 3*NUM_LEDS/5);
     flash(THEME_COLORS[3],75,3*NUM_LEDS/5, 4*NUM_LEDS/5);
     flash(THEME_COLORS[4],75,4*NUM_LEDS/5, NUM_LEDS-1);
-    continuous_flow = false;
-    repeats++;
-  }
-  else{
-    continuous_flow = true;
-    repeats=0;
   }
   
   color_mixer(THEME_COLORS[4],CRGB::Black,0,NUM_LEDS-1);
@@ -315,28 +294,16 @@ void loop(){
   all_off();
   
   
-  if (repeats < 4){
+  for (uint8_t i= 0; i < 4; i++){
     wipe_color(CRGB(0x044000<<repeats), 50, 0, 3*NUM_LEDS/8);
     wipe_color(CRGB(0x044000<<repeats), 50,NUM_LEDS,5*NUM_LEDS/8);
     explosion(CRGB::Black,THEME_COLORS[2],random(NUM_LEDS-1),100,false);
     shake();
-    continuous_flow = false;
-    repeats++;
-  }
-  else{
-    continuous_flow = true;
-    repeats=0;
   }
   
   
-  if (repeats < 15){
+  for (uint8_t i= 0; i < 15; i++){
     divided_outwards(random_color(),random_color(),10);
-    continuous_flow = false;
-    repeats++;
-  }
-  else{
-    continuous_flow = true;
-    repeats=0;
   }
     
   wipe_color(CRGB::Black, 25, NUM_LEDS,0);
@@ -359,15 +326,9 @@ void loop(){
   
   all_off(2*NUM_LEDS/5,3*NUM_LEDS/5);
   
-  if (repeats < 15){
+  for (uint8_t i= 0; i < 15; i++){
     divided_inwards(random_color(),random_color(),10);
     divided_outwards(random_color(),random_color(),10);
-    continuous_flow = false;
-    repeats++;
-  }
-  else{
-    continuous_flow = true;
-    repeats=0;
   }
   
   flash(THEME_COLORS[4],500,2*NUM_LEDS/5,3*NUM_LEDS/5);
@@ -402,57 +363,33 @@ void loop(){
   
   blend(CRGB::Black,25,5,0,NUM_LEDS-1);
   
-  if (repeats < 25){
+  for (uint8_t i= 0; i < 25; i++){
     cross_over(random_color(),random_color(),10);
     explosion(THEME_COLORS[4],CRGB::Black,random(NUM_LEDS-1),10,false);
     explosion(THEME_COLORS[1],CRGB::Black,random(NUM_LEDS-1),10,false);
     explosion(THEME_COLORS[2],CRGB::Black,random(NUM_LEDS-1),10,false);
     explosion(THEME_COLORS[3],CRGB::Black,random(NUM_LEDS-1),10,false);
-    continuous_flow = false;
-    repeats++;
-  }
-  else{
-    continuous_flow = true;
-    repeats=0;
   }
   
-  if (repeats < 25){
+  for (uint8_t i= 0; i < 25; i++){
     flash_and_dim(random_color(),100-2*repeats,18,8,0,NUM_LEDS-1);
-    FastLED.delay(700-(repeats*repeats));
-    continuous_flow = false;
-    repeats++;
-  }
-  else{
-    continuous_flow = true;
-    repeats=0;
+    FastLED.delay(700-(i*i));
   }
        
-  if (repeats < 25){
+  for (uint8_t i= 0; i < 25; i++){
     flash_and_dim(random_color(),100,18,8,0,NUM_LEDS-1);
     FastLED.delay(200);
-    continuous_flow = false;
-    repeats++;
-  }
-  else{
-    continuous_flow = true;
-    repeats=0;
   }
   
-  if (repeats < 5){
-        color_mixer(random_color(),random_color(),4*NUM_LEDS/5, NUM_LEDS-1);
-        color_mixer(random_color(),random_color(),3*NUM_LEDS/5,4*NUM_LEDS/5);
-        color_mixer(random_color(),random_color(),2*NUM_LEDS/5,3*NUM_LEDS/5);
-        color_mixer(random_color(),random_color(),NUM_LEDS/5,2*NUM_LEDS/5);
-        color_mixer(random_color(),random_color(),0,NUM_LEDS/5);
-        FastLED.delay(2000);
-        rainbow();
-        FastLED.delay(2000);
-        continuous_flow = false;
-    repeats++;
-  }
-  else{
-    continuous_flow = true;
-    repeats=0;
+  for (uint8_t i= 0; i < 5; i++){
+    color_mixer(random_color(),random_color(),4*NUM_LEDS/5, NUM_LEDS-1);
+    color_mixer(random_color(),random_color(),3*NUM_LEDS/5,4*NUM_LEDS/5);
+    color_mixer(random_color(),random_color(),2*NUM_LEDS/5,3*NUM_LEDS/5);
+    color_mixer(random_color(),random_color(),NUM_LEDS/5,2*NUM_LEDS/5);
+    color_mixer(random_color(),random_color(),0,NUM_LEDS/5);
+    FastLED.delay(2000);
+    rainbow();
+    FastLED.delay(2000);
   }
  
 }
