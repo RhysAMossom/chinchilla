@@ -17,7 +17,7 @@ void loop(){
     //Toggle effect continuity
     continuous_flow = !continuous_flow;
   }
-    else if(ps2x.ButtonPressed(PSB_L1)) {
+  else if(ps2x.ButtonPressed(PSB_L1)) {
 #ifdef DEBUG
     Serial.println("Pressed L1");
 #endif

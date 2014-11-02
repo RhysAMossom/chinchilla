@@ -46,7 +46,7 @@ PS2X ps2x; // create PS2 Controller Class
 #define FLASH 3
 #define FADE 4
 
-uint8_t R,G,B;
+//uint8_t R,G,B;
 uint8_t brightness = 255;
 #define NUM_THEMES 5
 CRGB THEME_COLORS[NUM_THEMES]; // Theme colors
@@ -226,6 +226,7 @@ void single_flash(CRGB color, uint16_t wait = 5, uint16_t led1 = 0, uint16_t led
 }
 
 void flash_grow(CRGB color, uint16_t wait = 5,uint8_t start = NUM_LEDS/8, uint8_t length = NUM_LEDS/8){
+  // flash grows from given start point and fades to black
   for(uint16_t offset=0; offset < length; offset+=2){
     strip[start + offset] = color;
     strip[start - offset] = color;
