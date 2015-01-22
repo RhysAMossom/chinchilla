@@ -372,7 +372,7 @@ for (uint8_t i= 0; i < 15; i++){
   }
   
   for (uint8_t i= 0; i < 25; i++){
-    flash_and_dim(random_color(),100-2*repeats,18,8,0,NUM_LEDS-1);
+    flash_and_dim(random_color(),100-2*i,18,8,0,NUM_LEDS-1);
     FastLED.delay(700-(i*i));
   }
        
