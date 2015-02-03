@@ -15,6 +15,7 @@ void setup() {
   // Initialize strips
    FastLED.addLeds<LED_TYPE, STRIP_PIN, COLOR_ORDER>(strip, NUM_LEDS);
    FastLED.setBrightness(brightness);
+   all_off();
 
   // Give initial value to theme colors
   THEME_COLORS[0] = random_color();
