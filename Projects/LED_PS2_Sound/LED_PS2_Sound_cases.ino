@@ -1,15 +1,15 @@
 /*
  * LED & Sound with PS2 control strip program
  * Author: Carlos Chinchilla
- * 2013-2014
+ * 2013-2015
  
 
 */
 
 /********************** State Machine *********************************/
-#define TESTING_EFFECT
-#ifndef TESTING_EFFECT
 void loop(){
+#ifndef TESTING_EFFECT
+#ifdef USE_PS2_CONTROLLER
   ps2x.read_gamepad(); //read controller
   
 /********************** Non-Blocking Cases ****************************/
@@ -195,7 +195,8 @@ void loop(){
 #endif
     // Sound sensitive routine
   }
-  
+#endif // USE_PS2_CONTROLLER  
+
 /********************** Main Effects Routine **************************/  
 #ifdef DEBUG_LEDS
     // Report status on global variables
@@ -853,7 +854,6 @@ void loop(){
 
 /********************** Test Area **************************/  
 #else
-void loop(){
   // Effect testing
   
   flash_and_dim(random_color(),10*wait_factor,10,10);
@@ -1243,9 +1243,9 @@ void loop(){
     continuous_flow = true;
     repeats=0;
   }
- 
+#endif // TESTING_EFFECT
 }
-#endif
+
   
 
 /*

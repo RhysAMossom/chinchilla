@@ -1,9 +1,19 @@
 /*
  * LED & Sound with PS2 control strip program
  * Author: Carlos Chinchilla
- * 2013-2014
+ * 2013-2015
  * 
 */
+/********************** Sound Functions **************************/
+void soundISR()
+{
+  if(analogRead(GATE_PIN)){
+    backup();
+    all_on(random_color());
+  }
+  else
+    restore();
+}
 
 /********************** Arduino Functions **************************/
 void setup() {
@@ -12,6 +22,11 @@ void setup() {
   pinMode(HEART_BEAT_PIN, OUTPUT);
   digitalWrite(HEART_BEAT_PIN, HIGH);
   
+  // Sound detection
+  pinMode(GATE_PIN, INPUT);
+  attachInterrupt(IRQ_GATE_IN, soundISR, CHANGE);
+  
+#ifdef USE_PS2_CONTROLLER
   // Initialize PS2 Controller
   int error = 0;
   byte type = 0;
@@ -62,7 +77,8 @@ void setup() {
     Serial.println("Starting demo effects");
     continuous_flow = true;
   }
-  
+#endif
+
   // Initialize strips
    FastLED.addLeds<LED_TYPE, STRIP_PIN, COLOR_ORDER>(strip, NUM_LEDS);
    FastLED.setBrightness(brightness);
