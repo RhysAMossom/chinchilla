@@ -1,18 +1,20 @@
 /*
  * LED & Sound with PS2 control strip program
  * Author: Carlos Chinchilla
- * 2013-2014
+ * 2013-2015
  * 
  
 */
 
+// Compile flags
 #define DEBUG_LEDS
+//#define USE_PS2_CONTROLLER
+#define TESTING_EFFECT
+
 /********************** LED strip library and variables **********/
 #include <FastLED.h>
 
 #define HEART_BEAT_PIN 13
-// 44 pixels per fins, 3 fins per Arduino board
-// 148 pixels per ribs, 2 ribs per Arduino board
 
 #define NUM_LEDS 480
 #define STRIP_PIN 6// Signal Pin that controls strip
@@ -36,8 +38,9 @@ CRGB backup_strip[NUM_LEDS];
 PS2X ps2x; // create PS2 Controller Class
 
 /********************** PSound variables **************************/
-#define GATE_PIN 2
-#define ENVELOPE_PIN A0
+#define GATE_PIN 2 // High or Low (i.e. sound or no sound)
+#define IRQ_GATE_IN GATE_PIN // Teensy or arduino interrupt number according to GATE_PIN
+#define ENVELOPE_PIN A0 // Amplitude value (analog)
 
 /********************** Effects variables *************************/
 #define WAIT    0

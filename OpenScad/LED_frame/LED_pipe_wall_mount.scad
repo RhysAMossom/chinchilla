@@ -1,6 +1,6 @@
 $fn = 100;
 
-r_pipe = 36/2;
+r_pipe = 40/2;
 
 mount_base = 4* r_pipe;
 mount_height = 2* r_pipe;
@@ -9,8 +9,8 @@ mount_t = 5;
 
 height_pipe = r_pipe+mount_t+mount_height/3;
 
-screw_head_r = 3;
-screw_r = 2;
+screw_head_r = 4;
+screw_r = 2.2;
 screw_t = 3;
 screw_in = 5+screw_head_r;
 
