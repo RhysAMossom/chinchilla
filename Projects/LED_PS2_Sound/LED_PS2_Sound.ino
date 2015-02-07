@@ -9,7 +9,8 @@
 // Compile flags
 //#define DEBUG_LEDS
 //#define USE_PS2_CONTROLLER
-//#define TESTING_EFFECT
+#define TESTING_EFFECT
+
 
 /********************** LED strip library and variables **********/
 #include <FastLED.h>
@@ -22,6 +23,8 @@
 #define COLOR_ORDER GRB
 CRGB strip[NUM_LEDS];
 CRGB backup_strip[NUM_LEDS];
+// Temp colors
+CRGB color0, color1, color2;
 
 /********************** PS2 controller library and variables ******/
 #include "PS2X_lib.h"
@@ -212,15 +215,15 @@ void flash(CRGB color, uint16_t wait, uint16_t led1 = 0, uint16_t led2 = NUM_LED
   all_off(led1,led2);
 }
 
-void flash_and_dim(CRGB color, uint16_t wait, uint16_t wait_dim, uint8_t chunk, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
+void flash_and_dim(CRGB color, uint16_t wait, uint16_t wait_dim, uint8_t chunk=10, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
   // Quick flash and slow dimmer
   all_off(led1,led2);
   for(uint16_t led = led1; led <= led2; led++)
     strip[led] = color;
   FastLED.show();
   FastLED.delay(wait);
-  while (color[0] > 0x000000){
-    color = dim_color(color,chunk);
+  while (color.r > 0 && color.g > 0 && color.b > 0){
+    color = color_to_target(color,CRGB::Black,chunk);//dim_color(color,chunk);
     for(uint16_t led = led1; led <= led2; led++)
       strip[led] = color;
     FastLED.show();

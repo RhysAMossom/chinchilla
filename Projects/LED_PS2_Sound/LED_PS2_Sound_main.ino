@@ -22,6 +22,11 @@ void setup() {
   pinMode(HEART_BEAT_PIN, OUTPUT);
   digitalWrite(HEART_BEAT_PIN, HIGH);
   
+  // Initialize temp colors
+  color0 = CRGB::Red;
+  color1 = CRGB::Green;
+  color2 = CRGB::Blue;
+  
   // Sound detection
   pinMode(GATE_PIN, INPUT);
   attachInterrupt(IRQ_GATE_IN, soundISR, HIGH);
