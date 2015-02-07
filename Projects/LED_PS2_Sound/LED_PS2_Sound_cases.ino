@@ -146,6 +146,10 @@ void loop(){
 #endif
       // Set colors
       all_on(CRGB(LY, LX, RY));
+      R = LY;
+      B = LX;
+      G = RY;
+      
       // Read gamepad for 
       ps2x.read_gamepad();
       FastLED.delay(50);
@@ -283,7 +287,7 @@ void loop(){
       }
       if(continuous_themes) theme++; effect++; break;
     case RAINBOW:
-      if {repeats == 0){
+      if (repeats == 0)
           rainbow();
       else {
         palette(random(1,255), 0,NUM_LEDS-1);
@@ -849,8 +853,6 @@ void loop(){
       all_off();
       effect = 5; 
   }
-}
-
 
 /********************** Test Area **************************/  
 #else

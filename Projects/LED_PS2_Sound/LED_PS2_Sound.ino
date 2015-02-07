@@ -7,9 +7,9 @@
 */
 
 // Compile flags
-#define DEBUG_LEDS
+//#define DEBUG_LEDS
 //#define USE_PS2_CONTROLLER
-#define TESTING_EFFECT
+//#define TESTING_EFFECT
 
 /********************** LED strip library and variables **********/
 #include <FastLED.h>
@@ -49,12 +49,12 @@ PS2X ps2x; // create PS2 Controller Class
 #define FLASH 3
 #define FADE 4
 
-//uint8_t R,G,B;
+uint8_t R,G,B;
 uint8_t brightness = 255;
 #define NUM_THEMES 5
 CRGB THEME_COLORS[NUM_THEMES]; // Theme colors
 uint8_t theme = 0; // Theme Counter
-uint8_t effect = 5; // Effect Counter
+volatile uint8_t effect = 5; // Effect Counter
 uint8_t wait_factor = 5; // Used for speed Counter
 uint8_t repeats = 0; // Repeats Counter to avoid blocking loops in state machine
 
