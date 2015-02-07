@@ -19,7 +19,7 @@
 #define NUM_LEDS 480
 #define STRIP_PIN 6// Signal Pin that controls strip
 #define LED_TYPE    WS2812
-#define COLOR_ORDER RGB
+#define COLOR_ORDER GRB
 CRGB strip[NUM_LEDS];
 CRGB backup_strip[NUM_LEDS];
 
@@ -39,7 +39,7 @@ PS2X ps2x; // create PS2 Controller Class
 
 /********************** PSound variables **************************/
 #define GATE_PIN 2 // High or Low (i.e. sound or no sound)
-#define IRQ_GATE_IN GATE_PIN // Teensy or arduino interrupt number according to GATE_PIN
+#define IRQ_GATE_IN 2 // Teensy or arduino interrupt number according to GATE_PIN
 #define ENVELOPE_PIN A0 // Amplitude value (analog)
 
 /********************** Effects variables *************************/
@@ -103,6 +103,19 @@ void shift_strip(uint16_t steps = 1, uint16_t wait = 100, uint16_t led1 = 0, uin
     FastLED.show();
     FastLED.delay(wait);
   }
+}
+
+void move_strip(uint16_t steps = 1, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
+  // Take drawn sequence and move it many steps from led1 to led2 exclusive
+  int16_t increment = (led1 <= led2) ? 1 : -1;
+  for (uint16_t s = 0; s < steps; s++){ 
+    CRGB color1 = strip[led1];
+    for(uint16_t led = led1; led != led2; led += increment) {
+      strip[led] =  strip[led + increment];
+    }
+    strip[led2] = color1;
+  }
+  FastLED.show();  
 }
 
 void backup(uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
@@ -349,6 +362,19 @@ void divided_inwards(CRGB color1, CRGB color2, uint16_t wait=10) {
     strip[0 + led] = color1;
     strip[NUM_LEDS - led] = color2;
     FastLED.show();
+    FastLED.delay(wait);
+  }
+}
+
+void serpent(uint16_t steps=NUM_LEDS/4, uint8_t repeats=1, uint16_t wait=10) {
+  for(uint8_t r=0; r < repeats; r++) {
+    shift_strip(steps,wait);
+  }
+}
+
+void rotate(uint16_t steps=NUM_LEDS/4, uint8_t repeats=1, uint16_t wait=500) {
+  for(uint8_t r=0; r < repeats; r++) {
+    move_strip(steps);
     FastLED.delay(wait);
   }
 }

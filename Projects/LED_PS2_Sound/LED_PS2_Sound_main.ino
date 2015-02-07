@@ -7,12 +7,12 @@
 /********************** Sound Functions **************************/
 void soundISR()
 {
-  if(analogRead(GATE_PIN)){
+//  if(digitalRead(GATE_PIN)){
     backup();
     all_on(random_color());
-  }
-  else
-    restore();
+//  }
+ // else
+ //   restore();
 }
 
 /********************** Arduino Functions **************************/
@@ -24,7 +24,7 @@ void setup() {
   
   // Sound detection
   pinMode(GATE_PIN, INPUT);
-  attachInterrupt(IRQ_GATE_IN, soundISR, CHANGE);
+  attachInterrupt(IRQ_GATE_IN, soundISR, HIGH);
   
 #ifdef USE_PS2_CONTROLLER
   // Initialize PS2 Controller

@@ -860,6 +860,8 @@ void loop(){
   
   uint16_t led = random(0,NUM_LEDS-1);
   explosion(random_color(), strip[led], led, random(10,50),false);
+  for (uint8_t i= 0; i< 4; i++)
+    rotate();
 
   rainbow();
   FastLED.delay(1000);
@@ -891,15 +893,6 @@ void loop(){
 
   palette(random(1,15));
 
-  if (repeats <10){
-    continuous_flow = false;
-    repeats++;
-  }
-  else{
-    continuous_flow = true;
-    repeats=0;
-  }
-  
   color_mixer(CRGB(0x000005),CRGB(0x090885),4*NUM_LEDS/5, NUM_LEDS-1);
   
   color_mixer(CRGB(0x090885),CRGB(0x000005),3*NUM_LEDS/5,4*NUM_LEDS/5);
@@ -916,8 +909,12 @@ void loop(){
   FastLED.delay(1000);
   shift_strip(NUM_LEDS,100,0,NUM_LEDS-1);
   shift_strip(NUM_LEDS,80,0,NUM_LEDS-1);
+  
   shift_strip(NUM_LEDS,50,0,NUM_LEDS-1);
   shift_strip(NUM_LEDS,0,0,NUM_LEDS-1);
+  
+  for (uint8_t i= 0; i< 25; i++)
+    rotate();
   
   wipe_color(CRGB(0, 255, 0), 10, NUM_LEDS, 0); // Green
   
