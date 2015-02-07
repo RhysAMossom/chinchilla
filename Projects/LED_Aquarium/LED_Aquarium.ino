@@ -6,14 +6,11 @@
  
 */
 
-#define DEBUG_LEDS
+//#define DEBUG_LEDS
 /********************** LED strip library and variables **********/
 #include <FastLED.h>
 
 #define HEART_BEAT_PIN 13
-// 44 pixels per fins, 3 fins per Arduino board
-// 148 pixels per ribs, 2 ribs per Arduino board
-
 #define NUM_LEDS 15
 #define STRIP_PIN 6// Signal Pin that controls strip
 #define LED_TYPE    WS2812
@@ -23,12 +20,12 @@ CRGB backup_strip[NUM_LEDS];
 
 /********************** Servo variables **************************/
 #ifdef SERVO
-#include <Servo.h> 
- 
-Servo servo;
-#define SERVO_PIN 3
-#define SERVO_MIN 10
-#define SERVO_MAX 170
+  #include <Servo.h> 
+   
+  Servo servo;
+  #define SERVO_PIN 3
+  #define SERVO_MIN 10
+  #define SERVO_MAX 170
 #endif
 /********************** Effects variables *************************/
 
@@ -368,7 +365,7 @@ void palette(uint8_t palette_num, uint16_t led1=0, uint16_t led2 = NUM_LEDS-1){
  
   for(uint16_t led = led1; led != led2 + increment; led += increment) {
     strip[led] = ColorFromPalette(current_palette, color_index, brightness, current_blending);
-    color_index +=5;
+    color_index += 14;
   }
   FastLED.show();
 }
