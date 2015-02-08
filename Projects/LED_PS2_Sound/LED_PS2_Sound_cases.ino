@@ -857,25 +857,39 @@ void loop(){
 /********************** Test Area **************************/  
 #else
   // Effect testing
-  int eq = analogRead(ENVELOPE_PIN);
-  if(eq > 45)
-    eq -= 45;
-  if (eq > 75)
-    flash_and_dim(random_color(),100,5);
-  else{
-    all_on(color0,0,eq);
-    all_off(eq+1,NUM_LEDS-eq-1);
-    all_on(color1,NUM_LEDS-eq,NUM_LEDS);
-  }
+
+   // Equilizer
+//  int eq = analogRead(ENVELOPE_PIN);
+//  if(eq > 45)
+//    eq -= 45;
+//  if (eq > 75)
+//    flash_and_dim(random_color(),150,5);
+//  else{
+//    all_on(color0,0,eq);
+//    all_off(eq+1,NUM_LEDS-eq-1);
+//    all_on(color1,NUM_LEDS-eq,NUM_LEDS);
+//  }
+//  repeats++;
+//
+//  if(repeats == 50){
+//    repeats = 0;
+//    color0 = random_color();
+//    color1 = random_color();
+//  }
+
+  int eq = analogRead(ENVELOPE_PIN) % 256;
+  if(eq < 35)
+    eq = 35;
+  else if (eq > 75)
+    eq = 255;
+  CHSV color_hsv(repeats,255,eq);
+  hsv2rgb_spectrum(color_hsv,color0);
+  all_on(color0);
+
   repeats++;
-
-  if(repeats == 50){
+  if(repeats == 255){
     repeats = 0;
-    color0 = random_color();
-    color1 = random_color();
   }
-
-
   
 //  
 //  flash_and_dim(random_color(),10*wait_factor,10,10);
