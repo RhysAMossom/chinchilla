@@ -877,6 +877,16 @@ void loop(){
 //    color1 = random_color();
 //  }
 
+  int eq = analogRead(ENVELOPE_PIN);
+  if (eq > SOUND_LOUD){
+    CHSV color_hsv(random(0,256),255,255);
+    hsv2rgb_spectrum(color_hsv,color0);
+    flash(color0);
+  }
+  
+  int eq = analogRead(ENVELOPE_PIN);
+  single_flash(random_color(),10,eq,eq+3);
+
   int eq = analogRead(ENVELOPE_PIN) % 256;
   if(eq < 35)
     eq = 35;

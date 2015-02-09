@@ -233,15 +233,9 @@ void flash_and_dim(CRGB color, uint16_t wait, uint16_t wait_dim, uint8_t chunk=1
 
 void single_flash(CRGB color, uint16_t wait = 5, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){
   // single LED flashing on current drawn sequence
-  int16_t increment = (led1 <= led2) ? 1 : -1;
-  for (uint16_t led = led1; led != led2; led += increment){
-    CRGB color_temp = strip[led];
-    strip[led] = color;
-    FastLED.show();
-    FastLED.delay(wait);
-    strip[led] = color_temp;
-    FastLED.show();
-  }
+  backup_strip(led1,led2);
+  flash(color,wait,led1,led2);
+  restore(led1,led2);
 }
 
 void flash_grow(CRGB color, uint16_t wait = 5,uint8_t start = NUM_LEDS/8, uint8_t length = NUM_LEDS/8){
