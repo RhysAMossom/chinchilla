@@ -44,6 +44,9 @@ PS2X ps2x; // create PS2 Controller Class
 #define GATE_PIN 2 // High or Low (i.e. sound or no sound)
 #define IRQ_GATE_IN 2 // Teensy or arduino interrupt number according to GATE_PIN
 #define ENVELOPE_PIN A0 // Amplitude value (analog)
+#define SOFT_SOUND 30
+#define LOUD_SOUND 80
+uint8_t beat_count = 0;
 
 /********************** Effects variables *************************/
 #define WAIT    0

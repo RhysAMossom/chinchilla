@@ -5,14 +5,9 @@
  * 
 */
 /********************** Sound Functions **************************/
-void soundISR()
+void beatISR()
 {
-//  if(digitalRead(GATE_PIN)){
-    backup();
-    all_on(random_color());
-//  }
- // else
- //   restore();
+  beat_count++;
 }
 
 /********************** Arduino Functions **************************/
@@ -29,7 +24,7 @@ void setup() {
   
   // Sound detection
   pinMode(GATE_PIN, INPUT);
-  attachInterrupt(IRQ_GATE_IN, soundISR, HIGH);
+ // attachInterrupt(IRQ_GATE_IN, beatISR, RISING);
   
 #ifdef USE_PS2_CONTROLLER
   // Initialize PS2 Controller
