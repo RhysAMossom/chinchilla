@@ -857,46 +857,52 @@ void loop(){
 /********************** Test Area **************************/  
 #else
   // Effect testing
+
+  // Centered Circular Equilizer
+
+  int eq = 2*analogRead(ENVELOPE_PIN);
+  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
+  if (eq < NUM_LEDS/8 - 3){
+    for (uint16_t led_offset = 0; led_offset < NUM_LEDS; led_offset += NUM_LEDS/4){
+      uint16_t led = led_offset;
+      for (; led <= led_offset + NUM_LEDS/8 - eq -3; led++)
+        strip[led] = CRGB::Black;
+      for (; led <= led_offset + NUM_LEDS/8 - eq; led++)
+        strip[led] = color2;
+      for (; led <= led_offset + NUM_LEDS/8 + eq; led++)
+        strip[led] = color1;
+      for (; led <= led_offset + NUM_LEDS/8 + eq + 3; led++)
+        strip[led] = color2;
+      for (; led <= led_offset + NUM_LEDS/4; led++)
+        strip[led] = CRGB::Black;
+    }
+    FastLED.show();
+  }
+  else
+    all_on(random_color());
+  FastLED.delay(10);
+  repeats++;
+  if (repeats > 100){
+    repeats = 0;
+    color0 = random_color();
+    color1 = random_color();
+    color2 = random_color();
+  }
   
-//    // Centered Equilizer
-//  int eq = 4*analogRead(ENVELOPE_PIN);
-//  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
-//  if (eq < NUM_LEDS/4-3){
-//    all_on(color2, 0, eq);
-//    all_on(color1, eq, eq + 2);
-//    all_off(eq + 3, NUM_LEDS/4);
+//  // Centered Circular Equilizer
+//  for (uint16_t led_offset = 0; led_offset < NUM_LEDS; led_offset += NUM_LEDS/4){
+//    int eq = 2*analogRead(ENVELOPE_PIN);
+//    if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
+//    if (eq < NUM_LEDS/8 - 3){
+//      all_off(led_offset, led_offset + NUM_LEDS/8 - eq -3);
+//      all_on(color1, led_offset + NUM_LEDS/8 - eq -3, led_offset + NUM_LEDS/8 - eq);
+//      all_on(color2, led_offset + NUM_LEDS/8 - eq, led_offset + NUM_LEDS/8 + eq);
+//      all_on(color1, led_offset + NUM_LEDS/8 + eq, led_offset + NUM_LEDS/8 + eq + 3);
+//      all_off(led_offset + NUM_LEDS/8 + eq + 3, led_offset + NUM_LEDS/4);
+//    }
+//    else
+//      all_on(random_color(),led_offset,led_offset + NUM_LEDS/4);
 //  }
-//  else all_on(color0,0,NUM_LEDS/4);
-//  
-//  FastLED.delay(10);
-//  eq = 4*analogRead(ENVELOPE_PIN);
-//  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
-//  if (eq < NUM_LEDS/4-3){
-//    all_off(NUM_LEDS/4,  NUM_LEDS/2 - eq - 3);
-//    all_on(color1, NUM_LEDS/2 - eq - 3, NUM_LEDS/2 - eq);
-//    all_on(color2, NUM_LEDS/2 - eq, NUM_LEDS/2);
-//  }
-//  else all_on(color0,NUM_LEDS/4, NUM_LEDS/2);
-//  
-//  FastLED.delay(10);
-//  eq = 4*analogRead(ENVELOPE_PIN);
-//  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
-//  if (eq < NUM_LEDS/4-3){
-//    all_on(color2, NUM_LEDS/2, NUM_LEDS/2 + eq);
-//    all_on(color1, NUM_LEDS/2 + eq, NUM_LEDS/2 + eq + 2);
-//    all_off(NUM_LEDS/2 + eq + 3, 3*NUM_LEDS/4);
-//  }
-//  else all_on(color0,NUM_LEDS/2, 3*NUM_LEDS/4);
-//  
-//  FastLED.delay(10);
-//  eq = 4*analogRead(ENVELOPE_PIN);
-//  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
-//  if (eq < NUM_LEDS/4-3){
-//    all_off(3*NUM_LEDS/4,NUM_LEDS - eq -3);
-//    all_on(color1, NUM_LEDS - eq - 3, NUM_LEDS - eq);
-//    all_on(color2, NUM_LEDS - eq, NUM_LEDS);
-//  }
-//  else all_on(color0,3*NUM_LEDS/4, NUM_LEDS);
 //  
 //  repeats++;
 //  if (repeats > 100){
@@ -916,7 +922,6 @@ void loop(){
 //  }
 //  else all_on(color0,0,NUM_LEDS/4);
 //  
-//  FastLED.delay(10);
 //  eq = 4*analogRead(ENVELOPE_PIN);
 //  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
 //  if (eq < NUM_LEDS/4-3){
@@ -926,7 +931,6 @@ void loop(){
 //  }
 //  else all_on(color0,NUM_LEDS/4, NUM_LEDS/2);
 //  
-//  FastLED.delay(10);
 //  eq = 4*analogRead(ENVELOPE_PIN);
 //  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
 //  if (eq < NUM_LEDS/4-3){
@@ -936,7 +940,6 @@ void loop(){
 //  }
 //  else all_on(color0,NUM_LEDS/2, 3*NUM_LEDS/4);
 //  
-//  FastLED.delay(10);
 //  eq = 4*analogRead(ENVELOPE_PIN);
 //  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
 //  if (eq < NUM_LEDS/4-3){
@@ -1013,14 +1016,14 @@ void loop(){
 //  all_on(color0);
 //  repeats++;
 
-// Single color sound is brightness
-  int eq = map(analogRead(ENVELOPE_PIN),0,1023,0,255);
-  if (eq > LOUD_SOUND)
-    eq = 255;
-  else if (eq > SOFT_SOUND) eq +=25;
-  CHSV color_hsv(200,255,eq);
-  hsv2rgb_spectrum(color_hsv,color1);
-  all_on(color1);
+//// Single color sound is brightness
+//  int eq = map(analogRead(ENVELOPE_PIN),0,1023,0,255);
+//  if (eq > LOUD_SOUND)
+//    eq = 255;
+//  else if (eq > SOFT_SOUND) eq +=25;
+//  CHSV color_hsv(200,255,eq);
+//  hsv2rgb_spectrum(color_hsv,color1);
+//  all_on(color1);
 
   
 //  
