@@ -857,46 +857,102 @@ void loop(){
 /********************** Test Area **************************/  
 #else
   // Effect testing
-   // Circular Equilizer
-  int eq = 4*analogRead(ENVELOPE_PIN);
-  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
-  if (eq < LOUD_SOUND){
-    all_on(color2, 0, eq);
-    all_on(color1, eq, eq + 2);
-    all_off(eq + 3, NUM_LEDS/4);
-  }
-  else all_on(color0,0,NUM_LEDS/4);
   
-  FastLED.delay(10);
-  eq = 4*analogRead(ENVELOPE_PIN);
-  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
-  if (eq < LOUD_SOUND){
-    all_off(NUM_LEDS/4,  NUM_LEDS/2 - eq - 3);
-    all_on(color1, NUM_LEDS/2 - eq - 3, NUM_LEDS/2 - eq);
-    all_on(color2, NUM_LEDS/2 - eq, NUM_LEDS/2);
-  }
-  else all_on(color0,NUM_LEDS/4, NUM_LEDS/2);
+//    // Centered Equilizer
+//  int eq = 4*analogRead(ENVELOPE_PIN);
+//  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
+//  if (eq < NUM_LEDS/4-3){
+//    all_on(color2, 0, eq);
+//    all_on(color1, eq, eq + 2);
+//    all_off(eq + 3, NUM_LEDS/4);
+//  }
+//  else all_on(color0,0,NUM_LEDS/4);
+//  
+//  FastLED.delay(10);
+//  eq = 4*analogRead(ENVELOPE_PIN);
+//  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
+//  if (eq < NUM_LEDS/4-3){
+//    all_off(NUM_LEDS/4,  NUM_LEDS/2 - eq - 3);
+//    all_on(color1, NUM_LEDS/2 - eq - 3, NUM_LEDS/2 - eq);
+//    all_on(color2, NUM_LEDS/2 - eq, NUM_LEDS/2);
+//  }
+//  else all_on(color0,NUM_LEDS/4, NUM_LEDS/2);
+//  
+//  FastLED.delay(10);
+//  eq = 4*analogRead(ENVELOPE_PIN);
+//  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
+//  if (eq < NUM_LEDS/4-3){
+//    all_on(color2, NUM_LEDS/2, NUM_LEDS/2 + eq);
+//    all_on(color1, NUM_LEDS/2 + eq, NUM_LEDS/2 + eq + 2);
+//    all_off(NUM_LEDS/2 + eq + 3, 3*NUM_LEDS/4);
+//  }
+//  else all_on(color0,NUM_LEDS/2, 3*NUM_LEDS/4);
+//  
+//  FastLED.delay(10);
+//  eq = 4*analogRead(ENVELOPE_PIN);
+//  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
+//  if (eq < NUM_LEDS/4-3){
+//    all_off(3*NUM_LEDS/4,NUM_LEDS - eq -3);
+//    all_on(color1, NUM_LEDS - eq - 3, NUM_LEDS - eq);
+//    all_on(color2, NUM_LEDS - eq, NUM_LEDS);
+//  }
+//  else all_on(color0,3*NUM_LEDS/4, NUM_LEDS);
+//  
+//  repeats++;
+//  if (repeats > 100){
+//    repeats = 0;
+//    color0 = random_color();
+//    color1 = random_color();
+//    color2 = random_color();
+//  }
   
-  FastLED.delay(10);
-  eq = 4*analogRead(ENVELOPE_PIN);
-  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
-  if (eq < LOUD_SOUND){
-    all_on(color2, NUM_LEDS/2, NUM_LEDS/2 + eq);
-    all_on(color1, NUM_LEDS/2 + eq, NUM_LEDS/2 + eq + 2);
-    all_off(NUM_LEDS/2 + eq + 3, 3*NUM_LEDS/4);
-  }
-  else all_on(color0,NUM_LEDS/2, 3*NUM_LEDS/4);
-  
-  FastLED.delay(10);
-  eq = 4*analogRead(ENVELOPE_PIN);
-  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
-  if (eq < LOUD_SOUND){
-    all_off(3*NUM_LEDS/4,NUM_LEDS - eq -3);
-    all_on(color1, NUM_LEDS - eq - 3, NUM_LEDS - eq);
-    all_on(color2, NUM_LEDS - eq, NUM_LEDS);
-  }
-  else all_on(color0,3*NUM_LEDS/4, NUM_LEDS);
-
+//   // Circular Equilizer
+//  int eq = 4*analogRead(ENVELOPE_PIN);
+//  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
+//  if (eq < NUM_LEDS/4-3){
+//    all_on(color2, 0, eq);
+//    all_on(color1, eq, eq + 2);
+//    all_off(eq + 3, NUM_LEDS/4);
+//  }
+//  else all_on(color0,0,NUM_LEDS/4);
+//  
+//  FastLED.delay(10);
+//  eq = 4*analogRead(ENVELOPE_PIN);
+//  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
+//  if (eq < NUM_LEDS/4-3){
+//    all_off(NUM_LEDS/4,  NUM_LEDS/2 - eq - 3);
+//    all_on(color1, NUM_LEDS/2 - eq - 3, NUM_LEDS/2 - eq);
+//    all_on(color2, NUM_LEDS/2 - eq, NUM_LEDS/2);
+//  }
+//  else all_on(color0,NUM_LEDS/4, NUM_LEDS/2);
+//  
+//  FastLED.delay(10);
+//  eq = 4*analogRead(ENVELOPE_PIN);
+//  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
+//  if (eq < NUM_LEDS/4-3){
+//    all_on(color2, NUM_LEDS/2, NUM_LEDS/2 + eq);
+//    all_on(color1, NUM_LEDS/2 + eq, NUM_LEDS/2 + eq + 2);
+//    all_off(NUM_LEDS/2 + eq + 3, 3*NUM_LEDS/4);
+//  }
+//  else all_on(color0,NUM_LEDS/2, 3*NUM_LEDS/4);
+//  
+//  FastLED.delay(10);
+//  eq = 4*analogRead(ENVELOPE_PIN);
+//  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
+//  if (eq < NUM_LEDS/4-3){
+//    all_off(3*NUM_LEDS/4,NUM_LEDS - eq -3);
+//    all_on(color1, NUM_LEDS - eq - 3, NUM_LEDS - eq);
+//    all_on(color2, NUM_LEDS - eq, NUM_LEDS);
+//  }
+//  else all_on(color0,3*NUM_LEDS/4, NUM_LEDS);
+//
+//  repeats++;
+//  if (repeats > 100){
+//    repeats = 0;
+//    color0 = random_color();
+//    color1 = random_color();
+//    color2 = random_color();
+//  }
 
 //   // Equilizer on full strip
 //  int eq = 4*analogRead(ENVELOPE_PIN);
@@ -915,14 +971,14 @@ void loop(){
 //  }
 //  else
 //    flash(CRGB::Red,100);
-
-  repeats++;
-  if (repeats > 100){
-    repeats = 0;
-    color0 = random_color();
-    color1 = random_color();
-    color2 = random_color();
-  }
+//
+//  repeats++;
+//  if (repeats > 100){
+//    repeats = 0;
+//    color0 = random_color();
+//    color1 = random_color();
+//    color2 = random_color();
+//  }
 
 //   // Equilizer on half strip
 //  int eq = analogRead(ENVELOPE_PIN);
@@ -950,25 +1006,22 @@ void loop(){
 //  }
 
 //// Scroll Colors sound is brightness
-//  int eq = map(analogRead(ENVELOPE_PIN),0,1023,0,255);
-//  if(eq < 20)
-//    eq = 20;
-//  else if (eq > LOUD_SOUND)
-//    eq = LOUD_SOUND;
+//  int eq = 2*analogRead(ENVELOPE_PIN);
+//  if (eq < LOUD_SOUND) eq -= 10;
 //  CHSV color_hsv(repeats,255,eq);
 //  hsv2rgb_spectrum(color_hsv,color0);
 //  all_on(color0);
-//
 //  repeats++;
 
-//// Single color sound is brightness
-//  int eq = map(analogRead(ENVELOPE_PIN),0,1023,0,255);
-//  if (eq > LOUD_SOUND)
-//    eq = 255;
-//  CHSV color_hsv(200,255,eq);
-//  hsv2rgb_spectrum(color_hsv,color1);
-//  all_on(color1);
-  
+// Single color sound is brightness
+  int eq = map(analogRead(ENVELOPE_PIN),0,1023,0,255);
+  if (eq > LOUD_SOUND)
+    eq = 255;
+  else if (eq > SOFT_SOUND) eq +=25;
+  CHSV color_hsv(200,255,eq);
+  hsv2rgb_spectrum(color_hsv,color1);
+  all_on(color1);
+
   
 //  
 //  flash_and_dim(random_color(),10*wait_factor,10,10);

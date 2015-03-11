@@ -45,7 +45,7 @@ PS2X ps2x; // create PS2 Controller Class
 #define IRQ_GATE_IN 2 // Teensy or arduino interrupt number according to GATE_PIN
 #define ENVELOPE_PIN A0 // Amplitude value (analog)
 #define SOFT_SOUND 30
-#define LOUD_SOUND 80
+#define LOUD_SOUND 85
 uint8_t beat_count = 0;
 
 /********************** Effects variables *************************/
@@ -150,9 +150,9 @@ void shake(uint16_t cycles = 10, uint16_t amplitude = 10, uint16_t wait = 5, uin
 
 /********************** Color-returning Functions **************************/
 
-CRGB random_color(uint8_t saturation = 200, uint8_t value=200){
+CRGB random_color(){
   // Return a random color
-  return CHSV(random(0,255), saturation, value);
+  return CHSV(random(0,255), random(0,255), random(0,255));
 }
 
 CRGB dim_color(CRGB color, uint8_t chunk) {
