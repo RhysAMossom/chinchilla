@@ -37,9 +37,11 @@ repeats++;
     Serial.print(repeats);
     Serial.print(" Speed: ");
     if (wait_factor)
-      Serial.println("fast");
+      Serial.print("fast");
     else
-      Serial.println("slow");
+      Serial.print("slow");
+    Serial.print(" Eq: ");
+    Serial.println(eq);
 #endif
 }
 

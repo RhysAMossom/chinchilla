@@ -40,7 +40,7 @@ ps2x.read_gamepad(); //read controller
     Serial.println("Pressed R1");
 #endif
     // Explosion
-    uint16_t led = random(0,NUM_LEDS-1);
+    led = random(0,NUM_LEDS-1);
     explosion(random_color(), strip[led], led, random(10,50),false);
   }
   else if(ps2x.ButtonPressed(PSB_R2)) {
@@ -150,14 +150,14 @@ ps2x.read_gamepad(); //read controller
 #endif
     // Acknowledge selection
     flash(CRGB(LY, LX, RY),500);
-    delay(500);
+    FastLED.delay(500);
     flash(CRGB(LY, LX, RY),500);
     all_on(CRGB(LY, LX, RY));
     R = LY;
     G = LX;
     B = RY;
     // Stay on with that color
-    effects = WAIT;
+    effect = WAIT;
     continuous_flow = false;
   }
   else if(ps2x.ButtonPressed(PSB_TRIANGLE)) {
@@ -165,7 +165,7 @@ ps2x.read_gamepad(); //read controller
     Serial.println("Pressed triangle");
 #endif
     // Fade between colors
-    effects = FADE;
+    effect = FADE;
     continuous_flow = false;
   }
   else if(ps2x.ButtonPressed(PSB_CIRCLE)) {
@@ -173,7 +173,7 @@ ps2x.read_gamepad(); //read controller
     Serial.println("Pressed circle");
 #endif
     // Rainbows and Palettes
-    effects = RAINBOW;
+    effect = RAINBOW;
     continuous_flow = false;
   }
   else if(ps2x.ButtonPressed(PSB_CROSS)) {
@@ -181,7 +181,7 @@ ps2x.read_gamepad(); //read controller
     Serial.println("Pressed cross");
 #endif
     // Fast effects, flashes, and explosions
-    effects = FLASH;
+    effect = FLASH;
     continuous_flow = false;
   }
   else if(ps2x.ButtonPressed(PSB_SQUARE)) {
