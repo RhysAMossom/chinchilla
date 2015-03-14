@@ -8,7 +8,7 @@
   if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
   if (eq < NUM_LEDS/8 - 3){
     for (uint16_t led_offset = 0; led_offset < NUM_LEDS; led_offset += NUM_LEDS/4){
-      uint16_t led = led_offset;
+      led = led_offset;
       for (; led <= led_offset + NUM_LEDS/8 - eq -3; led++)
         strip[led] = CRGB::Black;
       for (; led <= led_offset + NUM_LEDS/8 - eq; led++)
@@ -156,7 +156,7 @@
 // START: Scroll Colors sound is brightness
   eq = 2*analogRead(ENVELOPE_PIN);
   if (eq < LOUD_SOUND) eq -= 10;
-  CHSV color_hsv(repeats,255,eq);
+  color_hsv.hue=repeats; color_hsv.sat=255; color_hsv.val=eq;
   hsv2rgb_spectrum(color_hsv,color0);
   all_on(color0);
 // END
@@ -166,7 +166,7 @@
   if (eq > LOUD_SOUND)
     eq = 255;
   else if (eq > SOFT_SOUND) eq +=25;
-  CHSV color_hsv(200,255,eq);
+  color_hsv.hue=200; color_hsv.sat=255; color_hsv.val=eq;
   hsv2rgb_spectrum(color_hsv,color1);
   all_on(color1);
 // END
@@ -176,7 +176,7 @@
 // END
 
 // START:
-  uint16_t led = random(0,NUM_LEDS-1);
+  led = random(0,NUM_LEDS-1);
   explosion(random_color(), strip[led], led, random(10,50),false);
   for (uint8_t i= 0; i< 4; i++)
     rotate();

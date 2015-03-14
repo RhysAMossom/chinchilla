@@ -7,9 +7,9 @@
 */
 
 // Compile flags
-//#define DEBUG_LEDS
+#define DEBUG_LEDS
 //#define USE_PS2_CONTROLLER
-#define TESTING_EFFECT
+//#define TESTING_EFFECT
 
 
 /********************** LED strip library and variables **********/
