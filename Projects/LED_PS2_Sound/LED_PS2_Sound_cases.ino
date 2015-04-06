@@ -18,8 +18,8 @@ CHSV color_hsv(255,255,255);
 
 #ifdef TESTING_EFFECT
 #include "test_cases.h"
-#else
 
+#else
 #include "effects_state_machine.h"
 #endif // TESTING_EFFECT
 
@@ -40,6 +40,8 @@ repeats++;
       Serial.print("fast");
     else
       Serial.print("slow");
+    Serial.print(" Beat: ");
+    Serial.print(beat_count);
     Serial.print(" Eq: ");
     Serial.println(eq);
 #endif

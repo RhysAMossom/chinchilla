@@ -103,177 +103,199 @@
 /* ROUTINES START */
   case 6:
 // START: Centered Circular Equilizer
-  eq = 2*analogRead(ENVELOPE_PIN);
-  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
-  if (eq < NUM_LEDS/8 - 3){
-    for (uint16_t led_offset = 0; led_offset < NUM_LEDS; led_offset += NUM_LEDS/4){
-      led = led_offset;
-      for (; led <= led_offset + NUM_LEDS/8 - eq -3; led++)
-        strip[led] = CRGB::Black;
-      for (; led <= led_offset + NUM_LEDS/8 - eq; led++)
-        strip[led] = color2;
-      for (; led <= led_offset + NUM_LEDS/8 + eq; led++)
-        strip[led] = color1;
-      for (; led <= led_offset + NUM_LEDS/8 + eq + 3; led++)
-        strip[led] = color2;
-      for (; led <= led_offset + NUM_LEDS/4; led++)
-        strip[led] = CRGB::Black;
+  if (repeats < 200) {
+    continuous_flow = false;
+    eq = 2*analogRead(ENVELOPE_PIN);
+    if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
+    if (eq < NUM_LEDS/8 - 3){
+      for (uint16_t led_offset = 0; led_offset < NUM_LEDS; led_offset += NUM_LEDS/4){
+        led = led_offset;
+        for (; led <= led_offset + NUM_LEDS/8 - eq -3; led++)
+          strip[led] = CRGB::Black;
+        for (; led <= led_offset + NUM_LEDS/8 - eq; led++)
+          strip[led] = color2;
+        for (; led <= led_offset + NUM_LEDS/8 + eq; led++)
+          strip[led] = color1;
+        for (; led <= led_offset + NUM_LEDS/8 + eq + 3; led++)
+          strip[led] = color2;
+        for (; led <= led_offset + NUM_LEDS/4; led++)
+          strip[led] = CRGB::Black;
+      }
+      FastLED.show();
     }
-    FastLED.show();
+    else
+      all_on(random_color());
+    // FastLED.delay(10);
   }
-  else
-    all_on(random_color());
-  FastLED.delay(10);
-  repeats++;
-  if (repeats > 100){
-    repeats = 0;
-    color0 = random_color();
-    color1 = random_color();
-    color2 = random_color();
+  else{
+      continuous_flow = true;
+      repeats = 0;
+      color0 = random_color();
+      color1 = random_color();
+      color2 = random_color();
   }
 // END
       if(continuous_flow) effect++; break;
   case 7:
 // START: Centered Circular Equilizer
-  for (uint16_t led_offset = 0; led_offset < NUM_LEDS; led_offset += NUM_LEDS/4){
-    eq = 2*analogRead(ENVELOPE_PIN);
-    if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
-    if (eq < NUM_LEDS/8 - 3){
-      all_off(led_offset, led_offset + NUM_LEDS/8 - eq -3);
-      all_on(color1, led_offset + NUM_LEDS/8 - eq -3, led_offset + NUM_LEDS/8 - eq);
-      all_on(color2, led_offset + NUM_LEDS/8 - eq, led_offset + NUM_LEDS/8 + eq);
-      all_on(color1, led_offset + NUM_LEDS/8 + eq, led_offset + NUM_LEDS/8 + eq + 3);
-      all_off(led_offset + NUM_LEDS/8 + eq + 3, led_offset + NUM_LEDS/4);
+  if (repeats < 200) {
+    continuous_flow = false;
+    for (uint16_t led_offset = 0; led_offset < NUM_LEDS; led_offset += NUM_LEDS/4){
+      eq = 2*analogRead(ENVELOPE_PIN);
+      if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
+      if (eq < NUM_LEDS/8 - 3){
+        all_off(led_offset, led_offset + NUM_LEDS/8 - eq -3);
+        all_on(color1, led_offset + NUM_LEDS/8 - eq -3, led_offset + NUM_LEDS/8 - eq);
+        all_on(color2, led_offset + NUM_LEDS/8 - eq, led_offset + NUM_LEDS/8 + eq);
+        all_on(color1, led_offset + NUM_LEDS/8 + eq, led_offset + NUM_LEDS/8 + eq + 3);
+        all_off(led_offset + NUM_LEDS/8 + eq + 3, led_offset + NUM_LEDS/4);
+      }
+      else
+        all_on(random_color(),led_offset,led_offset + NUM_LEDS/4);
     }
-    else
-      all_on(random_color(),led_offset,led_offset + NUM_LEDS/4);
   }
-  
-  if (repeats > 100){
-    repeats = 0;
-    color0 = random_color();
-    color1 = random_color();
-    color2 = random_color();
+  else{
+      continuous_flow = true;
+      repeats = 0;
+      color0 = random_color();
+      color1 = random_color();
+      color2 = random_color();
   }
 // END
       if(continuous_flow) effect++; break;
   case 8:
 // START: Circular Equilizer
-  eq = 4*analogRead(ENVELOPE_PIN);
-  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
-  if (eq < NUM_LEDS/4-3){
-    all_on(color2, 0, eq);
-    all_on(color1, eq, eq + 2);
-    all_off(eq + 3, NUM_LEDS/4);
+  if (repeats < 200) {
+    continuous_flow = false;
+    eq = 4*analogRead(ENVELOPE_PIN);
+    if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
+    if (eq < NUM_LEDS/4-3){
+      all_on(color2, 0, eq);
+      all_on(color1, eq, eq + 2);
+      all_off(eq + 3, NUM_LEDS/4);
+    }
+    else all_on(color0,0,NUM_LEDS/4);
+    
+    eq = 4*analogRead(ENVELOPE_PIN);
+    if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
+    if (eq < NUM_LEDS/4-3){
+      all_off(NUM_LEDS/4,  NUM_LEDS/2 - eq - 3);
+      all_on(color1, NUM_LEDS/2 - eq - 3, NUM_LEDS/2 - eq);
+      all_on(color2, NUM_LEDS/2 - eq, NUM_LEDS/2);
+    }
+    else all_on(color0,NUM_LEDS/4, NUM_LEDS/2);
+    
+    eq = 4*analogRead(ENVELOPE_PIN);
+    if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
+    if (eq < NUM_LEDS/4-3){
+      all_on(color2, NUM_LEDS/2, NUM_LEDS/2 + eq);
+      all_on(color1, NUM_LEDS/2 + eq, NUM_LEDS/2 + eq + 2);
+      all_off(NUM_LEDS/2 + eq + 3, 3*NUM_LEDS/4);
+    }
+    else all_on(color0,NUM_LEDS/2, 3*NUM_LEDS/4);
+    
+    eq = 4*analogRead(ENVELOPE_PIN);
+    if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
+    if (eq < NUM_LEDS/4-3){
+      all_off(3*NUM_LEDS/4,NUM_LEDS - eq -3);
+      all_on(color1, NUM_LEDS - eq - 3, NUM_LEDS - eq);
+      all_on(color2, NUM_LEDS - eq, NUM_LEDS);
+    }
+    else all_on(color0,3*NUM_LEDS/4, NUM_LEDS);
   }
-  else all_on(color0,0,NUM_LEDS/4);
-  
-  eq = 4*analogRead(ENVELOPE_PIN);
-  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
-  if (eq < NUM_LEDS/4-3){
-    all_off(NUM_LEDS/4,  NUM_LEDS/2 - eq - 3);
-    all_on(color1, NUM_LEDS/2 - eq - 3, NUM_LEDS/2 - eq);
-    all_on(color2, NUM_LEDS/2 - eq, NUM_LEDS/2);
-  }
-  else all_on(color0,NUM_LEDS/4, NUM_LEDS/2);
-  
-  eq = 4*analogRead(ENVELOPE_PIN);
-  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
-  if (eq < NUM_LEDS/4-3){
-    all_on(color2, NUM_LEDS/2, NUM_LEDS/2 + eq);
-    all_on(color1, NUM_LEDS/2 + eq, NUM_LEDS/2 + eq + 2);
-    all_off(NUM_LEDS/2 + eq + 3, 3*NUM_LEDS/4);
-  }
-  else all_on(color0,NUM_LEDS/2, 3*NUM_LEDS/4);
-  
-  eq = 4*analogRead(ENVELOPE_PIN);
-  if(eq > SOFT_SOUND) eq -= SOFT_SOUND;
-  if (eq < NUM_LEDS/4-3){
-    all_off(3*NUM_LEDS/4,NUM_LEDS - eq -3);
-    all_on(color1, NUM_LEDS - eq - 3, NUM_LEDS - eq);
-    all_on(color2, NUM_LEDS - eq, NUM_LEDS);
-  }
-  else all_on(color0,3*NUM_LEDS/4, NUM_LEDS);
-
-  if (repeats > 100){
-    repeats = 0;
-    color0 = random_color();
-    color1 = random_color();
-    color2 = random_color();
+  else{
+      continuous_flow = true;
+      repeats = 0;
+      color0 = random_color();
+      color1 = random_color();
+      color2 = random_color();
   }
 // END
       if(continuous_flow) effect++; break;
   case 9:
 // START: Equilizer on full strip
-  eq = 4*analogRead(ENVELOPE_PIN);
-  if(eq > SOFT_SOUND)
-    eq -= SOFT_SOUND;
-  if (eq < LOUD_SOUND){
-    all_on(color2, 0, eq);
-    all_on(color1, eq, eq + 2);
-    all_off(eq + 3, NUM_LEDS/2 - eq - 3);
-    all_on(color1, NUM_LEDS/2 - eq - 3, NUM_LEDS/2 - eq);
-    all_on(color2, NUM_LEDS/2 - eq, NUM_LEDS/2 + eq);
-    all_on(color1, NUM_LEDS/2 + eq, NUM_LEDS/2 + eq + 2);
-    all_off(NUM_LEDS/2 + eq + 3, NUM_LEDS -  eq - 3);
-    all_on(color1, NUM_LEDS - eq - 3, NUM_LEDS - eq);
-    all_on(color2, NUM_LEDS - eq, NUM_LEDS);
+  if (repeats < 200) {
+    continuous_flow = false;
+    eq = 4*analogRead(ENVELOPE_PIN);
+    if(eq > SOFT_SOUND)
+      eq -= SOFT_SOUND;
+    if (eq < LOUD_SOUND){
+      all_on(color2, 0, eq);
+      all_on(color1, eq, eq + 2);
+      all_off(eq + 3, NUM_LEDS/2 - eq - 3);
+      all_on(color1, NUM_LEDS/2 - eq - 3, NUM_LEDS/2 - eq);
+      all_on(color2, NUM_LEDS/2 - eq, NUM_LEDS/2 + eq);
+      all_on(color1, NUM_LEDS/2 + eq, NUM_LEDS/2 + eq + 2);
+      all_off(NUM_LEDS/2 + eq + 3, NUM_LEDS -  eq - 3);
+      all_on(color1, NUM_LEDS - eq - 3, NUM_LEDS - eq);
+      all_on(color2, NUM_LEDS - eq, NUM_LEDS);
+    }
+    else
+      flash(CRGB::Red,100);
   }
-  else
-    flash(CRGB::Red,100);
-
-  if (repeats > 100){
-    repeats = 0;
-    color0 = random_color();
-    color1 = random_color();
-    color2 = random_color();
+  else{
+      continuous_flow = true;
+      repeats = 0;
+      color0 = random_color();
+      color1 = random_color();
+      color2 = random_color();
   }
 // END
       if(continuous_flow) effect++; break;
   case 10:
 // START: Equilizer on half strip
-  eq = analogRead(ENVELOPE_PIN);
-  if(eq > SOFT_SOUND)
-    eq -= SOFT_SOUND;
-  if (eq > LOUD_SOUND)
-    flash_and_dim(random_color(),150,5);
+  if (repeats < 200) {
+    continuous_flow = false;
+    eq = analogRead(ENVELOPE_PIN);
+    if(eq > SOFT_SOUND)
+      eq -= SOFT_SOUND;
+    if (eq > LOUD_SOUND)
+      flash_and_dim(random_color(),150,5);
+    else{
+      all_on(color0,0,eq);
+      all_off(eq+1,NUM_LEDS-eq-1);
+      all_on(color1,NUM_LEDS-eq,NUM_LEDS);
+    }
+//    if(beat_count >= 10){
+//      rainbow();
+//      FastLED.delay(1000);
+//      all_off();
+//      beat_count = 0;
+//    }
+  }
   else{
-    all_on(color0,0,eq);
-    all_off(eq+1,NUM_LEDS-eq-1);
-    all_on(color1,NUM_LEDS-eq,NUM_LEDS);
-  }
-
-  if(repeats == 50){
-    repeats = 0;
-    color0 = random_color();
-    color1 = random_color();
-  }
-  if(beat_count >= 10){
-    rainbow();
-    FastLED.delay(1000);
-    all_off();
-    beat_count = 0;
+      continuous_flow = true;
+      repeats = 0;
+      color0 = random_color();
+      color1 = random_color();
+      color2 = random_color();
   }
 // END
       if(continuous_flow) effect++; break;
   case 11:
 // START: Scroll Colors sound is brightness
-  eq = 2*analogRead(ENVELOPE_PIN);
-  if (eq < LOUD_SOUND) eq -= 10;
-  color_hsv.hue=repeats; color_hsv.sat=255; color_hsv.val=eq;
-  hsv2rgb_spectrum(color_hsv,color0);
-  all_on(color0);
+  if (repeats < 200) {
+    continuous_flow = false;
+    eq = 2*analogRead(ENVELOPE_PIN);
+    if (eq < LOUD_SOUND) eq -= 10;
+    color_hsv.hue=repeats; color_hsv.sat=255; color_hsv.val=eq;
+    hsv2rgb_spectrum(color_hsv,color0);
+    all_on(color0);
+  }
 // END
       if(continuous_flow) effect++; break;
   case 12:
 // START: Single color sound is brightness
-  eq = map(analogRead(ENVELOPE_PIN),0,1023,0,255);
-  if (eq > LOUD_SOUND)
-    eq = 255;
-  else if (eq > SOFT_SOUND) eq +=25;
-  color_hsv.hue=200; color_hsv.sat=255; color_hsv.val=eq;
-  hsv2rgb_spectrum(color_hsv,color1);
-  all_on(color1);
+  if (repeats < 200) {
+    continuous_flow = false;
+    eq = map(analogRead(ENVELOPE_PIN),0,1023,0,255);
+    if (eq > LOUD_SOUND)
+      eq = 255;
+    else if (eq > SOFT_SOUND) eq +=25;
+    color_hsv.hue=200; color_hsv.sat=255; color_hsv.val=eq;
+    hsv2rgb_spectrum(color_hsv,color1);
+    all_on(color1);
+  }
 // END
       if(continuous_flow) effect++; break;
   case 13:
