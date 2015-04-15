@@ -178,6 +178,10 @@
     hsv2rgb_spectrum(color_hsv,color0);
     all_on(color0);
   }
+  else {
+    repeats = 0;
+    continuous_flow = true;
+  }
 // END
 
 // START: Single color sound is brightness
@@ -190,6 +194,10 @@
     color_hsv.hue=200; color_hsv.sat=255; color_hsv.val=eq;
     hsv2rgb_spectrum(color_hsv,color1);
     all_on(color1);
+  }
+  else {
+    repeats = 0;
+    continuous_flow = true;
   }
 // END
 

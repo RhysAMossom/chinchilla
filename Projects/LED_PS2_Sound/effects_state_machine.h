@@ -256,12 +256,12 @@
       all_off(eq+1,NUM_LEDS-eq-1);
       all_on(color1,NUM_LEDS-eq,NUM_LEDS);
     }
-//    if(beat_count >= 10){
-//      rainbow();
-//      FastLED.delay(1000);
-//      all_off();
-//      beat_count = 0;
-//    }
+    if(beat_count >= 10){
+      rainbow();
+      FastLED.delay(1000);
+      all_off();
+      beat_count = 0;
+    }
   }
   else{
       continuous_flow = true;
@@ -282,6 +282,10 @@
     hsv2rgb_spectrum(color_hsv,color0);
     all_on(color0);
   }
+  else {
+    repeats = 0;
+    continuous_flow = true;
+  }
 // END
       if(continuous_flow) effect++; break;
   case 12:
@@ -295,6 +299,10 @@
     color_hsv.hue=200; color_hsv.sat=255; color_hsv.val=eq;
     hsv2rgb_spectrum(color_hsv,color1);
     all_on(color1);
+  }
+  else {
+    repeats = 0;
+    continuous_flow = true;
   }
 // END
       if(continuous_flow) effect++; break;
