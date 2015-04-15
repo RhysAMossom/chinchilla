@@ -235,7 +235,7 @@
 
 // START: 
   rainbow();
-  if(repeats < 255){
+  if(repeats < 200){
     brightness = analogRead(ENVELOPE_PIN);
     FastLED.setBrightness(10*brightness);
     FastLED.show(); // is this necessary?

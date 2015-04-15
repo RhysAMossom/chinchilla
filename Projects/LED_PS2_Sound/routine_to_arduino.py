@@ -13,9 +13,11 @@ MAX_CASES = 255
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-r", "--routine-file", help="input file with routines")
-    parser.add_argument("-s", "--template-file", help="input template and output file")
-    parser.add_argument("-c", "--start-case", type=int, required=True)
+    parser.add_argument("-r", "--routine-file", help="input file with routines",
+        default="test_cases.h")
+    parser.add_argument("-s", "--template-file", help="input template and output file",
+        default="effects_state_machine.h")
+    parser.add_argument("-c", "--start-case", type=int, default=6)
     args = parser.parse_args()
     
     fh = open(args.routine_file,'r')
