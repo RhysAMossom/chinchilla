@@ -13,4 +13,5 @@
 *.BACKUP
 *.thing
 *.stl
-
+*.fla
+*.swf

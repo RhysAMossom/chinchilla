@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Abigail Murray - Costume Designer</title>
+<style type="text/css">
+
+a:link {
+	text-decoration: none;
+	color: #C30000;
+	font-weight:bold;
+	font-size: 18px;
+	font-family: "Times New Roman", Times, serif;
+	}
+a:visited {
+	text-decoration: none;
+	color: #C30000;
+	}
+a:hover {
+	text-decoration: none;
+	color: #FFFFFF;
+	}
+a:active {
+	text-decoration: none;
+	color: #C30000;
+	}
+
+#hidden {
+	color: #181818;
+}
+body {
+	background-color: #181818;
+	color: #FFFFFF;
+	font-family: Times New Roman, Times, serif;
+	}
+a{
+	padding-left:2em
+}
+h1 {
+	font-size: 36px;
+	font-family: "Times New Roman",Times, serif;
+	}
+
+#slideshow { 
+    margin: 10px auto; 
+    position: relative; 
+    padding: 10px; 
+	}
+	
+#slideshow > div { 
+	position: absolute; 
+	top: 10px; 
+	left: 10px; 
+	right: 10px; 
+
+}
+body, {
+	
+	font-size: 18px;
+}
+.style6 {font-size: 18px; }
+</style>
+
+<script src="library/css/jquery.min.js"></script>
+	<script>
+		$(function() {
+		
+			$("#slideshow > div:gt(0)").hide();
+	
+			setInterval(function() { 
+			  $('#slideshow > div:first')
+			    .fadeOut(1000)
+			    .next()
+			    .fadeIn(1000)
+			    .end()
+			    .appendTo('#slideshow');
+			},  3000);
+			
+		});
+	</script>
+
+</head>
+
+<body>
+<h1 align="center">
+<strong>Abigail Murray</strong><br>Costume Designer
+</h1>
+<!--<hr width="50%">-->
+<!--<table width="420" height="20" border="0" align="center" cellpadding="0" cellspacing="2" id="menuTable">
+  <tr>
+    <td align="center" valign="middle"><a href="portfolioFilms.html" target="_self">Portfolio/Films</a></td>
+    <td align="center" valign="middle"><a href="biography.html" target="_self">Biography</a></td>
+    <td align="center" valign="middle"><a href="contact.html" target="_self">Contact</a></td>
+    <td align="center" valign="middle"><a href="resume.html" target="_self" onclick="window.open('../library/Abigail_Murray_Resume.pdf','newwin');">Resume</a></td>
+  </tr>
+</table>-->
+<div id="html/menuTable" align="center">
+<a href="html/portfolioFilms.html" target="_self">Portfolio/Films</a> 
+<a href="html/biography.html" target="_self">Biography</a> 
+<a href="html/contact.html" target="_self">Contact</a> 
+<a href="html/resume.html" target="_self" onclick="window.open('library/Abigail_Murray_Resume.pdf','newwin');">Resume</a>
+</div>
+
+<div id="slideshow" align="center">
+   <div>
+     <img src="pictures/slideshow/Imposter-2.png"/>
+   </div>
+
+   <div>
+     <p>Abigail Murray was recently celebrated <br>
+		in the Academy of Motion Pictures Publication<br>
+		<em>50 Designers, 50 Costumes</em>
+	</p>
+   </div>
+
+   <div>
+     <img src="pictures/slideshow/The Next Three Days 004.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/The Next Three Days 003.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Warrior-7.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Warrior-6.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/the express.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/The Express-2.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Pride and Glory-2.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Pride and Glory.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Runaway Jury-2.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Runaway Jury.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Kiss the Girls-2.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Kiss the Girls.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Dogma-2.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Dogma.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Scream3-2.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Scream3.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Masked and Anonymous.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Masked and Anonymous-2.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/For Richer or Poorer.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/For Richer or Poorer-2.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Imposter.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Things to Do in Denver When Youre Dead-2.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Things to Do in Denver When Youre Dead.png"/>
+   </div>
+	<div>
+     <img src="pictures/slideshow/Bloodhounds of Broadway-2.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Bloodhounds of Broadway.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Tremors.png"/>
+   </div>
+   <div>
+     <img src="pictures/slideshow/Tremors-2.png"/>
+   </div>
+</div>
+<div id="hidden" align="center">
+	website made by Carlos Chinchilla
+</div>
+</body>
+</html>
