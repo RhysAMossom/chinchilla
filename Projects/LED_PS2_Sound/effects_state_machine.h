@@ -101,7 +101,7 @@
       if(continuous_flow) effect++; break;
 
 /* ROUTINES START */
-  case 6:
+  case 5:
 // START: Centered Circular Equilizer
   if (repeats < 200) {
     continuous_flow = false;
@@ -136,7 +136,7 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 7:
+  case 6:
 // START: Centered Circular Equilizer
   if (repeats < 200) {
     continuous_flow = false;
@@ -163,7 +163,7 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 8:
+  case 7:
 // START: Circular Equilizer
   if (repeats < 200) {
     continuous_flow = false;
@@ -212,7 +212,7 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 9:
+  case 8:
 // START: Equilizer on full strip
   if (repeats < 200) {
     continuous_flow = false;
@@ -242,7 +242,7 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 10:
+  case 9:
 // START: Equilizer on half strip
   if (repeats < 200) {
     continuous_flow = false;
@@ -272,7 +272,7 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 11:
+  case 10:
 // START: Scroll Colors sound is brightness
   if (repeats < 200) {
     continuous_flow = false;
@@ -288,7 +288,7 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 12:
+  case 11:
 // START: Single color sound is brightness
   if (repeats < 200) {
     continuous_flow = false;
@@ -306,12 +306,12 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 13:
+  case 12:
 // START:
   flash_and_dim(random_color(),10*wait_factor,10,10);
 // END
       if(continuous_flow) effect++; break;
-  case 14:
+  case 13:
 // START:
   led = random(0,NUM_LEDS-1);
   explosion(random_color(), strip[led], led, random(10,50),false);
@@ -319,7 +319,7 @@
     rotate();
 // END
       if(continuous_flow) effect++; break;
-  case 15:
+  case 14:
 // START:
   rainbow();
   FastLED.delay(1000);
@@ -329,13 +329,13 @@
   restore();
 // END
       if(continuous_flow) effect++; break;
-  case 16:
+  case 15:
 // START:
   flash_grow(random_color(), 0,NUM_LEDS/8);
   FastLED.delay(1000);
 // END
       if(continuous_flow) effect++; break;
-  case 17:
+  case 16:
 // START:
   for (uint8_t i= 0; i< 25; i++){
     all_on(random_color());
@@ -343,7 +343,7 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 18:
+  case 17:
 // START: 
   rainbow();
   if(repeats < 200){
@@ -359,12 +359,12 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 19:
+  case 18:
 // START:
   palette(random(1,15));
 // END
       if(continuous_flow) effect++; break;
-  case 20:
+  case 19:
 // START:
   color_mixer(CRGB(0x000005),CRGB(0x090885),4*NUM_LEDS/5, NUM_LEDS-1);
   color_mixer(CRGB(0x090885),CRGB(0x000005),3*NUM_LEDS/5,4*NUM_LEDS/5);
@@ -375,7 +375,7 @@
   shift_strip(NUM_LEDS,100,0,NUM_LEDS-1);
 // END
       if(continuous_flow) effect++; break;
-  case 21:
+  case 20:
 // START:
   rainbow();
   FastLED.delay(1000);
@@ -389,7 +389,7 @@
     rotate();
 // END
       if(continuous_flow) effect++; break;
-  case 22:
+  case 21:
 // START:
   wipe_color(CRGB(0, 255, 0), 10, NUM_LEDS, 0); // Green
   
@@ -398,7 +398,7 @@
   wipe_color(CRGB(255, 0, 0), 10, NUM_LEDS, 0); // Red
 // END
       if(continuous_flow) effect++; break;
-  case 23:
+  case 22:
 // START:
   flash_and_dim(THEME_COLORS[0],100,100,10,0,NUM_LEDS-1);
   FastLED.delay(300);
@@ -415,7 +415,7 @@
   flash_and_dim(THEME_COLORS[4],150,18,8,0,NUM_LEDS-1);
 // END
       if(continuous_flow) effect++; break;
-  case 24:
+  case 23:
 // START:
   if (repeats < 15){
     divided_inwards(random_color(),random_color(),10);
@@ -428,19 +428,19 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 25:
+  case 24:
 // START: 
   blend(THEME_COLORS[1],80,10,0,NUM_LEDS-1);
   FastLED.delay(1000);
 // END
       if(continuous_flow) effect++; break;
-  case 26:
+  case 25:
 // START:
   color_mixer(THEME_COLORS[2],CRGB::Black,0,NUM_LEDS-1);
   shift_strip(NUM_LEDS,10,NUM_LEDS-1,0);
 // END
       if(continuous_flow) effect++; break;
-  case 27:
+  case 26:
 // START:
   explosion(THEME_COLORS[3],CRGB::Black,random(NUM_LEDS-1),15,false);
   FastLED.delay(500);
@@ -458,7 +458,7 @@
   FastLED.delay(100);
 // END
       if(continuous_flow) effect++; break;
-  case 28:
+  case 27:
 // START:
   shift_strip(NUM_LEDS/6,70,0,NUM_LEDS-1);
   
@@ -478,13 +478,13 @@
   shift_strip(3*NUM_LEDS,15,NUM_LEDS-1,0);
 // END
       if(continuous_flow) effect++; break;
-  case 29:
+  case 28:
 // START:
   blend(CRGB::Black,50,10,0,NUM_LEDS-1);
   FastLED.delay(1000);
 // END
       if(continuous_flow) effect++; break;
-  case 30:
+  case 29:
 // START:
   flash(THEME_COLORS[3],500,3*NUM_LEDS/5, 4*NUM_LEDS/5);
   FastLED.delay(500);
@@ -493,7 +493,7 @@
   FastLED.delay(500);
 // END
       if(continuous_flow) effect++; break;
-  case 31:
+  case 30:
 // START:
   all_on(THEME_COLORS[0],4*NUM_LEDS/5, NUM_LEDS-1);
   all_on(THEME_COLORS[1],3*NUM_LEDS/5,4*NUM_LEDS/5);
@@ -504,7 +504,7 @@
   all_off();
 // END
       if(continuous_flow) effect++; break;
-  case 32:
+  case 31:
 // START:
   flash(THEME_COLORS[0],500,0,NUM_LEDS/5);
   FastLED.delay(1000);
@@ -516,14 +516,14 @@
   FastLED.delay(350);
 // END
       if(continuous_flow) effect++; break;
-  case 33:
+  case 32:
 // START:
   blend(CRGB(0x030250),50,10,0,NUM_LEDS-1);
   FastLED.delay(1000);
   all_off();
 // END
       if(continuous_flow) effect++; break;
-  case 34:
+  case 33:
 // START:
   flash(THEME_COLORS[3],500,3*NUM_LEDS/5, 4*NUM_LEDS/5);
   FastLED.delay(500);
@@ -574,7 +574,7 @@
   FastLED.delay(10);
 // END
       if(continuous_flow) effect++; break;
-  case 35:
+  case 34:
 // START:
   flash(THEME_COLORS[0],350,0,NUM_LEDS/5);
   
@@ -597,7 +597,7 @@
   flash(THEME_COLORS[4],50,4*NUM_LEDS/5, NUM_LEDS-1);
 // END
       if(continuous_flow) effect++; break;
-  case 36:
+  case 35:
 // START:
   if (repeats < 15){
     flash(THEME_COLORS[0],75,0,NUM_LEDS/5);
@@ -614,14 +614,14 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 37:
+  case 36:
 // START: 
   color_mixer(THEME_COLORS[4],CRGB::Black,0,NUM_LEDS-1);
   shift_strip(3*NUM_LEDS,5,0,NUM_LEDS-1);
   all_off();
 // END
       if(continuous_flow) effect++; break;
-  case 38:
+  case 37:
 // START:
   if (repeats < 4){
     wipe_color(CRGB(0x044000<<repeats), 50, 0, 3*NUM_LEDS/8);
@@ -637,7 +637,7 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 39:
+  case 38:
 // START:
   if (repeats < 15){
     divided_outwards(random_color(),random_color(),10);
@@ -650,7 +650,7 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 40:
+  case 39:
 // START:   
   wipe_color(CRGB::Black, 25, NUM_LEDS,0);
   
@@ -673,7 +673,7 @@
   all_off(2*NUM_LEDS/5,3*NUM_LEDS/5);
 // END
       if(continuous_flow) effect++; break;
-  case 41:
+  case 40:
 // START:
   if (repeats < 15){
     divided_inwards(random_color(),random_color(),10);
@@ -687,7 +687,7 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 42:
+  case 41:
 // START: 
   flash(THEME_COLORS[4],500,2*NUM_LEDS/5,3*NUM_LEDS/5);
   explosion(THEME_COLORS[0],CRGB::Black,random(NUM_LEDS-1),10,false);
@@ -705,7 +705,7 @@
   explosion(THEME_COLORS[4],CRGB::Black,random(NUM_LEDS-1),10,false);
 // END
       if(continuous_flow) effect++; break;
-  case 43:
+  case 42:
 // START:
   blend(THEME_COLORS[2],75,5,0,NUM_LEDS-1);
   FastLED.delay(2000);
@@ -725,7 +725,7 @@
   blend(CRGB::Black,25,5,0,NUM_LEDS-1);
 // END
       if(continuous_flow) effect++; break;
-  case 44:
+  case 43:
 // START:
   if (repeats < 25){
     cross_over(random_color(),random_color(),10);
@@ -742,7 +742,7 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 45:
+  case 44:
 // START: 
   if (repeats < 25){
     flash_and_dim(random_color(),100-2*repeats,18,8,0,NUM_LEDS-1);
@@ -756,7 +756,7 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 46:
+  case 45:
 // START:      
   if (repeats < 25){
     flash_and_dim(random_color(),100,18,8,0,NUM_LEDS-1);
@@ -770,7 +770,7 @@
   }
 // END
       if(continuous_flow) effect++; break;
-  case 47:
+  case 46:
 // START: 
   if (repeats < 5){
         color_mixer(random_color(),random_color(),4*NUM_LEDS/5, NUM_LEDS-1);

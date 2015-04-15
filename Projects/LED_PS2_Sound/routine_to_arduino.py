@@ -17,7 +17,7 @@ if __name__ == "__main__":
         default="test_cases.h")
     parser.add_argument("-s", "--template-file", help="input template and output file",
         default="effects_state_machine.h")
-    parser.add_argument("-c", "--start-case", type=int, default=6)
+    parser.add_argument("-c", "--start-case", type=int, default=5)
     args = parser.parse_args()
     
     fh = open(args.routine_file,'r')
