@@ -125,7 +125,6 @@
     }
     else
       all_on(random_color());
-    // FastLED.delay(10);
   }
   else{
       continuous_flow = true;
@@ -256,12 +255,6 @@
       all_off(eq+1,NUM_LEDS-eq-1);
       all_on(color1,NUM_LEDS-eq,NUM_LEDS);
     }
-    if(beat_count >= 10){
-      rainbow();
-      FastLED.delay(1000);
-      all_off();
-      beat_count = 0;
-    }
   }
   else{
       continuous_flow = true;
@@ -308,15 +301,29 @@
       if(continuous_flow) effect++; break;
   case 12:
 // START:
-  flash_and_dim(random_color(),10*wait_factor,10,10);
+  if (repeats < 200) {
+    continuous_flow = false;
+    flash_and_dim(random_color(),10*wait_factor,10,10);
+  }
+  else {
+    repeats = 0;
+    continuous_flow = true;
+  }
 // END
       if(continuous_flow) effect++; break;
   case 13:
 // START:
-  led = random(0,NUM_LEDS-1);
-  explosion(random_color(), strip[led], led, random(10,50),false);
-  for (uint8_t i= 0; i< 4; i++)
-    rotate();
+  if (repeats < 20) {
+    continuous_flow = false;
+    led = random(0,NUM_LEDS-1);
+    explosion(random_color(), strip[led], led, random(10,50),false);
+    for (uint8_t i= 0; i< 4; i++)
+      rotate();
+  }
+  else {
+    repeats = 0;
+    continuous_flow = true;
+  }
 // END
       if(continuous_flow) effect++; break;
   case 14:
@@ -331,22 +338,36 @@
       if(continuous_flow) effect++; break;
   case 15:
 // START:
-  flash_grow(random_color(), 0,NUM_LEDS/8);
-  FastLED.delay(1000);
+  if (repeats < 5) {
+    continuous_flow = false;
+    flash_grow(random_color(), 0,NUM_LEDS/8);
+    FastLED.delay(1000);
+    all_off();
+  }
+  else {
+    repeats = 0;
+    continuous_flow = true;
+  }
 // END
       if(continuous_flow) effect++; break;
   case 16:
 // START:
-  for (uint8_t i= 0; i< 25; i++){
+  if (repeats < 20) {
+    continuous_flow = false;
     all_on(random_color());
     FastLED.delay(1000);
+  }
+  else {
+    repeats = 0;
+    continuous_flow = true;
   }
 // END
       if(continuous_flow) effect++; break;
   case 17:
 // START: 
   rainbow();
-  if(repeats < 200){
+  if (repeats < 200) {
+    continuous_flow = false;
     brightness = analogRead(ENVELOPE_PIN);
     FastLED.setBrightness(10*brightness);
     FastLED.show(); // is this necessary?
@@ -361,7 +382,18 @@
       if(continuous_flow) effect++; break;
   case 18:
 // START:
-  palette(random(1,15));
+  if (repeats < 10) {
+    continuous_flow = false;
+    palette(random(1,15));
+    if (repeats % 2)
+      shift_strip(NUM_LEDS,100,0,NUM_LEDS-1);
+    else
+      rotate();
+  }
+  else {
+    repeats = 0;
+    continuous_flow = true;
+  }
 // END
       if(continuous_flow) effect++; break;
   case 19:
@@ -420,7 +452,6 @@
   if (repeats < 15){
     divided_inwards(random_color(),random_color(),10);
     continuous_flow = false;
-    repeats++;
   }
   else{
     continuous_flow = true;
@@ -606,7 +637,6 @@
     flash(THEME_COLORS[3],75,3*NUM_LEDS/5, 4*NUM_LEDS/5);
     flash(THEME_COLORS[4],75,4*NUM_LEDS/5, NUM_LEDS-1);
     continuous_flow = false;
-    repeats++;
   }
   else{
     continuous_flow = true;
@@ -623,13 +653,12 @@
       if(continuous_flow) effect++; break;
   case 37:
 // START:
-  if (repeats < 4){
+  if (repeats < 20){
     wipe_color(CRGB(0x044000<<repeats), 50, 0, 3*NUM_LEDS/8);
     wipe_color(CRGB(0x044000<<repeats), 50,NUM_LEDS,5*NUM_LEDS/8);
     explosion(CRGB::Black,THEME_COLORS[2],random(NUM_LEDS-1),100,false);
     shake();
     continuous_flow = false;
-    repeats++;
   }
   else{
     continuous_flow = true;
@@ -639,10 +668,9 @@
       if(continuous_flow) effect++; break;
   case 38:
 // START:
-  if (repeats < 15){
+  if (repeats < 25){
     divided_outwards(random_color(),random_color(),10);
     continuous_flow = false;
-    repeats++;
   }
   else{
     continuous_flow = true;
@@ -675,11 +703,10 @@
       if(continuous_flow) effect++; break;
   case 40:
 // START:
-  if (repeats < 15){
+  if (repeats < 25){
     divided_inwards(random_color(),random_color(),10);
     divided_outwards(random_color(),random_color(),10);
     continuous_flow = false;
-    repeats++;
   }
   else{
     continuous_flow = true;
@@ -748,7 +775,6 @@
     flash_and_dim(random_color(),100-2*repeats,18,8,0,NUM_LEDS-1);
     FastLED.delay(700-(repeats*repeats));
     continuous_flow = false;
-    repeats++;
   }
   else{
     continuous_flow = true;
@@ -762,7 +788,6 @@
     flash_and_dim(random_color(),100,18,8,0,NUM_LEDS-1);
     FastLED.delay(200);
     continuous_flow = false;
-    repeats++;
   }
   else{
     continuous_flow = true;
@@ -772,7 +797,7 @@
       if(continuous_flow) effect++; break;
   case 46:
 // START: 
-  if (repeats < 5){
+  if (repeats < 25){
         color_mixer(random_color(),random_color(),4*NUM_LEDS/5, NUM_LEDS-1);
         color_mixer(random_color(),random_color(),3*NUM_LEDS/5,4*NUM_LEDS/5);
         color_mixer(random_color(),random_color(),2*NUM_LEDS/5,3*NUM_LEDS/5);
@@ -782,7 +807,6 @@
         rainbow();
         FastLED.delay(2000);
         continuous_flow = false;
-    repeats++;
   }
   else{
     continuous_flow = true;
