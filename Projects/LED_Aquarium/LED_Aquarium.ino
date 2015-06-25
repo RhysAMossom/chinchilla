@@ -6,12 +6,12 @@
  
 */
 
-//#define DEBUG_LEDS
+#define DEBUG_LEDS
 /********************** LED strip library and variables **********/
 #include <FastLED.h>
 
 #define HEART_BEAT_PIN 13
-#define NUM_LEDS 15
+#define NUM_LEDS 5
 #define STRIP_PIN 6// Signal Pin that controls strip
 #define LED_TYPE    WS2812
 #define COLOR_ORDER RGB

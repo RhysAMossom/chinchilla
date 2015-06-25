@@ -25,6 +25,7 @@ CHSV color_hsv(255,255,255);
 
 /********************** Common features ********************************/  
 repeats++;
+if (sound_only && repeats > LAST_SOUND_EFFECT) effect = FIRST_SOUND_EFFECT;
 #ifdef DEBUG_LEDS
     // Report status on global variables
     Serial.print("Current effect: ");

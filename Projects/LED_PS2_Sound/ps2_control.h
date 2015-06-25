@@ -7,6 +7,13 @@ ps2x.read_gamepad(); //read controller
   if(ps2x.ButtonPressed(PSB_START)){
     //Toggle effect continuity
     continuous_flow = !continuous_flow;
+    backup();
+    if (continuous_flow)
+      all_on(CRGB::Green);
+    else
+      all_on(CRGB::Red);
+    FastLED.delay(1000);
+    restore();
   }
   else if(ps2x.ButtonPressed(PSB_L1)) {
 #ifdef DEBUG_LEDS
@@ -51,6 +58,7 @@ ps2x.read_gamepad(); //read controller
     strip[random(0,NUM_LEDS-1)] = random_color();
     strip[random(0,NUM_LEDS-1)] = random_color();
     strip[random(0,NUM_LEDS-1)] = random_color();
+    FastLED.show();
   }
   else if(ps2x.ButtonPressed(PSB_R3)) {
 #ifdef DEBUG_LEDS
@@ -64,6 +72,7 @@ ps2x.read_gamepad(); //read controller
 #endif
     // Previous effect
     effect -= 2;
+    repeats = 0;
   }
   else if(ps2x.ButtonPressed(PSB_PAD_RIGHT)) {
 #ifdef DEBUG_LEDS
@@ -71,6 +80,7 @@ ps2x.read_gamepad(); //read controller
 #endif
     // Next Effect
     effect++;
+    repeats = 0;
   }
   
   // Speed control
@@ -115,7 +125,6 @@ ps2x.read_gamepad(); //read controller
 #ifdef DEBUG_LEDS
         Serial.println("all off");
 #endif
-        effect = WAIT;
         LY = 0;
         LX = 0;
         RY = 0;
@@ -189,6 +198,8 @@ ps2x.read_gamepad(); //read controller
     Serial.println("Pressed square");
 #endif
     // Sound sensitive routine
+    sound_only != sound_only;
+    if (sound_only) effect = FIRST_SOUND_EFFECT;
   }
 
 #endif

@@ -8,7 +8,7 @@
 
 // Compile flags
 #define DEBUG_LEDS
-//#define USE_PS2_CONTROLLER
+#define USE_PS2_CONTROLLER
 //#define TESTING_EFFECT
 
 
@@ -54,13 +54,15 @@ uint8_t beat_count = 0;
 #define RAINBOW 2
 #define FLASH 3
 #define FADE 4
+#define FIRST_SOUND_EFFECT 6
+#define LAST_SOUND_EFFECT 11
 
 uint8_t R,G,B;
 uint8_t brightness = 255;
 #define NUM_THEMES 5
 CRGB THEME_COLORS[NUM_THEMES]; // Theme colors
 uint8_t theme = 0; // Theme Counter
-uint8_t effect = 6; // Effect Counter
+uint8_t effect = FIRST_SOUND_EFFECT; // Effect Counter
 uint8_t wait_factor = 5; // Used for speed Counter
 uint8_t repeats = 0; // Repeats Counter to avoid blocking loops in state machine
 
@@ -68,6 +70,7 @@ uint8_t repeats = 0; // Repeats Counter to avoid blocking loops in state machine
 // else, only one effect or one family of effects will play
 bool continuous_flow = true;
 bool continuous_themes = true;
+bool sound_only = false;
 
 /********************** Basic Functions **************************/
 void all_on(CRGB color, uint16_t led1 = 0, uint16_t led2 = NUM_LEDS-1){

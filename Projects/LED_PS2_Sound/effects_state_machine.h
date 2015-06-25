@@ -85,12 +85,24 @@
       }
       if(continuous_flow) effect++; break;
     case FLASH:
-      switch(repeats){
-        case 1:
+      switch(repeats % 3){
+        case 0:
           rainbow();
           all_off();
           FastLED.delay(2000);
           break;
+        case 1:
+            eq = map(analogRead(ENVELOPE_PIN),0,1023,0,255);
+            if (eq > LOUD_SOUND)
+              eq = 255;
+            else if (eq > SOFT_SOUND) eq +=25;
+            color_hsv.hue=200; color_hsv.sat=255; color_hsv.val=eq;
+            hsv2rgb_spectrum(color_hsv,color1);
+            all_on(color1);
+            break;
+        case 2:
+            flash_and_dim(random_color(),10*wait_factor,10,10);
+            break;
         default:
           flash(CRGB(R,G,B),500);
           FastLED.delay(2000);
