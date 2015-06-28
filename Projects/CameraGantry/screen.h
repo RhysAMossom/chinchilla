@@ -2,11 +2,12 @@
 #define CAMERAGANTRY_SCREEN_HH
 
 #include <Arduino.h>
+#include "ui.h"
 
 class Screen {
   public:
-    Screen(String text);
-    ~Screen();
+    Screen(String title, String subtext, UI& ui);
+    inline ~Screen() {};
 
     void buttonUp();
     void buttonDown();
@@ -17,12 +18,15 @@ class Screen {
     void hide();
     void show();
     bool isVisible();
-    void setText(String Text);
+    void setTitle(String text);
+    void setSubtext(String text);
+    void update();
 
   private:
-    void update();
+    UI* ui;
     bool visible;
-    String mainText;
+    String title;
+    String subtext;
 };
 
 #endif

@@ -5,13 +5,14 @@
 #include <vector>
 #include "screen.h"
 #include "menuoption.h"
+#include "ui.h"
 // forwared declaration
 class MenuOption;
 
 class MenuScreen : public Screen {
   public:
-    MenuScreen(String text);
-    ~MenuScreen();
+    MenuScreen(UI& ui);
+    inline ~MenuScreen() {};
 
     void buttonUp();
     void buttonDown();

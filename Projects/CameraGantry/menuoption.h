@@ -6,7 +6,7 @@
 class MenuOption {
   public:
     MenuOption(int default_val, String title);
-    ~MenuOption();
+    inline ~MenuOption() {};
 
     void save();
     void setDefault();

@@ -3,48 +3,43 @@
 
 #include <Arduino.h>
 #include <LiquidCrystal.h>
-//#include "LCDKeypad.h"
 
-#define NUM_KEYS 5
-#define KEYS_PIN 0
-const int ADC_KEY_VALS[NUM_KEYS] = {50, 200, 400, 600, 800};
-LiquidCrystal lcd(8, 13, 9, 4, 5, 6, 7);
-int key=-1;
+#define LCD_LED_PIN 10
+#define BUTTON_ADC_PIN A0
+#define NUM_BUTTONS 5
+#define BUTTONHYSTERESIS 10  // hysteresis for valid button sensing window
+#define BUTTON_NONE -1
+#define BUTTON_RIGHT 0
+#define BUTTON_UP 1
+#define BUTTON_DOWN 2
+#define BUTTON_LEFT 3
+#define BUTTON_SELECT 4
 
-void setupLCD() {
-  lcd.begin(16, 2);
-  lcd.clear();
-  lcd.setCursor(0,0);
-  lcd.print("CameraGantry    ");
-  lcd.print("   Starting up  ");
-  for (char c = 0; c < 32; c++) {
-    lcd.scrollDisplayLeft();
-    delay(400);
-  }
-  lcd.clear();
-  lcd.setCursor(0,0); 
-}
+class UI {
+  public:
+    UI();
+    inline ~UI() {};
+    void readButtons();
+    int getButton();
+    void toggleLCD(bool state);
+    void clearButtonFlags();
+    bool isButtonPressed(int button);
+    void setSubtext(String text);
+    void setTitle(String text);
 
-// Convert ADC value to key number
-int getKey() {
-    int k;
-    int input = analogRead(KEYS_PIN);
-    for (k = 0; k < NUM_KEYS; k++)
-      if (input < ADC_KEY_VALS[k]) return k;
-    if (k >= NUM_KEYS)
-      k = -1;  // No valid key pressed
-    return k;
-}
+  private:
+    void padAndPrintText(String text);
+  
+    int button;
+    int previousButton;
+    bool buttonPressed;
+    bool buttonReleased;
+    LiquidCrystal lcd;
+    uint8_t numLines;
+    uint8_t numCharPerLine;
 
-void spinKey() {
-   if (getKey() != key) {
-     delay(50);  // wait for debounce time
-     int newKey = getKey();
-     if (newKey != key) {
-       key = newKey;
-     }
-   }
-   delay(100);
-}
+  protected:
+    int BUTTON_ADC_VALUES[NUM_BUTTONS];
+};
 
 #endif
