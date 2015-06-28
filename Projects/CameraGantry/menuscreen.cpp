@@ -1,5 +1,5 @@
 #include "menuscreen.h"
 
-MenuScreen::MenuScreen(UI& ui) :
-  Screen("", "", ui) {
+MenuScreen::MenuScreen() :
+  Screen("", "") {
 }

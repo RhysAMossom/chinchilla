@@ -1,18 +1,10 @@
 #include "screen.h"
 
-Screen::Screen(String title, String subtext, UI &ui) :
+Screen::Screen(String title, String subtext) :
     visible(false),
     title(title),
     subtext(subtext) {
-    ui = ui;
-    update();
 }
-
-void Screen::buttonUp() { return; }
-void Screen::buttonDown() { return; }
-void Screen::buttonLeft() { return; }
-void Screen::buttonRight() { return; }
-void Screen::buttonCenter() { return; }
 
 void Screen::hide() {
     visible = false;
@@ -20,14 +12,6 @@ void Screen::hide() {
 
 void Screen::show() {
     visible = true;
-    update();
-}
-
-void Screen::update() {
-  if (visible) {
-    ui->setTitle(title);
-    ui->setSubtext(subtext);
-  }
 }
 
 bool Screen::isVisible() {
@@ -41,3 +25,7 @@ void Screen::setTitle(String text) {
 void Screen::setSubtext(String text) {
   subtext = text;
 }
+
+String Screen::getTitle() { return title; }
+
+String Screen::getSubtext() { return subtext; }

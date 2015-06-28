@@ -24,6 +24,7 @@ class UI {
     void toggleLCD(bool state);
     void clearButtonFlags();
     bool isButtonPressed(int button);
+    bool isButtonReleased();
     void setSubtext(String text);
     void setTitle(String text);
 

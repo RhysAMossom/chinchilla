@@ -11,7 +11,7 @@ class MenuOption;
 
 class MenuScreen : public Screen {
   public:
-    MenuScreen(UI& ui);
+    MenuScreen();
     inline ~MenuScreen() {};
 
     void buttonUp();
@@ -19,6 +19,7 @@ class MenuScreen : public Screen {
     void buttonLeft();
     void buttonRight();
     void buttonCenter();
+    void noButton();
 
   private:
     std::vector<MenuOption> menuOptions;

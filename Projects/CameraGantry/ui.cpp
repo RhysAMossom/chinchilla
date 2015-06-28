@@ -14,9 +14,8 @@ UI::UI() :
     lcd.begin(numCharPerLine,numLines);
     lcd.setCursor(0,0);
     lcd.clear();
-    setTitle("title");
-    setSubtext("subtext");
     toggleLCD(true);
+    Serial.begin(9600);
     BUTTON_ADC_VALUES[BUTTON_RIGHT] = BUTTONHYSTERESIS;
     BUTTON_ADC_VALUES[BUTTON_UP] = 145;
     BUTTON_ADC_VALUES[BUTTON_DOWN] = 329;
@@ -63,7 +62,7 @@ void UI::readButtons() {
      button = BUTTON_NONE; 
    }
    // Catch On Press
-   if(( previousButton == BUTTON_NONE) && (button != BUTTON_NONE )) {
+   if((previousButton == BUTTON_NONE) && (button != BUTTON_NONE)) {
       //it's the duty of the receiver to clear these flags if it wants to detect a new button change event
       buttonPressed  = true;
       buttonReleased = false;
@@ -83,4 +82,8 @@ void UI::clearButtonFlags() {
 
 bool UI::isButtonPressed(int buttonIn) {
   return (buttonIn == button && buttonPressed);
+}
+
+bool UI::isButtonReleased() {
+  return (buttonReleased);
 }

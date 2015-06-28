@@ -6,7 +6,7 @@
 
 class MainScreen : public Screen {
   public:
-    MainScreen(UI& ui);
+    MainScreen();
     inline ~MainScreen() {};
 
     void buttonUp();
@@ -14,6 +14,7 @@ class MainScreen : public Screen {
     void buttonLeft();
     void buttonRight();
     void buttonCenter();
+    void buttonNone();
 };
 
 #endif
