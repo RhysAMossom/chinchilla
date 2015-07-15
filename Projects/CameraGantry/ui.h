@@ -1,5 +1,5 @@
-#ifndef CAMERAGANTRY_UI_HH
-#define CAMERAGANTRY_UI_HH
+#ifndef CAMERAGANTRY_UI_H
+#define CAMERAGANTRY_UI_H
 
 #include <Arduino.h>
 #include <LiquidCrystal.h>

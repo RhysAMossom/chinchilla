@@ -1,12 +1,12 @@
-#ifndef CAMERAGANTRY_SCREEN_HH
-#define CAMERAGANTRY_SCREEN_HH
+#ifndef CAMERAGANTRY_SCREEN_H
+#define CAMERAGANTRY_SCREEN_H
 
 #include <Arduino.h>
 #include "ui.h"
 
 class Screen {
   public:
-    Screen(String title, String subtext);
+    Screen();
     inline ~Screen() {};
 
     inline virtual void buttonUp() {};

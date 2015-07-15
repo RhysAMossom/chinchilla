@@ -1,5 +1,7 @@
 #include "menuscreen.h"
 
 MenuScreen::MenuScreen() :
-  Screen("", "") {
+    Screen() {
+  setTitle("Main Screen");
+  setSubtext("MS Subtext");
 }

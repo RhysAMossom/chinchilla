@@ -1,13 +1,11 @@
-#ifndef CAMERAGANTRY_MENUSCREEN_HH
-#define CAMERAGANTRY_MENUSCREEN_HH
+#ifndef CAMERAGANTRY_MENUSCREEN_H
+#define CAMERAGANTRY_MENUSCREEN_H
 
 #include <StandardCplusplus.h>
 #include <vector>
 #include "screen.h"
 #include "menuoption.h"
 #include "ui.h"
-// forwared declaration
-class MenuOption;
 
 class MenuScreen : public Screen {
   public:
@@ -19,10 +17,9 @@ class MenuScreen : public Screen {
     void buttonLeft();
     void buttonRight();
     void buttonCenter();
-    void noButton();
+    void buttonNone();
 
   private:
     std::vector<MenuOption> menuOptions;
 };
-
 #endif

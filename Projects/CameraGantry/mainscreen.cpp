@@ -1,7 +1,7 @@
 #include "mainscreen.h"
 
 MainScreen::MainScreen() :
-    Screen("","") {
+    Screen() {
   setTitle("Main Screen");
   setSubtext("MS Subtext");
 }

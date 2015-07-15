@@ -5,21 +5,17 @@
 
 #include "ui.h"
 #include "motor.h"
+#include "motormanager.h"
 #include "mainscreen.h"
 #include "menuscreen.h"
 
-// Initialize Motor
+// Motor defines
 #define MOTOR_BREAK_A 16
 #define MOTOR_DIR_A 12
 #define MOTOR_A_MOVE 3
 #define MOTOR_BREAK_B 15
 #define MOTOR_DIR_B 13
 #define MOTOR_B_MOVE 11
-
-bool direction = false;
-uint16_t steps = 0;
-uint16_t steps_per_mm = 0;
-
 #define ENDSTOP_1_PIN 2
 #define ENDSTOP_2_PIN 3
 volatile int endstop_1_state = LOW;
@@ -31,6 +27,8 @@ void endstop2() { endstop_2_state = digitalRead(ENDSTOP_2_PIN); }
 Screen* currentScreen;
 UI* ui;
 MainScreen* mainScreen;
+MenuScreen* menuScreen;
+MotorManager* motorManager;
 Motor* motor;
 
 
@@ -41,11 +39,14 @@ void setup() {
 
   ui = new UI();
   mainScreen = new MainScreen();
+  menuScreen = new MenuScreen();
 
   motor = new Motor(MOTOR_BREAK_A, MOTOR_DIR_A, MOTOR_A_MOVE,
                     MOTOR_BREAK_B, MOTOR_DIR_B, MOTOR_B_MOVE);
-
+  motorManager = new MotorManager(motor, endstop_1_state, endstop_2_state);
+  
   mainScreen->show();
+  menuScreen->hide();
   currentScreen = mainScreen;
 
 }
@@ -77,7 +78,5 @@ void loop(){
     default:
       ui->setSubtext("UNCAUGHT BUTTON ERR");
   }  
-
-
 }
 

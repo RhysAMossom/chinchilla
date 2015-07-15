@@ -1,5 +1,5 @@
-#ifndef CAMERAGANTRY_MAINCREEN_HH
-#define CAMERAGANTRY_MAINCREEN_HH
+#ifndef CAMERAGANTRY_MAINCREEN_H
+#define CAMERAGANTRY_MAINCREEN_H
 
 #include "screen.h"
 #include "ui.h"
@@ -16,5 +16,4 @@ class MainScreen : public Screen {
     void buttonCenter();
     void buttonNone();
 };
-
 #endif

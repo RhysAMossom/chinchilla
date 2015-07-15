@@ -1,9 +1,9 @@
 #include "screen.h"
 
-Screen::Screen(String title, String subtext) :
+Screen::Screen() :
     visible(false),
-    title(title),
-    subtext(subtext) {
+    title(""),
+    subtext("") {
 }
 
 void Screen::hide() {
