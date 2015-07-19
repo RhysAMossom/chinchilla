@@ -17,7 +17,7 @@
 
 class UI {
   public:
-    UI();
+    static UI* instance();
     inline ~UI() {};
     void readButtons();
     int getButton();
@@ -41,6 +41,8 @@ class UI {
 
   protected:
     int BUTTON_ADC_VALUES[NUM_BUTTONS];
+    static UI* _ui;
+    UI();
 };
 
 #endif

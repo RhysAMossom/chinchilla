@@ -6,6 +6,15 @@ MainScreen::MainScreen() :
   setSubtext("MS Subtext");
 }
 
+MainScreen* MainScreen::_mainScreen = NULL;
+
+MainScreen* MainScreen::instance() {
+  if (!_mainScreen) {
+    _mainScreen = new MainScreen;
+  }
+  return _mainScreen;
+}
+
 void MainScreen::buttonUp() {
   setSubtext("MS buttonUp");
 }

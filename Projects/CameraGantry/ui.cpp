@@ -23,6 +23,15 @@ UI::UI() :
     BUTTON_ADC_VALUES[BUTTON_SELECT] = 741;
 }
 
+UI* UI::_ui = NULL;
+
+UI* UI::instance() {
+  if (!_ui) {
+    _ui = new UI;
+  }
+  return _ui;
+}
+
 void UI::setTitle(String text) {
   lcd.setCursor(0,0);
   padAndPrintText(text);

@@ -6,7 +6,7 @@
 
 class MainScreen : public Screen {
   public:
-    MainScreen();
+    static MainScreen* instance();
     inline ~MainScreen() {};
 
     void buttonUp();
@@ -15,5 +15,9 @@ class MainScreen : public Screen {
     void buttonRight();
     void buttonCenter();
     void buttonNone();
+
+  private:
+    static MainScreen* _mainScreen;
+    MainScreen();
 };
 #endif

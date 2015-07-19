@@ -9,7 +9,7 @@
 
 class MenuScreen : public Screen {
   public:
-    MenuScreen();
+    static MenuScreen* instance();
     inline ~MenuScreen() {};
 
     void buttonUp();
@@ -21,5 +21,7 @@ class MenuScreen : public Screen {
 
   private:
     std::vector<MenuOption> menuOptions;
+    static MenuScreen* _menuScreen;
+    MenuScreen();
 };
 #endif

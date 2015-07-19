@@ -30,4 +30,18 @@ class Screen {
     String subtext;
 };
 
+class ScreenManager {
+  public:
+    static ScreenManager* instance();
+    inline ~ScreenManager() {};
+    void addScreen();
+    void moveTo(Screen* screen);
+    void moveBack();
+    Screen* currentScreen();
+
+  private:
+    static ScreenManager* _staticManager;
+    ScreenManager();
+}
+
 #endif
