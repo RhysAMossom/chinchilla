@@ -12,8 +12,8 @@ class MenuOption {
     void setDefault();
     void cancel();
 
-    String nextOption();
-    String previousOption(); 
+    void nextOption();
+    void previousOption(); 
 
     String getTitle();
     String getText();

@@ -3,9 +3,9 @@
 ScreenManager::ScreenManager() {
   mainScreen = MainScreen::instance();
   menuScreen = MenuScreen::instance();
-  mainScreen->show();
-  menuScreen->hide();
   currentScreen = mainScreen;
+  moveTo(mainScreen);
+  mainScreen->show();
 }
 
 ScreenManager* ScreenManager::_screenManager = NULL;
@@ -30,7 +30,32 @@ Screen* ScreenManager::getMenuScreen() {
 }
 
 void ScreenManager::moveTo(Screen* newScreen) {
+  currentScreen->hide();
   currentScreen = newScreen;
-  UI::instance()->setTitle(currentScreen->getTitle());
-  UI::instance()->setSubtext(currentScreen->getSubtext());
+  currentScreen->show();
+}
+
+void ScreenManager::buttonEvent(int currentButton) {
+  switch (currentButton) {
+    case BUTTON_NONE:
+      currentScreen->buttonNone();
+      break;
+    case BUTTON_RIGHT:
+      currentScreen->buttonRight();
+      break;
+    case BUTTON_UP:
+      currentScreen->buttonUp();
+      break;
+    case BUTTON_DOWN:
+      currentScreen->buttonDown();
+      break;
+    case BUTTON_LEFT:
+      currentScreen->buttonLeft();
+      break;
+    case BUTTON_SELECT:
+      currentScreen->buttonCenter();
+      break;
+    default:
+      UI::instance()->setTitle("wtf");
+    }
 }

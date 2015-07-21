@@ -20,21 +20,16 @@ class UI {
     static UI* instance();
     inline ~UI() {};
     void readButtons();
-    int getButton();
     void toggleLCD(bool state);
-    void clearButtonFlags();
-    bool isButtonPressed(int button);
-    bool isButtonReleased();
     void setSubtext(String text);
     void setTitle(String text);
 
   private:
     void padAndPrintText(String text);
-  
-    int button;
-    int previousButton;
-    bool buttonPressed;
-    bool buttonReleased;
+
+    int getButton();
+    int currentButton;
+    int lastButton;
     LiquidCrystal lcd;
     uint8_t numLines;
     uint8_t numCharPerLine;
@@ -43,6 +38,8 @@ class UI {
     int BUTTON_ADC_VALUES[NUM_BUTTONS];
     static UI* _ui;
     UI();
+    long lastTimeButtonPressed;
+    long debounceTime;
 };
 
 #endif

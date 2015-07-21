@@ -21,13 +21,14 @@ class Screen {
     bool isVisible();
     void setTitle(String text);
     void setSubtext(String text);
-    String getTitle();
-    String getSubtext();
+    inline String getTitle() { return title; };
+    inline String getSubtext() { return subtext; };
 
   private:
     bool visible;
     String title;
     String subtext;
+    UI* ui;
 };
 
 #endif

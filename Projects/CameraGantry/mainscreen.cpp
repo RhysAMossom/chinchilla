@@ -1,10 +1,11 @@
 #include "mainscreen.h"
 #include "screenmanager.h"
+#include "motormanager.h"
 
 MainScreen::MainScreen() :
     Screen() {
   setTitle("Camera Gantry");
-  setSubtext("by Chinchilla");
+  setSubtext("");
 }
 
 MainScreen* MainScreen::_mainScreen = NULL;
@@ -38,7 +39,7 @@ void MainScreen::buttonCenter() {
 }
 
 void MainScreen::buttonNone() {
-  setSubtext("");
+  setSubtext(MotorManager::instance()->getStateString());
 }
 
 

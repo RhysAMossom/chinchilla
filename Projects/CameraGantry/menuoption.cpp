@@ -21,14 +21,12 @@ void MenuOption::cancel() {
   potential_val = current_val;
 }
 
-String MenuOption::nextOption() {
+void MenuOption::nextOption() {
   potential_val =  (potential_val + 1) % 100; 
-  return (String)potential_val + unit;
 }
 
-String MenuOption::previousOption() {
+void MenuOption::previousOption() {
   potential_val =  (potential_val - 1) % 100; 
-  return (String)potential_val + unit;
 }
 
 String MenuOption::getTitle() {

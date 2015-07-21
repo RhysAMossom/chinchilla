@@ -1,13 +1,14 @@
 #include <Arduino.h>
 
 #include "ui.h"
+#include "screenmanager.h"
 
 UI::UI() :
   lcd(8, 13, 9, 4, 5, 6, 7),
-  button(BUTTON_NONE),
-  previousButton(BUTTON_NONE),
-  buttonPressed(false),
-  buttonReleased(false),
+  currentButton(BUTTON_NONE),
+  lastButton(BUTTON_NONE),
+  lastTimeButtonPressed(0),
+  debounceTime(100),
   numLines(2),
   numCharPerLine(16) {
     pinMode(LCD_LED_PIN,OUTPUT);
@@ -53,46 +54,51 @@ void UI::toggleLCD(bool state) {
   digitalWrite(LCD_LED_PIN, state);
 }
 
-int UI::getButton() { return button; }
-
-void UI::readButtons() {
+int UI::getButton() {
    int buttonVoltage = analogRead(BUTTON_ADC_PIN);
   
+   // Parse analog signal to button pressed
    if (buttonVoltage <= BUTTON_ADC_VALUES[NUM_BUTTONS-1] + BUTTONHYSTERESIS) {
      //sense if the voltage falls within valid voltage windows
      for (int b = 0; b < NUM_BUTTONS; b++) {
        if(buttonVoltage >= (BUTTON_ADC_VALUES[b] - BUTTONHYSTERESIS)
           && buttonVoltage <= (BUTTON_ADC_VALUES[b] + BUTTONHYSTERESIS)) {
-            button = b;
-            break;
+            return b;
           }
      }
+   }
+   return BUTTON_NONE;
+}
+
+void UI::readButtons() {
+   int buttonReading = getButton();
+
+   // If we detect a button press start timer
+   if (buttonReading != lastButton) {
+     lastTimeButtonPressed = millis();
+   }
+    
+   // if time is up check status of button
+   if (millis() - lastTimeButtonPressed > debounceTime) {
+     if (buttonReading != currentButton) {
+       // Catch On Press
+       if((currentButton == BUTTON_NONE) && (buttonReading != BUTTON_NONE)) {
+          Serial.print("pressed ");
+          Serial.println(buttonReading);
+       }
+       // Catch On Release
+       if((currentButton != BUTTON_NONE ) && (buttonReading == BUTTON_NONE)) {
+         Serial.print("released ");
+         Serial.println(currentButton);
+       }
+       currentButton = buttonReading;
+       
+       // Since Screen Manager is the one handling button events
+       ScreenManager::instance()->buttonEvent(currentButton);
+     }
    } else {
-     button = BUTTON_NONE; 
+     // save reading for next iteration
+     lastButton = buttonReading;
    }
-   // Catch On Press
-   if((previousButton == BUTTON_NONE) && (button != BUTTON_NONE)) {
-      //it's the duty of the receiver to clear these flags if it wants to detect a new button change event
-      buttonPressed  = true;
-      buttonReleased = false;
-   }
-   // Catch On Release
-   if((previousButton != BUTTON_NONE ) && ( button == BUTTON_NONE)) {
-      buttonPressed  = false;
-      buttonReleased = true;
-   }
-   previousButton = button;
 }
 
-void UI::clearButtonFlags() {
-  buttonPressed  = false;
-  buttonReleased = false;
-}
-
-bool UI::isButtonPressed(int buttonIn) {
-  return (buttonIn == button && buttonPressed);
-}
-
-bool UI::isButtonReleased() {
-  return (buttonReleased);
-}

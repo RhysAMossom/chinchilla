@@ -25,10 +25,10 @@ MenuScreen* MenuScreen::instance() {
 }
 
 void MenuScreen::buttonUp() {
-  Serial.println(currentOption);
-  if (++currentOption > 5 )//menuOptions.size()) 
-    currentOption = 5; //menuOptions.size();
+  if (++currentOption > menuOptions.size()) {
+    currentOption = menuOptions.size();
     return;
+  }
   setTitle(menuOptions[currentOption].getTitle());
   setSubtext(menuOptions[currentOption].getText());
 }
