@@ -29,3 +29,4 @@ void Screen::setSubtext(String text) {
 String Screen::getTitle() { return title; }
 
 String Screen::getSubtext() { return subtext; }
+

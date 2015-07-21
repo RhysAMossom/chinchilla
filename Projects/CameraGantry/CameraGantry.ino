@@ -5,13 +5,10 @@
 
 #include "ui.h"
 #include "motormanager.h"
-#include "mainscreen.h"
-#include "menuscreen.h"
+#include "screenmanager.h"
 
-Screen* currentScreen;
 UI* ui;
-MainScreen* mainScreen;
-MenuScreen* menuScreen;
+ScreenManager* screenManager;
 MotorManager* motorManager;
 
 void endstop1() {
@@ -26,45 +23,45 @@ void setup() {
   // Endstops Interrupts
   attachInterrupt(0, endstop1, CHANGE);
   attachInterrupt(1, endstop2, CHANGE);
+  
+#ifdef DEBUGCG
+  Serial.begin(9600);
+  Serial.println("started");
+#endif
 
   ui = UI::instance();
-  mainScreen = MainScreen::instance();
-  menuScreen = MenuScreen::instance();
-
-
+  screenManager = ScreenManager::instance();
   motorManager = MotorManager::instance();
-  
-  mainScreen->show();
-  menuScreen->hide();
-  currentScreen = mainScreen;
+
 }
 
 void loop(){
   ui->readButtons();
   int button = ui->getButton();
-  ui->setTitle(currentScreen->getTitle());
-  ui->setSubtext(currentScreen->getSubtext());
+
   switch (button) {
     case BUTTON_NONE:
-      currentScreen->buttonNone();
+      screenManager->getCurrentScreen()->buttonNone();
       break;
     case BUTTON_RIGHT:
-      currentScreen->buttonRight();
+      screenManager->getCurrentScreen()->buttonRight();
       break;
     case BUTTON_UP:
-      currentScreen->buttonUp();
+      screenManager->getCurrentScreen()->buttonUp();
       break;
     case BUTTON_DOWN:
-      currentScreen->buttonDown();
+      screenManager->getCurrentScreen()->buttonDown();
       break;
     case BUTTON_LEFT:
-      currentScreen->buttonLeft();
+      screenManager->getCurrentScreen()->buttonLeft();
       break;
     case BUTTON_SELECT:
-      currentScreen->buttonCenter();
+      screenManager->getCurrentScreen()->buttonCenter();
       break;
     default:
       ui->setSubtext("UNCAUGHT BUTTON ERR");
-  }  
+    }  
+  ui->setTitle(screenManager->getCurrentScreen()->getTitle());
+  ui->setSubtext(screenManager->getCurrentScreen()->getSubtext());
 }
 

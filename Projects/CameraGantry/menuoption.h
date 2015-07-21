@@ -5,7 +5,7 @@
 
 class MenuOption {
   public:
-    MenuOption(int default_val, String title);
+    MenuOption(int default_val, String title, String unit);
     inline ~MenuOption() {};
 
     void save();
@@ -15,13 +15,14 @@ class MenuOption {
     String nextOption();
     String previousOption(); 
 
-    String getOptionTitle();
-    String getOptionText();
+    String getTitle();
+    String getText();
 
   private:
     int default_val;
     int current_val;
     int potential_val;
-    String optionTitle;
+    String title;
+    String unit;
 };
 #endif

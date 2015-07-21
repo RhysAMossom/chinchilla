@@ -21,6 +21,7 @@ class MenuScreen : public Screen {
 
   private:
     std::vector<MenuOption> menuOptions;
+    int currentOption;
     static MenuScreen* _menuScreen;
     MenuScreen();
 };

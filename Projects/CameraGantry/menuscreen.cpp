@@ -1,9 +1,18 @@
 #include "menuscreen.h"
+#include "menuoption.h"
+#include "screenmanager.h"
 
 MenuScreen::MenuScreen() :
-    Screen() {
-  setTitle("Menu Screen");
-  setSubtext("Mn Subtext");
+    Screen(),
+    currentOption(0) {
+  menuOptions.push_back(MenuOption(10, "Speed", "mm/s"));
+  menuOptions.push_back(MenuOption(10, "Distance", "mm"));
+  menuOptions.push_back(MenuOption(1, "Direction", ""));
+  menuOptions.push_back(MenuOption(0, "LED state", ""));
+  menuOptions.push_back(MenuOption(0, "Settings", ""));
+  
+  setTitle(menuOptions[currentOption].getTitle());
+  setSubtext(menuOptions[currentOption].getText());
 }
 
 MenuScreen* MenuScreen::_menuScreen = NULL;
@@ -16,26 +25,41 @@ MenuScreen* MenuScreen::instance() {
 }
 
 void MenuScreen::buttonUp() {
-  setSubtext("Mn buttonUp");
+  Serial.println(currentOption);
+  if (++currentOption > 5 )//menuOptions.size()) 
+    currentOption = 5; //menuOptions.size();
+    return;
+  setTitle(menuOptions[currentOption].getTitle());
+  setSubtext(menuOptions[currentOption].getText());
 }
   
 void MenuScreen::buttonDown() {
-  setSubtext("Mn buttonDown");
+  Serial.println(currentOption);
+  if ( --currentOption < 0 ) {
+    currentOption = 0;
+    ScreenManager* screenManager = ScreenManager::instance();
+    screenManager->moveTo(screenManager->getMainScreen());
+  }
+  setTitle(menuOptions[currentOption].getTitle());
+  setSubtext(menuOptions[currentOption].getText());
 }
 
 void MenuScreen::buttonLeft() {
-  setSubtext("Mn buttonLeft");
+  menuOptions[currentOption].previousOption();
+  setSubtext(menuOptions[currentOption].getText());
 }
 
 void MenuScreen::buttonRight() {
-  setSubtext("Mn buttonRight");
+  menuOptions[currentOption].nextOption();
+  setSubtext(menuOptions[currentOption].getText());
 }
 
 void MenuScreen::buttonCenter() {
-  setSubtext("Mn buttonRight");
+  menuOptions[currentOption].save();
+  setSubtext(menuOptions[currentOption].getText() + 's');
 }
 
 void MenuScreen::buttonNone() {
-  setSubtext("Mn no button");
+  
 }
 

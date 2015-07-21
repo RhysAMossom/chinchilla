@@ -1,9 +1,10 @@
 #include "mainscreen.h"
+#include "screenmanager.h"
 
 MainScreen::MainScreen() :
     Screen() {
-  setTitle("Main Screen");
-  setSubtext("MS Subtext");
+  setTitle("Camera Gantry");
+  setSubtext("by Chinchilla");
 }
 
 MainScreen* MainScreen::_mainScreen = NULL;
@@ -16,27 +17,28 @@ MainScreen* MainScreen::instance() {
 }
 
 void MainScreen::buttonUp() {
-  setSubtext("MS buttonUp");
+  ScreenManager* screenManager = ScreenManager::instance();
+  screenManager->moveTo(screenManager->getMenuScreen());
 }
   
 void MainScreen::buttonDown() {
-  setSubtext("MS buttonDown");
+  setSubtext("Info Screen");
 }
 
 void MainScreen::buttonLeft() {
-  setSubtext("MS buttonLeft");
+  setSubtext("Moving Left");
 }
 
 void MainScreen::buttonRight() {
-  setSubtext("MS buttonRight");
+  setSubtext("Moving Right");
 }
 
 void MainScreen::buttonCenter() {
-  setSubtext("MS buttonRight");
+  setSubtext("Start/Stop");
 }
 
 void MainScreen::buttonNone() {
-  setSubtext("MS no button");
+  setSubtext("");
 }
 
 
