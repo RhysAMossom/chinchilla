@@ -5,11 +5,11 @@
 MenuScreen::MenuScreen() :
     Screen(),
     currentOption(0) {
-  menuOptions.push_back(MenuOption(10, "Speed", "mm/s"));
-  menuOptions.push_back(MenuOption(10, "Distance", "mm"));
-  menuOptions.push_back(MenuOption(1, "Direction", ""));
-  menuOptions.push_back(MenuOption(0, "LED state", ""));
-  menuOptions.push_back(MenuOption(0, "Settings", ""));
+  menuOptions.push_back(MenuOption(10, "Speed", "mm/s", 0, 10));
+  menuOptions.push_back(MenuOption(10, "Distance", "mm", 0, 10));
+  menuOptions.push_back(MenuOption(1, "Direction", "", 0, 1));
+  menuOptions.push_back(MenuOption(0, "LED state", "", 0, 1));
+  menuOptions.push_back(MenuOption(0, "Settings", "", 0, 4));
   
   setTitle(menuOptions[currentOption].getTitle());
   setSubtext(menuOptions[currentOption].getText());
@@ -25,8 +25,8 @@ MenuScreen* MenuScreen::instance() {
 }
 
 void MenuScreen::buttonUp() {
-  if (++currentOption > menuOptions.size()) {
-    currentOption = menuOptions.size();
+  if (++currentOption >= menuOptions.size()) {
+    currentOption = menuOptions.size() -1;
     return;
   }
   setTitle(menuOptions[currentOption].getTitle());
@@ -56,10 +56,10 @@ void MenuScreen::buttonRight() {
 
 void MenuScreen::buttonCenter() {
   menuOptions[currentOption].save();
-  setSubtext(menuOptions[currentOption].getText() + 's');
+  setSubtext(menuOptions[currentOption].getText());
 }
 
 void MenuScreen::buttonNone() {
-  
+  // Do nothing here
 }
 

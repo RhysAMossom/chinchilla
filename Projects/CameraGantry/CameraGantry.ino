@@ -5,6 +5,7 @@
 
 #include "ui.h"
 #include "motormanager.h"
+#include "screenmanager.h"
 
 void endstop1() {
   MotorManager::instance()->setEndStop1State(digitalRead(ENDSTOP_1_PIN));
@@ -21,6 +22,9 @@ void setup() {
   
   Serial.begin(9600);
   Serial.println("started");
+
+  // Hack that lets draws Main Screen to LCD
+  ScreenManager::instance();
 }
 
 void loop(){

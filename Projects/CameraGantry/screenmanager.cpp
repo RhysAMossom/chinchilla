@@ -4,8 +4,7 @@ ScreenManager::ScreenManager() {
   mainScreen = MainScreen::instance();
   menuScreen = MenuScreen::instance();
   currentScreen = mainScreen;
-  moveTo(mainScreen);
-  mainScreen->show();
+  currentScreen->show();
 }
 
 ScreenManager* ScreenManager::_screenManager = NULL;
@@ -55,7 +54,5 @@ void ScreenManager::buttonEvent(int currentButton) {
     case BUTTON_SELECT:
       currentScreen->buttonCenter();
       break;
-    default:
-      UI::instance()->setTitle("wtf");
     }
 }

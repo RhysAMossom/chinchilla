@@ -5,7 +5,7 @@
 
 class MenuOption {
   public:
-    MenuOption(int default_val, String title, String unit);
+    MenuOption(int default_val, String title, String unit, int min_val, int max_val);
     inline ~MenuOption() {};
 
     void save();
@@ -22,6 +22,8 @@ class MenuOption {
     int default_val;
     int current_val;
     int potential_val;
+    int min_val;
+    int max_val;
     String title;
     String unit;
 };

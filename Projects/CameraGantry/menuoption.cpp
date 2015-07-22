@@ -1,9 +1,11 @@
 #include "menuoption.h"
 
-MenuOption::MenuOption(int val, String title, String unit) :
+MenuOption::MenuOption(int val, String title, String unit, int min_val, int max_val) :
   default_val(val),
   current_val(val),
   potential_val(val),
+  min_val(min_val),
+  max_val(max_val),
   title(title),
   unit(unit) {
 }
@@ -22,11 +24,12 @@ void MenuOption::cancel() {
 }
 
 void MenuOption::nextOption() {
-  potential_val =  (potential_val + 1) % 100; 
+  potential_val =  (potential_val + 1) % (max_val + 1); 
 }
 
 void MenuOption::previousOption() {
-  potential_val =  (potential_val - 1) % 100; 
+  if (--potential_val < min_val)
+    potential_val = max_val;
 }
 
 String MenuOption::getTitle() {
@@ -35,7 +38,9 @@ String MenuOption::getTitle() {
 
 String MenuOption::getText() {
   if (potential_val == default_val)
-    return (String)potential_val + unit + '*';
+    return (String)potential_val + unit + String(" *");
+  else if (potential_val == current_val)
+    return (String)potential_val + unit + String("  saved");
   else
     return (String)potential_val + unit;
 }
