@@ -2,6 +2,8 @@
 #define CAMERAGANTRY_MENUOPTION_H
 
 #include <Arduino.h>
+#include <StandardCplusplus.h>
+#include <vector>
 
 class MenuOption {
   public:
@@ -15,10 +17,11 @@ class MenuOption {
     void nextOption();
     void previousOption(); 
 
+    inline int getCurrentValue() { return current_val; };
     String getTitle();
-    String getText();
+    virtual String getText();
 
-  private:
+  protected:
     int default_val;
     int current_val;
     int potential_val;
@@ -27,4 +30,17 @@ class MenuOption {
     String title;
     String unit;
 };
+
+class MenuOptionText : public MenuOption {
+ public:
+  MenuOptionText(int default_val, String title, std::vector<String> options);
+  inline ~MenuOptionText();
+  
+  String getText();
+  
+ private:
+   std::vector<String> options;
+   int num_options;
+};
+  
 #endif

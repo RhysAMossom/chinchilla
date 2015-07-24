@@ -6,6 +6,7 @@
 #include "screen.h"
 #include "menuoption.h"
 #include "ui.h"
+#include "motormanager.h"
 
 class MenuScreen : public Screen {
   public:
@@ -20,9 +21,21 @@ class MenuScreen : public Screen {
     void buttonNone(bool pressed);
 
   private:
-    std::vector<MenuOption> menuOptions;
-    int currentOption;
     static MenuScreen* _menuScreen;
     MenuScreen();
+
+    void saveEvent();
+    std::vector<MenuOption*> menuOptions;
+    int currentOption;
+    
+    MotorManager* motorManager;
+    MenuOption* speedSetting;
+    MenuOption* distanceSetting;
+    std::vector<String> directionOptions;
+    MenuOptionText* directionSetting;
+    std::vector<String> ledOptions;
+    MenuOptionText* ledSetting;  
+    std::vector<String> settingsOptions;
+    MenuOptionText* settingsSetting;
 };
 #endif

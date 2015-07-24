@@ -24,7 +24,8 @@ void MenuOption::cancel() {
 }
 
 void MenuOption::nextOption() {
-  potential_val =  (potential_val + 1) % (max_val + 1); 
+  if (++potential_val > max_val) 
+    potential_val = min_val;
 }
 
 void MenuOption::previousOption() {
@@ -40,7 +41,23 @@ String MenuOption::getText() {
   if (potential_val == default_val)
     return (String)potential_val + unit + String(" *");
   else if (potential_val == current_val)
-    return (String)potential_val + unit + String("  saved");
+    return (String)potential_val + unit + String(" (saved)");
   else
     return (String)potential_val + unit;
+}
+
+
+MenuOptionText::MenuOptionText(int default_val, String title, std::vector<String> options) :
+  MenuOption(default_val, title, "", 0, options.size() - 1),
+  options(options),
+  num_options(options.size()) {
+}
+
+String MenuOptionText::getText() {
+  if (potential_val == default_val)
+    return options[potential_val] + String(" *");
+  else if (potential_val == current_val)
+    return options[potential_val] + String(" (saved)");
+  else
+    return options[potential_val];
 }
