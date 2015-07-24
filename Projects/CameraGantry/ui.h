@@ -29,6 +29,7 @@ class UI {
 
     int getButton();
     int currentButton;
+    int lastButtonPressed;
     int lastButton;
     LiquidCrystal lcd;
     uint8_t numLines;

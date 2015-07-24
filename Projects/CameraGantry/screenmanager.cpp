@@ -34,25 +34,25 @@ void ScreenManager::moveTo(Screen* newScreen) {
   currentScreen->show();
 }
 
-void ScreenManager::buttonEvent(int currentButton) {
+void ScreenManager::buttonEvent(int currentButton, bool pressed) {
   switch (currentButton) {
     case BUTTON_NONE:
-      currentScreen->buttonNone();
+      currentScreen->buttonNone(pressed);
       break;
     case BUTTON_RIGHT:
-      currentScreen->buttonRight();
+      currentScreen->buttonRight(pressed);
       break;
     case BUTTON_UP:
-      currentScreen->buttonUp();
+      currentScreen->buttonUp(pressed);
       break;
     case BUTTON_DOWN:
-      currentScreen->buttonDown();
+      currentScreen->buttonDown(pressed);
       break;
     case BUTTON_LEFT:
-      currentScreen->buttonLeft();
+      currentScreen->buttonLeft(pressed);
       break;
     case BUTTON_SELECT:
-      currentScreen->buttonCenter();
+      currentScreen->buttonCenter(pressed);
       break;
     }
 }

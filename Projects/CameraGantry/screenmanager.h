@@ -14,7 +14,7 @@ class ScreenManager {
     Screen* getCurrentScreen();
     Screen* getMainScreen();
     Screen* getMenuScreen();
-    void buttonEvent(int currentButton);
+    void buttonEvent(int currentButton, bool pressed);
 
   private:
     static ScreenManager* _screenManager;

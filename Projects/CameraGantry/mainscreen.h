@@ -9,12 +9,12 @@ class MainScreen : public Screen {
     static MainScreen* instance();
     inline ~MainScreen() {};
 
-    void buttonUp();
-    void buttonDown();
-    void buttonLeft();
-    void buttonRight();
-    void buttonCenter();
-    void buttonNone();
+    void buttonUp(bool pressed);
+    void buttonDown(bool pressed);
+    void buttonLeft(bool pressed);
+    void buttonRight(bool pressed);
+    void buttonCenter(bool pressed);
+    void buttonNone(bool pressed);
 
   private:
     static MainScreen* _mainScreen;

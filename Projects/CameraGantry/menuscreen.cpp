@@ -24,42 +24,51 @@ MenuScreen* MenuScreen::instance() {
   return _menuScreen;
 }
 
-void MenuScreen::buttonUp() {
-  if (++currentOption >= menuOptions.size()) {
-    currentOption = menuOptions.size() -1;
-    return;
+void MenuScreen::buttonUp(bool pressed) {
+  if (pressed) {
+    if (++currentOption >= menuOptions.size()) {
+      currentOption = menuOptions.size() -1;
+      return;
+    }
+    setTitle(menuOptions[currentOption].getTitle());
+    setSubtext(menuOptions[currentOption].getText());
   }
-  setTitle(menuOptions[currentOption].getTitle());
-  setSubtext(menuOptions[currentOption].getText());
 }
   
-void MenuScreen::buttonDown() {
-  Serial.println(currentOption);
-  if ( --currentOption < 0 ) {
-    currentOption = 0;
-    ScreenManager* screenManager = ScreenManager::instance();
-    screenManager->moveTo(screenManager->getMainScreen());
+void MenuScreen::buttonDown(bool pressed) {
+  if (pressed) {
+    if ( --currentOption < 0 ) {
+      currentOption = 0;
+      ScreenManager* screenManager = ScreenManager::instance();
+      screenManager->moveTo(screenManager->getMainScreen());
+    }
+    setTitle(menuOptions[currentOption].getTitle());
+    setSubtext(menuOptions[currentOption].getText());
   }
-  setTitle(menuOptions[currentOption].getTitle());
-  setSubtext(menuOptions[currentOption].getText());
 }
 
-void MenuScreen::buttonLeft() {
-  menuOptions[currentOption].previousOption();
-  setSubtext(menuOptions[currentOption].getText());
+void MenuScreen::buttonLeft(bool pressed) {
+  if (pressed) {
+    menuOptions[currentOption].previousOption();
+    setSubtext(menuOptions[currentOption].getText());
+  }
 }
 
-void MenuScreen::buttonRight() {
-  menuOptions[currentOption].nextOption();
-  setSubtext(menuOptions[currentOption].getText());
+void MenuScreen::buttonRight(bool pressed) {
+  if (pressed) {
+    menuOptions[currentOption].nextOption();
+    setSubtext(menuOptions[currentOption].getText());
+  }
 }
 
-void MenuScreen::buttonCenter() {
-  menuOptions[currentOption].save();
-  setSubtext(menuOptions[currentOption].getText());
+void MenuScreen::buttonCenter(bool pressed) {
+  if (pressed) {
+    menuOptions[currentOption].save();
+    setSubtext(menuOptions[currentOption].getText());
+  }
 }
 
-void MenuScreen::buttonNone() {
+void MenuScreen::buttonNone(bool pressed) {
   // Do nothing here
 }
 

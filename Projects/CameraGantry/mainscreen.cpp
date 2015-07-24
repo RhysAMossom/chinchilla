@@ -5,7 +5,7 @@
 MainScreen::MainScreen() :
     Screen() {
   setTitle("Camera Gantry");
-  setSubtext("");
+  setSubtext("by Chinchilla");
 }
 
 MainScreen* MainScreen::_mainScreen = NULL;
@@ -17,28 +17,52 @@ MainScreen* MainScreen::instance() {
   return _mainScreen;
 }
 
-void MainScreen::buttonUp() {
-  ScreenManager* screenManager = ScreenManager::instance();
-  screenManager->moveTo(screenManager->getMenuScreen());
+void MainScreen::buttonUp(bool pressed) {
+  if (pressed) {
+    ScreenManager* screenManager = ScreenManager::instance();
+    screenManager->moveTo(screenManager->getMenuScreen());
+  }
 }
   
-void MainScreen::buttonDown() {
-  setSubtext("Info Screen");
+void MainScreen::buttonDown(bool pressed) {
+  if (pressed) {
+    setSubtext("Info Screen");
+  } else {
+    setSubtext("");
+  }
 }
 
-void MainScreen::buttonLeft() {
-  setSubtext("Moving Left");
+void MainScreen::buttonLeft(bool pressed) {
+  if (pressed) {
+    setSubtext("Moving Left");
+  } else {
+    setSubtext("Stopped");
+    delay(1000);
+    setSubtext("");
+  }
 }
 
-void MainScreen::buttonRight() {
-  setSubtext("Moving Right");
+void MainScreen::buttonRight(bool pressed) {
+  if (pressed) {
+    setSubtext("Moving Right");
+  } else {
+    setSubtext("Stopped");
+    delay(1000);
+    setSubtext("");
+  }
 }
 
-void MainScreen::buttonCenter() {
-  setSubtext("Start/Stop");
+void MainScreen::buttonCenter(bool pressed) {
+  if (pressed) {
+    setSubtext("Started");
+  } else {
+    setSubtext("Stopped");
+  }
+  delay(1000);
+  setSubtext("");
 }
 
-void MainScreen::buttonNone() {
+void MainScreen::buttonNone(bool pressed) {
   setSubtext(MotorManager::instance()->getStateString());
 }
 

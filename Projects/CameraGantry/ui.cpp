@@ -6,6 +6,7 @@
 UI::UI() :
   lcd(8, 13, 9, 4, 5, 6, 7),
   currentButton(BUTTON_NONE),
+  lastButtonPressed(BUTTON_NONE),
   lastButton(BUTTON_NONE),
   lastTimeButtonPressed(0),
   debounceTime(100),
@@ -16,7 +17,6 @@ UI::UI() :
     lcd.setCursor(0,0);
     lcd.clear();
     toggleLCD(true);
-    Serial.begin(9600);
     BUTTON_ADC_VALUES[BUTTON_RIGHT] = BUTTONHYSTERESIS;
     BUTTON_ADC_VALUES[BUTTON_UP] = 145;
     BUTTON_ADC_VALUES[BUTTON_DOWN] = 329;
@@ -83,18 +83,14 @@ void UI::readButtons() {
      if (buttonReading != currentButton) {
        // Catch On Press
        if((currentButton == BUTTON_NONE) && (buttonReading != BUTTON_NONE)) {
-          Serial.print("pressed ");
-          Serial.println(buttonReading);
+          lastButtonPressed = buttonReading;
+          ScreenManager::instance()->buttonEvent(lastButtonPressed, true);
        }
-       // Catch On Release
+       // Catch On Release but release last button pressed
        if((currentButton != BUTTON_NONE ) && (buttonReading == BUTTON_NONE)) {
-         Serial.print("released ");
-         Serial.println(currentButton);
+         ScreenManager::instance()->buttonEvent(lastButtonPressed, false); 
        }
-       currentButton = buttonReading;
-       
-       // Since Screen Manager is the one handling button events
-       ScreenManager::instance()->buttonEvent(currentButton);
+       currentButton = buttonReading;            
      }
    } else {
      // save reading for next iteration
