@@ -21,11 +21,11 @@ class UI {
     inline ~UI() {};
     void readButtons();
     void toggleLCD(bool state);
-    void setSubtext(String text);
-    void setTitle(String text);
+    void setSubtext(const String& text);
+    void setTitle(const String& text);
 
   private:
-    void padAndPrintText(String text);
+    void padAndPrintText(const String& text);
 
     int getButton();
     int currentButton;

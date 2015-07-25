@@ -7,7 +7,7 @@
 
 class MenuOption {
   public:
-    MenuOption(int default_val, String title, String unit, int min_val, int max_val);
+    MenuOption(int default_val, const String& title, const String& unit, int min_val, int max_val);
     inline ~MenuOption() {};
 
     void save();
@@ -33,8 +33,10 @@ class MenuOption {
 
 class MenuOptionText : public MenuOption {
  public:
-  MenuOptionText(int default_val, String title, std::vector<String> options);
+  MenuOptionText(int default_val, const String& title, const std::vector<String>& options);
   inline ~MenuOptionText();
+  
+  bool appendOptionStates;
   
   String getText();
   

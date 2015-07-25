@@ -33,21 +33,22 @@ UI* UI::instance() {
   return _ui;
 }
 
-void UI::setTitle(String text) {
+void UI::setTitle(const String& text) {
   lcd.setCursor(0,0);
   padAndPrintText(text);
 }
 
-void UI::setSubtext(String text) {
+void UI::setSubtext(const String& text) {
   lcd.setCursor(0,1);
   padAndPrintText(text);
 }
 
-void UI::padAndPrintText(String text) {
-  for (int c = text.length(); c < numCharPerLine; c++) {
-    text += " ";
+void UI::padAndPrintText(const String& text) {
+  String msg = text;
+  for (int c = msg.length(); c < numCharPerLine; c++) {
+    msg += " ";
   }
-  lcd.print(text);
+  lcd.print(msg);
 }
 
 void UI::toggleLCD(bool state) {

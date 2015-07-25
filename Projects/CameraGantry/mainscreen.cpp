@@ -18,7 +18,7 @@ MainScreen* MainScreen::instance() {
 }
 
 void MainScreen::buttonUp(bool pressed) {
-  if (pressed) {
+  if (!pressed) {
     ScreenManager* screenManager = ScreenManager::instance();
     screenManager->moveTo(screenManager->getMenuScreen());
   }

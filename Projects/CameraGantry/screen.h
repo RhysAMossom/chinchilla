@@ -19,8 +19,8 @@ class Screen {
     void hide();
     void show();
     bool isVisible();
-    void setTitle(String text);
-    void setSubtext(String text);
+    void setTitle(const String& text);
+    void setSubtext(const String& text);
     inline String getTitle() { return title; };
     inline String getSubtext() { return subtext; };
 
