@@ -23,13 +23,13 @@ bool Screen::isVisible() {
 
 void Screen::setTitle(const String& text) {
   title = text;
-  if (visible)
+  if (isVisible())
     ui->setTitle(title);
 }
 
 void Screen::setSubtext(const String& text) {
   subtext = text;
-  if (visible)
+  if (isVisible())
     ui->setSubtext(subtext);
 }
 

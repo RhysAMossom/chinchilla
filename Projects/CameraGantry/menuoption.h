@@ -7,7 +7,7 @@
 
 class MenuOption {
   public:
-    MenuOption(int default_val, const String& title, const String& unit, int min_val, int max_val);
+    MenuOption(int default_val, const String& title, const String& unit, int min_val, int max_val, int increment=1);
     inline ~MenuOption() {};
 
     void save();
@@ -27,6 +27,7 @@ class MenuOption {
     int potential_val;
     int min_val;
     int max_val;
+    int increment;
     String title;
     String unit;
 };

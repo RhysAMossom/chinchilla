@@ -1,11 +1,12 @@
 #include "menuoption.h"
 
-MenuOption::MenuOption(int val, const String& title, const String& unit, int min_val, int max_val) :
+MenuOption::MenuOption(int val, const String& title, const String& unit, int min_val, int max_val, int increment) :
   default_val(val),
   current_val(val),
   potential_val(val),
   min_val(min_val),
   max_val(max_val),
+  increment(increment),
   title(title),
   unit(unit) {
 }
@@ -24,12 +25,14 @@ void MenuOption::cancel() {
 }
 
 void MenuOption::nextOption() {
-  if (++potential_val > max_val) 
+  potential_val += increment;
+  if (potential_val > max_val) 
     potential_val = min_val;
 }
 
 void MenuOption::previousOption() {
-  if (--potential_val < min_val)
+  potential_val -= increment;
+  if (potential_val < min_val)
     potential_val = max_val;
 }
 
@@ -48,7 +51,7 @@ String MenuOption::getText() {
 
 
 MenuOptionText::MenuOptionText(int default_val, const String& title, const std::vector<String>& options) :
-  MenuOption(default_val, title, "", 0, options.size() - 1),
+  MenuOption(default_val, title, "", 0, options.size() - 1, 1),
   options(options),
   appendOptionStates(true),
   num_options(options.size()) {

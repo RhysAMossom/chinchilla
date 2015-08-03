@@ -57,7 +57,7 @@ void UI::toggleLCD(bool state) {
 
 int UI::getButton() {
    int buttonVoltage = analogRead(BUTTON_ADC_PIN);
-  
+
    // Parse analog signal to button pressed
    if (buttonVoltage <= BUTTON_ADC_VALUES[NUM_BUTTONS-1] + BUTTONHYSTERESIS) {
      //sense if the voltage falls within valid voltage windows
@@ -68,6 +68,7 @@ int UI::getButton() {
           }
      }
    }
+
    return BUTTON_NONE;
 }
 
@@ -89,7 +90,9 @@ void UI::readButtons() {
        }
        // Catch On Release but release last button pressed
        if((currentButton != BUTTON_NONE ) && (buttonReading == BUTTON_NONE)) {
-         ScreenManager::instance()->buttonEvent(lastButtonPressed, false); 
+         ScreenManager::instance()->buttonEvent(lastButtonPressed, false);
+         // Also call event on Button None, but dont care about the pressed flag
+         ScreenManager::instance()->buttonEvent(BUTTON_NONE, false);  
        }
        currentButton = buttonReading;            
      }

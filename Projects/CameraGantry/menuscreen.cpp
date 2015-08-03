@@ -7,7 +7,8 @@ MenuScreen::MenuScreen() :
     Screen(),
     currentOption(0) {
   motorManager = MotorManager::instance();
-  speedSetting = new MenuOption(10, "Speed", "mm/s", 0, 10);
+
+  speedSetting = new MenuOption(motorManager->getSpeed(), "Speed", "mm/s", 1, 300, 5);
   menuOptions.push_back(speedSetting);
   
   directionOptions.push_back("left");
@@ -15,11 +16,12 @@ MenuScreen::MenuScreen() :
   directionSetting = new MenuOptionText(1, "Direction", directionOptions);
   menuOptions.push_back(directionSetting);
   
-  distanceSetting = new MenuOption(10, "Distance", "mm", 0, 10);
+  distanceSetting = new MenuOption(motorManager->getDirection(), "Distance", "mm", 1, 300, 10);
   menuOptions.push_back(distanceSetting);
   
   ledOptions.push_back("on");
   ledOptions.push_back("off");
+  // LED is on by default
   ledSetting = new MenuOptionText(0, "LED state", ledOptions);
   menuOptions.push_back(ledSetting);
   

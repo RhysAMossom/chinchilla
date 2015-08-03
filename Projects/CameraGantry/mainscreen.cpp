@@ -19,47 +19,58 @@ MainScreen* MainScreen::instance() {
 
 void MainScreen::buttonUp(bool pressed) {
   if (!pressed) {
-    ScreenManager* screenManager = ScreenManager::instance();
-    screenManager->moveTo(screenManager->getMenuScreen());
+    ScreenManager::instance()->moveTo(ScreenManager::instance()->getMenuScreen());
   }
 }
   
 void MainScreen::buttonDown(bool pressed) {
-  if (pressed) {
-    setSubtext("Info Screen");
-  } else {
-    setSubtext("");
-  }
+    if (MotorManager::instance()->isRunning()){
+      MotorManager::instance()->stop();
+      setSubtext("Stopped");
+    } else {
+      MotorManager::instance()->home();
+      setSubtext("Homing");
+    }
+    delay(1000);
+    setSubtext(MotorManager::instance()->getStateString());
 }
 
 void MainScreen::buttonLeft(bool pressed) {
   if (pressed) {
     setSubtext("Moving Left");
+    MotorManager::instance()->continuousMove(false);    
   } else {
     setSubtext("Stopped");
-    delay(1000);
-    setSubtext("");
+    MotorManager::instance()->stop();
   }
+  delay(1000);
+  setSubtext(MotorManager::instance()->getStateString());
 }
 
 void MainScreen::buttonRight(bool pressed) {
   if (pressed) {
     setSubtext("Moving Right");
+    MotorManager::instance()->continuousMove(true);
   } else {
     setSubtext("Stopped");
-    delay(1000);
-    setSubtext("");
+    MotorManager::instance()->stop();
   }
+  delay(1000);
+  setSubtext(MotorManager::instance()->getStateString());
 }
 
 void MainScreen::buttonCenter(bool pressed) {
-  if (pressed) {
-    setSubtext("Started");
-  } else {
-    setSubtext("Stopped");
+  if (!pressed) {
+    if (MotorManager::instance()->isRunning()){
+      MotorManager::instance()->stop();
+      setSubtext("Stopped");
+    } else {
+      MotorManager::instance()->start();
+      setSubtext("Started");
+    }
+    delay(1000);
+    setSubtext(MotorManager::instance()->getStateString());
   }
-  delay(1000);
-  setSubtext("");
 }
 
 void MainScreen::buttonNone(bool pressed) {
