@@ -13,17 +13,18 @@ MotorManager::MotorManager() :
     stateStrings.push_back("Idle");
     stateStrings.push_back("Running");
     stateStrings.push_back("Homing");
-    stateStrings.push_back("Moving");
+    stateStrings.push_back("Moving R");
+    stateStrings.push_back("Moving L");    
 
     motor = new Stepper(STEPS_PER_REVOLUTION, MOTOR_DIR_A, MOTOR_DIR_B);
     pinMode(MOTOR_A_MOVE, OUTPUT);
     pinMode(MOTOR_B_MOVE, OUTPUT);
-    pinMode(MOTOR_BREAK_A, OUTPUT);
-    pinMode(MOTOR_BREAK_B, OUTPUT);
+//    pinMode(MOTOR_BREAK_A, OUTPUT);
+//    pinMode(MOTOR_BREAK_B, OUTPUT);
     digitalWrite(MOTOR_A_MOVE, HIGH);
     digitalWrite(MOTOR_B_MOVE, HIGH);
-    digitalWrite(MOTOR_BREAK_A, LOW);
-    digitalWrite(MOTOR_BREAK_B, LOW);
+//    digitalWrite(MOTOR_BREAK_A, LOW);
+//    digitalWrite(MOTOR_BREAK_B, LOW);
     motor->setSpeed(mmToSteps(speed));
 }
 
@@ -56,17 +57,20 @@ void MotorManager::spinMotor() {
   // do next move if moves are queued
   if (currentState != 0 && stepsLeft > 0 && !(endStop1State || endStop2State)) {
     if (direction)
-      motor->step(10);      
+      motor->step(STEPS_PER_MM);      
     else
-      motor->step(-10);
-    stepsLeft -= 10;
+      motor->step(-STEPS_PER_MM);
+    stepsLeft -= STEPS_PER_MM;
     // if we are moving we must report status to screen
     UI::instance()->setSubtext(getStateString());
   }
 }
 
 void MotorManager::continuousMove(bool dir) {
-  currentState = 3; // CONTINUOUS_MOVE
+  if (dir)
+    currentState = 3; // MOVE RIGHT
+  else
+    currentState = 4; // MOVE LEFT
   stepsLeft = mmToSteps(DEFAULT_DISTANCE);
   directionBackup = direction;
   direction = dir;
