@@ -89,16 +89,22 @@ void MotorManager::stop() {
 }
 
 bool MotorManager::isRunning() {
-  return currentState == 0;
+  return (currentState != 0);
 }
 
 uint16_t MotorManager::mmToSteps(uint16_t mm) {
     return mm*STEPS_PER_MM;
 }
 
+String MotorManager::getDirectionString() {
+  if (direction)
+    return "R";
+  return "L";
+}
+
 String MotorManager::getStateString() {
-  if (isRunning())
-    return stateStrings[currentState];
-  return stateStrings[currentState] + " " + (String)stepsLeft;
+  if (!isRunning())
+    return getDirectionString() + " " + (String)distance + "mm " + (String)speed + "mm/s";
+  return stateStrings[currentState] + " " + (String)(stepsLeft/STEPS_PER_MM) + "mm";
 }
 

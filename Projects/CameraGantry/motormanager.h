@@ -9,7 +9,7 @@
 #define DEFAULT_SPEED 10 // mm/s
 #define DEFAULT_DISTANCE 300 // mm
 #define STEPS_PER_MM 10
-#define STEPS_PER_REVOLUTION 48
+#define STEPS_PER_REVOLUTION 100 //200
 
 // Motor defines
 #define MOTOR_BREAK_A 16
@@ -31,7 +31,8 @@ class MotorManager {
 
     inline int getState() { return currentState; };
     bool isRunning();
-    String getStateString(); 
+    String getStateString();
+    String getDirectionString();
     inline bool getDirection() { return direction; };
     inline uint16_t getSpeed() { return speed; };
     inline uint16_t getDistance() { return distance; };

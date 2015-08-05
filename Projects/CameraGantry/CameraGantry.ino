@@ -23,6 +23,9 @@ void setup() {
   Serial.begin(9600);
   Serial.println("started");
 
+  UI::instance()->setTitle("Camera Gantry");
+  UI::instance()->setSubtext("by Chinchilla");
+  delay(3000);
   // Hack that lets draws Main Screen to LCD
   ScreenManager::instance();
 }
@@ -31,4 +34,9 @@ void loop(){
   UI::instance()->readButtons();
   MotorManager::instance()->spinMotor();
 }
+
+/* ToDo:
+* attach interrupts
+* allow speeds < 0 (requires scheduling moves)
+* tune motor constants
 

@@ -5,7 +5,7 @@
 MainScreen::MainScreen() :
     Screen() {
   setTitle("Camera Gantry");
-  setSubtext("by Chinchilla");
+  setSubtext(MotorManager::instance()->getStateString());
 }
 
 MainScreen* MainScreen::_mainScreen = NULL;
@@ -26,10 +26,12 @@ void MainScreen::buttonUp(bool pressed) {
 }
   
 void MainScreen::buttonDown(bool pressed) {
-  if (MotorManager::instance()->isRunning()){
-    MotorManager::instance()->stop();
-  } else {
-    MotorManager::instance()->home();
+  if (!pressed) {
+    if (MotorManager::instance()->isRunning()){
+      MotorManager::instance()->stop();
+    } else {
+      MotorManager::instance()->home();
+    }
   }
 }
 

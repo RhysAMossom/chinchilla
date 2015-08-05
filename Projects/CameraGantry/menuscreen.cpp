@@ -8,7 +8,7 @@ MenuScreen::MenuScreen() :
     currentOption(0) {
   motorManager = MotorManager::instance();
 
-  speedSetting = new MenuOption(motorManager->getSpeed(), "Speed", "mm/s", 1, 300, 5);
+  speedSetting = new MenuOption(motorManager->getSpeed(), "Speed", "mm/s", 1, 30, 5);
   menuOptions.push_back(speedSetting);
   
   directionOptions.push_back("left");
