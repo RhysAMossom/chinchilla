@@ -2,13 +2,14 @@
 #include "menuoption.h"
 #include "screenmanager.h"
 #include "ui.h"
+#include "constants.h"
 
 MenuScreen::MenuScreen() :
     Screen(),
     currentOption(0) {
   motorManager = MotorManager::instance();
 
-  speedSetting = new MenuOption(motorManager->getSpeed(), "Speed", "mm/s", 1, 30, 5);
+  speedSetting = new MenuOption(motorManager->getSpeed(), "Speed", "mm/s", MIN_SPEED_MM_PER_S, MAX_SPEED_MM_PER_S, 1);
   menuOptions.push_back(speedSetting);
   
   directionOptions.push_back("left");
@@ -16,7 +17,7 @@ MenuScreen::MenuScreen() :
   directionSetting = new MenuOptionText(1, "Direction", directionOptions);
   menuOptions.push_back(directionSetting);
   
-  distanceSetting = new MenuOption(motorManager->getDirection(), "Distance", "mm", 1, 300, 10);
+  distanceSetting = new MenuOption(motorManager->getDirection(), "Distance", "mm", 1, MAX_DISTANCE_MM, 10);
   menuOptions.push_back(distanceSetting);
   
   ledOptions.push_back("on");

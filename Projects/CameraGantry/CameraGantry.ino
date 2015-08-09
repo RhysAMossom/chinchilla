@@ -6,6 +6,7 @@
 #include "ui.h"
 #include "motormanager.h"
 #include "screenmanager.h"
+#include "constants.h"
 
 void endstop1() {
   MotorManager::instance()->setEndStop1State(digitalRead(ENDSTOP_1_PIN));
@@ -39,4 +40,4 @@ void loop(){
 * attach interrupts
 * allow speeds < 0 (requires scheduling moves)
 * tune motor constants
-
+*/
