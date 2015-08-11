@@ -19,10 +19,16 @@ class MotorManager {
     inline bool getDirection() { return direction; };
     inline uint16_t getSpeed() { return speed; };
     inline uint16_t getDistance() { return distance; };
+    inline uint16_t getStepDistance() { return stepDistance; };
+    inline uint16_t getStepTimeInterval() { return stepTimeInterval/1000; };
+    inline bool getStepMove() { return moveInSteps; };
     
     void setDirection(bool dir);
     void setSpeed(uint16_t mm_per_s);
     inline void setDistance(uint16_t mm) { distance = mm; };
+    inline void setStepDistance(uint16_t mm) { stepDistance = mm; };
+    inline void setStepTimeInterval(uint16_t t_s) { stepTimeInterval = t_s*1000; };
+    inline void setStepMove(bool move) { moveInSteps = move; };
 
     // Called in interrupt routine
     inline void setEndStop1State(bool state) { endStop1State = state;};
@@ -41,9 +47,14 @@ class MotorManager {
 
     bool direction;
     bool directionBackup;
+    bool moveInSteps;
+    bool runStep;
     uint16_t speed;
     uint16_t distance;
     uint16_t distanceLeft;
+    uint16_t stepDistance;
+    uint16_t stepDistanceLeft;
+    uint16_t stepTimeInterval;
     uint16_t mmPerSecToRPM(uint16_t mm);
     
     Stepper* motor;

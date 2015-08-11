@@ -9,6 +9,11 @@ MotorManager::MotorManager() :
     speed(DEFAULT_SPEED_MM_PER_S),
     distance(DEFAULT_DISTANCE_MM),
     distanceLeft(0),
+    stepDistance(DEFAULT_STEP_DISTANCE_MM),
+    stepTimeInterval(DEFAULT_STEP_TIME_INTERVAL_S),
+    stepDistanceLeft(0),
+    moveInSteps(false),
+    runStep(false),
     endStop1State(false),
     endStop2State(false) {
     stateStrings.push_back("Idle");
@@ -59,15 +64,30 @@ void MotorManager::spinMotor() {
   if (!(endStop1State || endStop2State)) {
     switch (currentState) {
       case 1: // Running timelapse
-        if (distanceLeft > 0 && ((long)milis() - nextStepTime > 0)) {
-          // move 1 mm at a time
-          if (direction)
-            motor->step(STEPS_PER_MM);      
-          else
-            motor->step(-STEPS_PER_MM);
-          distanceLeft--;      
-          // Report status to screen
-          UI::instance()->setSubtext(getStateString());
+        // TODO: catch overflow in millis()
+	if (!runStep && millis() - lastMoveTime >= stepTimeInterval) {
+	  // avoid checking the time all the time.
+	  runStep = true;
+	}
+        if (runStep)
+          if (stepDistanceLeft > 0)) {
+              // move 1 mm at a time
+              if (direction)
+                motor->step(STEPS_PER_MM);
+              else
+                motor->step(-STEPS_PER_MM);
+              stepDistanceLeft--;
+              // Report status to screen
+              UI::instance()->setSubtext(getStateString());
+          } else {
+            // Post-step move action goes here
+            runStep = false;
+            lastMoveTime = millis();
+	    distanceLeft -= stepDistanceLeft;
+            stepDistanceLeft = stepDistance;
+        } else {
+          UI::instance()->setSubtext("next move in "
+            + (String)(millis() + stepTimeInterval - lastMoveTime) + "s");
         }
         break;
       case 2: // Running Continuously
@@ -96,15 +116,20 @@ void MotorManager::continuousMove(bool dir) {
 }
 
 void MotorManager::start() {
-  currentState = 2; // RUNNING
+  currentState = stepMove ? 1 : 2; // RUNNING TIMELAPSE : RUNNING CONTINUOUSLY
+  stepDistanceLeft = stepDistance;
+  stepRun = true;
   distanceLeft = distance;
   directionBackup = direction;
+  lastMoveTime = millis();
 }
 
 void MotorManager::stop() {
   currentState = 0; // IDLE
   direction = directionBackup;
   distanceLeft = 0;
+  stepDistanceLeft = 0;
+  stepRun = false;
 }
 
 bool MotorManager::isRunning() {
