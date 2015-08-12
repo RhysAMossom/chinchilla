@@ -55,6 +55,7 @@ class MotorManager {
     uint16_t stepDistance;
     uint16_t stepDistanceLeft;
     uint16_t stepTimeInterval;
+    uint16_t lastMoveTime;
     uint16_t mmPerSecToRPM(uint16_t mm);
     
     Stepper* motor;

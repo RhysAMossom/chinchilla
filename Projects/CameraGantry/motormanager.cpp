@@ -10,7 +10,7 @@ MotorManager::MotorManager() :
     distance(DEFAULT_DISTANCE_MM),
     distanceLeft(0),
     stepDistance(DEFAULT_STEP_DISTANCE_MM),
-    stepTimeInterval(DEFAULT_STEP_TIME_INTERVAL_S),
+    stepTimeInterval(DEFAULT_STEP_TIME_INTERVAL_MS),
     stepDistanceLeft(0),
     moveInSteps(false),
     runStep(false),
@@ -70,7 +70,7 @@ void MotorManager::spinMotor() {
 	  runStep = true;
 	}
         if (runStep)
-          if (stepDistanceLeft > 0)) {
+          if (stepDistanceLeft > 0) {
               // move 1 mm at a time
               if (direction)
                 motor->step(STEPS_PER_MM);
@@ -116,9 +116,9 @@ void MotorManager::continuousMove(bool dir) {
 }
 
 void MotorManager::start() {
-  currentState = stepMove ? 1 : 2; // RUNNING TIMELAPSE : RUNNING CONTINUOUSLY
+  currentState = moveInSteps ? 1 : 2; // RUNNING TIMELAPSE : RUNNING CONTINUOUSLY
   stepDistanceLeft = stepDistance;
-  stepRun = true;
+  runStep = true;
   distanceLeft = distance;
   directionBackup = direction;
   lastMoveTime = millis();
@@ -129,7 +129,7 @@ void MotorManager::stop() {
   direction = directionBackup;
   distanceLeft = 0;
   stepDistanceLeft = 0;
-  stepRun = false;
+  runStep = false;
 }
 
 bool MotorManager::isRunning() {

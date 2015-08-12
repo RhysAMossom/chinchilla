@@ -8,17 +8,28 @@ MenuScreen::MenuScreen() :
     Screen(),
     currentOption(0) {
   motorManager = MotorManager::instance();
-
-  speedSetting = new MenuOption(motorManager->getSpeed(), "Speed", "mm/s", MIN_SPEED_MM_PER_S, MAX_SPEED_MM_PER_S, 1);
-  menuOptions.push_back(speedSetting);
   
   directionOptions.push_back("left");
   directionOptions.push_back("right");
-  directionSetting = new MenuOptionText(1, "Direction", directionOptions);
+  directionSetting = new MenuOptionText(motorManager->getDirection()? 0 : 1, "Direction", directionOptions);
   menuOptions.push_back(directionSetting);
   
-  distanceSetting = new MenuOption(motorManager->getDirection(), "Distance", "mm", 1, MAX_DISTANCE_MM, 10);
+  moveTypeOptions.push_back("time lapse");
+  moveTypeOptions.push_back("continuous");
+  moveTypeSetting = new MenuOptionText(motorManager->getStepMove() ? 1 : 0, "Move Type", moveTypeOptions); 
+  menuOptions.push_back(moveTypeSetting);
+    
+  speedSetting = new MenuOption(motorManager->getSpeed(), "Speed", "mm/s", MIN_SPEED_MM_PER_S, MAX_SPEED_MM_PER_S, 1);
+  menuOptions.push_back(speedSetting);
+    
+  distanceSetting = new MenuOption(motorManager->getDistance(), "Total Distance", "mm", 1, MAX_DISTANCE_MM, 10);
   menuOptions.push_back(distanceSetting);
+  
+  stepDistanceSetting = new MenuOption(motorManager->getStepDistance(), "Step Distance", "mm", 1, MAX_STEP_DISTANCE_MM, 1);
+  menuOptions.push_back(stepDistanceSetting);
+  
+  stepTimeIntervalSetting = new MenuOption(motorManager->getStepTimeInterval(), "Step Time Interval", "s", 1, MAX_STEP_TIME_INTERVAL_S, 1);
+  menuOptions.push_back(stepTimeIntervalSetting);
   
   ledOptions.push_back("on");
   ledOptions.push_back("off");
@@ -100,12 +111,14 @@ void MenuScreen::saveEvent() {
     motorManager->setSpeed(menuOptions[currentOption]->getCurrentValue());
   } else if (menuOptions[currentOption] == distanceSetting) {
     motorManager->setDistance(menuOptions[currentOption]->getCurrentValue());
+  } else if (menuOptions[currentOption] == stepDistanceSetting) {
+    motorManager->setStepDistance(menuOptions[currentOption]->getCurrentValue());
+  } else if (menuOptions[currentOption] == stepTimeIntervalSetting) {
+    motorManager->setStepTimeInterval(menuOptions[currentOption]->getCurrentValue());
   } else if (menuOptions[currentOption] == directionSetting) {
-    if (directionOptions[menuOptions[currentOption]->getCurrentValue()] == "right") {
-      motorManager->setDirection(true);
-    } else {
-      motorManager->setDirection(false);
-    }    
+    motorManager->setDirection(directionOptions[menuOptions[currentOption]->getCurrentValue()] == "right");
+  } else if (menuOptions[currentOption] == moveTypeSetting) {
+    motorManager->setStepMove(moveTypeOptions[menuOptions[currentOption]->getCurrentValue()] == "time lapse");
   } else if (menuOptions[currentOption] == ledSetting) {
     if (ledOptions[menuOptions[currentOption]->getCurrentValue()] == "on") {
       UI::instance()->toggleLCD(true);

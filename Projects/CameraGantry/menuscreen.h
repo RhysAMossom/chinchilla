@@ -31,8 +31,12 @@ class MenuScreen : public Screen {
     MotorManager* motorManager;
     MenuOption* speedSetting;
     MenuOption* distanceSetting;
+    MenuOption* stepDistanceSetting;
+    MenuOption* stepTimeIntervalSetting;
     std::vector<String> directionOptions;
     MenuOptionText* directionSetting;
+    std::vector<String> moveTypeOptions;
+    MenuOptionText* moveTypeSetting;
     std::vector<String> ledOptions;
     MenuOptionText* ledSetting;  
     std::vector<String> settingsOptions;
