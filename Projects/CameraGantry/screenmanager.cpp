@@ -31,6 +31,7 @@ Screen* ScreenManager::getMenuScreen() {
 void ScreenManager::moveTo(Screen* newScreen) {
   currentScreen->hide();
   currentScreen = newScreen;
+  currentScreen->buttonNone(false); // acts as a context reset
   currentScreen->show();
 }
 

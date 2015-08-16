@@ -11,12 +11,12 @@ MenuScreen::MenuScreen() :
   
   directionOptions.push_back("left");
   directionOptions.push_back("right");
-  directionSetting = new MenuOptionText(motorManager->getDirection()? 0 : 1, "Direction", directionOptions);
+  directionSetting = new MenuOptionText(motorManager->getDirection() ? 1 : 0, "Direction", directionOptions);
   menuOptions.push_back(directionSetting);
   
   moveTypeOptions.push_back("time lapse");
   moveTypeOptions.push_back("continuous");
-  moveTypeSetting = new MenuOptionText(motorManager->getStepMove() ? 1 : 0, "Move Type", moveTypeOptions); 
+  moveTypeSetting = new MenuOptionText(motorManager->getStepMove() ? 0 : 1, "Move Type", moveTypeOptions); 
   menuOptions.push_back(moveTypeSetting);
     
   speedSetting = new MenuOption(motorManager->getSpeed(), "Speed", "mm/s", MIN_SPEED_MM_PER_S, MAX_SPEED_MM_PER_S, 1);

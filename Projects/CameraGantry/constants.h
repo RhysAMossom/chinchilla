@@ -24,9 +24,19 @@
 #define DEFAULT_STEP_TIME_INTERVAL_MS 5000
 #define MAX_STEP_TIME_INTERVAL_S 3600
 
-
 // Enstop pins
 #define ENDSTOP_1_PIN 2
 #define ENDSTOP_2_PIN 3
+
+#define LCD_LED_PIN 10
+#define BUTTON_ADC_PIN A0
+#define NUM_BUTTONS 5
+#define BUTTONHYSTERESIS 10  // hysteresis for valid button sensing window
+#define BUTTON_NONE -1
+#define BUTTON_RIGHT 0
+#define BUTTON_UP 1
+#define BUTTON_DOWN 2
+#define BUTTON_LEFT 3
+#define BUTTON_SELECT 4
 
 #endif // CAMERAGANTRY_CONSTANTS_H

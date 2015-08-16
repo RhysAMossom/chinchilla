@@ -1,6 +1,7 @@
 #include "motormanager.h"
 #include "ui.h"
 #include "constants.h"
+#include "mainscreen.h"
 
 MotorManager::MotorManager() :
     currentState(0),
@@ -11,8 +12,9 @@ MotorManager::MotorManager() :
     distanceLeft(0),
     stepDistance(DEFAULT_STEP_DISTANCE_MM),
     stepTimeInterval(DEFAULT_STEP_TIME_INTERVAL_MS),
+    lastMoveTime(0),
     stepDistanceLeft(0),
-    moveInSteps(false),
+    moveInSteps(true),
     runStep(false),
     endStop1State(false),
     endStop2State(false) {
@@ -63,13 +65,15 @@ void MotorManager::home() {
 void MotorManager::spinMotor() {
   if (!(endStop1State || endStop2State)) {
     switch (currentState) {
+      case 0: // Idle
+        break;
       case 1: // Running timelapse
         // TODO: catch overflow in millis()
-	if (!runStep && millis() - lastMoveTime >= stepTimeInterval) {
+	if (!runStep && (long)(millis() - lastMoveTime - stepTimeInterval) >= 0) {
 	  // avoid checking the time all the time.
 	  runStep = true;
 	}
-        if (runStep)
+        if (runStep) {
           if (stepDistanceLeft > 0) {
               // move 1 mm at a time
               if (direction)
@@ -77,17 +81,23 @@ void MotorManager::spinMotor() {
               else
                 motor->step(-STEPS_PER_MM);
               stepDistanceLeft--;
+              distanceLeft--;
               // Report status to screen
               UI::instance()->setSubtext(getStateString());
           } else {
             // Post-step move action goes here
+            postStepProcess();
             runStep = false;
             lastMoveTime = millis();
-	    distanceLeft -= stepDistanceLeft;
             stepDistanceLeft = stepDistance;
+          }
         } else {
-          UI::instance()->setSubtext("next move in "
-            + (String)(millis() + stepTimeInterval - lastMoveTime) + "s");
+          UI::instance()->setSubtext("waiting " + 
+            (String)((long)(lastMoveTime + stepTimeInterval - millis())/1000 + 1) + "s "
+            + distanceLeft + "mm");
+        }
+        if (distanceLeft <= 0) {
+          stop();
         }
         break;
       case 2: // Running Continuously
@@ -102,9 +112,14 @@ void MotorManager::spinMotor() {
           distanceLeft--;
           // Report status to screen
           UI::instance()->setSubtext(getStateString());
+        } else {
+          stop();
         }
+        
         break;
     }
+  } else if(isRunning()){
+      stop();
   }
 }
 
@@ -125,11 +140,21 @@ void MotorManager::start() {
 }
 
 void MotorManager::stop() {
+  UI::instance()->setSubtext(stateStrings[currentState] + " stopped");
   currentState = 0; // IDLE
   direction = directionBackup;
   distanceLeft = 0;
   stepDistanceLeft = 0;
   runStep = false;
+  delay(1000);
+  MainScreen::instance()->buttonNone(false);
+}
+
+void MotorManager::postStepProcess() {
+  UI::instance()->setSubtext("Say 'cheese'");
+  digitalWrite(LCD_LED_PIN, !digitalRead(LCD_LED_PIN));
+  delay(100);
+  digitalWrite(LCD_LED_PIN, !digitalRead(LCD_LED_PIN));
 }
 
 bool MotorManager::isRunning() {
@@ -149,7 +174,8 @@ String MotorManager::getDirectionString() {
 
 String MotorManager::getStateString() {
   if (!isRunning())
-    return getDirectionString() + " " + (String)distance + "mm " + (String)speed + "mm/s";
+    return (moveInSteps ? "TL ": "C ") + getDirectionString() + " " + (String)distance + "mm " +
+    (moveInSteps ? (String)stepDistance + "mm/" + (String)(stepTimeInterval/1000) + "s" : (String)speed + "mm/s");
   return stateStrings[currentState] + " " + getDirectionString() + " " + (String)(distanceLeft) + "mm";
 }
 
