@@ -18,8 +18,8 @@ void endstop2() {
 
 void setup() {
   // Endstops Interrupts
-//  attachInterrupt(0, endstop1, CHANGE);
-//  attachInterrupt(1, endstop2, CHANGE);
+  attachInterrupt(0, endstop1, CHANGE);
+  attachInterrupt(1, endstop2, CHANGE);
   
   Serial.begin(9600);
   Serial.println("started");
@@ -38,6 +38,4 @@ void loop(){
 
 /* ToDo:
 * attach interrupts
-* allow speeds < 0 (requires scheduling moves)
-* tune motor constants
 */

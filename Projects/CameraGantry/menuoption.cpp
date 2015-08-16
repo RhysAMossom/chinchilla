@@ -41,12 +41,15 @@ String MenuOption::getTitle() {
 }
 
 String MenuOption::getText() {
-  if (potential_val == default_val)
-    return (String)potential_val + unit + String(" *");
-  else if (potential_val == current_val)
-    return (String)potential_val + unit + String(" (saved)");
+  String  text;
+  if (potential_val == current_val)
+    text = text + String("[X] ");
   else
-    return (String)potential_val + unit;
+    text = text + String("[ ] ");
+  text = text + (String)potential_val + unit;
+  if (potential_val == default_val)
+    text = text + String(" *");
+  return text;
 }
 
 
@@ -58,10 +61,13 @@ MenuOptionText::MenuOptionText(int default_val, const String& title, const std::
 }
 
 String MenuOptionText::getText() {
-  if (appendOptionStates && potential_val == default_val)
-    return options[potential_val] + String(" *");
-  else if (appendOptionStates && potential_val == current_val)
-    return options[potential_val] + String(" (saved)");
+  String text;
+  if (appendOptionStates && potential_val == current_val)
+    text = String("[X] ");
   else
-    return options[potential_val];
+    text = String("[ ] ");
+  text = text + options[potential_val];
+  if (appendOptionStates && potential_val == default_val)
+    text = text + String(" *");
+  return text;
 }
