@@ -19,7 +19,7 @@ void endstop2() {
 void setup() {
   // Endstops Interrupts
   attachInterrupt(0, endstop1, CHANGE);
-  attachInterrupt(1, endstop2, CHANGE);
+//  attachInterrupt(1, endstop2, CHANGE);
   
   Serial.begin(9600);
   Serial.println("started");
