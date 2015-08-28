@@ -1,6 +1,9 @@
 #ifndef CAMERAGANTRY_CONSTANTS_H
 #define CAMERAGANTRY_CONSTANTS_H
 
+// Pins used by LCD:
+lcd(8, 13, 9, 4, 5, 6, 7),
+
 // Motor defines
 #define STEPS_PER_MM 27
 #define STEPS_PER_REVOLUTION 200

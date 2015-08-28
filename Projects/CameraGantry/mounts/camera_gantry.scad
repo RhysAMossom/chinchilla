@@ -10,25 +10,32 @@ screw_mount_h = 15;
 
 wheel_r = 10;
 wheel_screw_r = 6/2+ th;
-wheel_screw_h = 20;
+wheel_screw_h = 10;
 wheels_sep = 35;
-wheel_base_w = 5;
-wheel_base_l = 4*t + 2*wheel_screw_r;
-wheel_base_h = wheels_sep + wheel_screw_h + 2*t;
 
-motor_s = 43;
-motor_h = 39;
-motor_screw_r = 3/2+th;
-motor_screw_sep = 31;
-motor_screw_h = 3.5;
-motor_holder_h = motor_screw_h + 2*motor_screw_r+t;
+wheel_base_w = 5 + wheel_screw_r;
 
-endstop_w = 10;
-endstop_l = 20;
-endstop_h = wheel_base_h/2;
+endstop_sep = 10;
+endstop_screw_r = 2.3/2+th;
+endstop_h = 20;
+endstop_d = t;
 
-cart_l = 120;
-cart_w = 65;//hole_sep - 2*(r_sm +r_lg) -2*t;
+cart_l = 130;
+cart_w = 60;
+cart_h = wheel_screw_h + wheels_sep + 2*wheel_screw_r + 2*t;
+
+pulley_h = 17;
+pulley_screw_r = 4/2 + th;
+pulley_screw_h = cart_h/2+2;
+pulley_sep = 20;
+pulley_positions_y = [10,35,cart_l-35,cart_l-10];
+
+motor_r = 28/2;
+motor_screw_r = 4/2+th;
+motor_screw_sep = 35;
+motor_screw_h = pulley_screw_h - 5;
+motor_h = 20;
+motor_spacing = 4;
 
 nut_w = 11+th;
 nut_h = 6+th;
@@ -129,55 +136,73 @@ cylinder(h=4*t+r_lg,r=wheel_screw_r);
 
 module cart() {
 // cart base
-cube([cart_w,cart_l,2*t]);
-translate([0,0,2*t+wheel_base_h])
 difference() {
-cube([cart_w,cart_l,2*t]);
-translate([10,10,0])
-cube([cart_w-2*wheel_base_h,cart_l-2*wheel_base_l,2*t]);
-}
+cube([cart_w,cart_l,cart_h]);
 
-// motor holder
-translate([0,(cart_l-motor_s-2*t)/2,2*t]){
-cube([motor_h,t,motor_holder_h]);
-translate([0,motor_s+t,0])
-cube([motor_h,t,motor_holder_h]);
-translate([motor_h,0,0])
-difference() {
-cube([t,motor_s+2*t,motor_holder_h]);
-for (y = [t,t+motor_screw_sep]){
-translate([0,t+motor_screw_h+y,motor_screw_h])
-rotate(a=[0,90,0])
-cylinder(h=t, r=motor_screw_r);
-}
-}
-}
 
-// enstop mounts
-for ( y = [0,cart_l-endstop_w]){
-translate([motor_h-t-endstop_l,y,2*t])
-difference() {
-cube([endstop_l,endstop_w,endstop_h]);
-translate([t,0,0])
-cube([endstop_l-2*t,endstop_w,endstop_h-t]);
-}
+if (false) {
+translate([t,t,t])
+cube([cart_w - 2*t,cart_l - 2*t,cart_h - 2*t]);
+} else {
+translate([t,t+2*wheel_base_w,t])
+cube([cart_w-t,cart_l - 2*t-4*wheel_base_w,cart_h - t]);
+translate([t,0,t])
+cube([cart_w - 2*t,cart_l,cart_h - t]);
 }
 
 // Wheel holders
-for (Y = [0,cart_l-wheel_base_l]) {
-for (X = [0,cart_w-wheel_base_w]) {
-translate([X,Y,2*t])
-difference() {
-cube([wheel_base_w, wheel_base_l, wheel_base_h]);
-for ( y = [0,wheels_sep]) {
-translate([0,wheel_base_w/2+wheel_screw_r+t/2,wheel_screw_h-wheel_screw_r+y])
+for( z = [0,wheels_sep]){
+for( y = [wheel_base_w ,cart_l-wheel_base_w]) {
+translate([0,y, z + t+ wheel_screw_h])
 rotate(a=[0,90,0])
-cylinder(h=wheel_base_w, r=wheel_screw_r);
+cylinder(h=cart_w, r=wheel_screw_r);
+}
+}
+
+// pulley holders;
+for(y = pulley_positions_y){
+translate([0,y, pulley_screw_h])
+rotate(a=[0,90,0])
+cylinder(h=pulley_h+2*t, r=pulley_screw_r);
+}
+}
+
+// Internal wall pulley holders
+difference() {
+translate([pulley_h+t,0,0])
+cube([t,cart_l,pulley_screw_h + 2*pulley_screw_r]);
+for(y = pulley_positions_y){
+translate([0,y, pulley_screw_h])
+rotate(a=[0,90,0])
+cylinder(h=pulley_h+2*t, r=pulley_screw_r);
+}
+for(y = [0,motor_screw_sep]){
+translate([0,t+(cart_l-motor_screw_sep)/2 +y, motor_screw_h])
+rotate(a=[0,90,0])
+cylinder(h=pulley_h+2*t, r=pulley_screw_r);
+}
+// Motor Mount holes
+translate([0,(cart_l-motor_screw_sep)/2+3*t + motor_screw_r, motor_screw_h/2])
+cube([pulley_h+2*t, 2*(motor_r-t), 2*motor_r]);
+
+}
+// Motor Mount cube
+translate([pulley_h+motor_h/2+t,(cart_l-motor_screw_sep)/2+3*t + motor_screw_r, t])
+cube([motor_h, 2*(motor_r-t), motor_spacing]);
+
+// enstop mounts
+for( x = [cart_w/2,cart_w/2+endstop_sep]){
+for( y = [t+endstop_d,cart_l-t -endstop_d]) {
+translate([x,y,t])
+difference() {
+cylinder(r=endstop_screw_r+t,h=endstop_h);
+cylinder(r=endstop_screw_r,h=endstop_h);
 }
 }
 }
+
 }
-}
+
 
 cart();
 
