@@ -19,10 +19,33 @@ endstop_sep = 10;
 endstop_screw_r = 2.3/2+th;
 endstop_h = 20;
 endstop_d = t;
+endstop_l = 21;
+endstop_t = 6.5;
 
+cover_enclosure = true;
 cart_l = 130;
 cart_w = 60;
 cart_h = wheel_screw_h + wheels_sep + 2*wheel_screw_r + 2*t;
+
+arduino_cover_h = 25;
+arduino_screw_r = 1;
+lcd_l = 72;
+lcd_w = 26;
+lcd_x = 13;
+lcd_y = 7.5;
+lcd_screw_r = 2.5;
+lcd_screw_d = t;
+buttons_x = [-5,-2,-8,-5,-7,-2];
+buttons_y = [2,10,10,19,29,73];
+num_buttons = 6;
+button_r = 2.5;
+button_h = 10;
+usb_s = 13;
+usb_x = 11.5;
+usb_h = 4;
+pwr_conn_s = 11;
+pwr_conn_x = 43;
+pwr_conn_h = 3;
 
 pulley_h = 17;
 pulley_screw_r = 4/2 + th;
@@ -39,6 +62,11 @@ motor_spacing = 4;
 
 nut_w = 11+th;
 nut_h = 6+th;
+
+camera_mount_r = 10/2+th;
+camera_mount_h = cart_h+25;
+camera_in_x = cart_w/2 + 3*camera_mount_r;
+camera_in_y = 2*wheel_base_w + 2*t;
 
 l = 120;
 h = 2*(r_lg+t);
@@ -140,9 +168,21 @@ difference() {
 cube([cart_w,cart_l,cart_h]);
 
 
-if (false) {
+if (cover_enclosure) {
 translate([t,t,t])
-cube([cart_w - 2*t,cart_l - 2*t,cart_h - 2*t]);
+cube([cart_w - 2*t,cart_l - 2*t,cart_h ]);
+
+
+for (y = [0,cart_l-t]){
+// enstop oppening
+translate([cart_w/2-endstop_screw_r-2*t,y,endstop_h+t])
+cube([endstop_l,2*t,endstop_t]);
+// belt openning
+translate([t,y,t+5])
+cube([pulley_h,t,cart_h-10-t]);
+
+}
+
 } else {
 translate([t,t+2*wheel_base_w,t])
 cube([cart_w-t,cart_l - 2*t-4*wheel_base_w,cart_h - t]);
@@ -182,10 +222,13 @@ rotate(a=[0,90,0])
 cylinder(h=pulley_h+2*t, r=pulley_screw_r);
 }
 // Motor Mount holes
-translate([0,(cart_l-motor_screw_sep)/2+3*t + motor_screw_r, motor_screw_h/2])
+translate([t,(cart_l-motor_screw_sep)/2+3*t + motor_screw_r, motor_screw_h/2])
 cube([pulley_h+2*t, 2*(motor_r-t), 2*motor_r]);
 
+
+
 }
+
 // Motor Mount cube
 translate([pulley_h+motor_h/2+t,(cart_l-motor_screw_sep)/2+3*t + motor_screw_r, t])
 cube([motor_h, 2*(motor_r-t), motor_spacing]);
@@ -201,10 +244,74 @@ cylinder(r=endstop_screw_r,h=endstop_h);
 }
 }
 
+// Camera mount
+translate([camera_in_x,camera_in_y,t])
+difference(){
+cylinder(h=camera_mount_h,r=camera_mount_r+2*t);
+cylinder(h=camera_mount_h,r=camera_mount_r);
 }
 
+}
 
-cart();
+module arduino_cover() {
+difference() {
+cube([cart_w,cart_l+2*t,arduino_cover_h+t]);
+translate([t,t,0])
+cube([cart_w - 2*t,cart_l - t,arduino_cover_h]);
+
+// LCD screen
+translate([lcd_x,lcd_y,arduino_cover_h])
+cube([lcd_w,lcd_l,t]);
+
+// board holder
+for(x = [lcd_x-lcd_screw_d,lcd_x+lcd_w+lcd_screw_d]){
+translate([x,lcd_y-lcd_screw_d,arduino_cover_h])
+cylinder(h=t,r=lcd_screw_r);
+}
+
+// buttons
+for (i= [0:num_buttons-1]){
+translate([cart_w -2*t + buttons_x[i],2*t+button_r/2+buttons_y[i],arduino_cover_h])
+cylinder(h=t,r=button_r);
+}
+
+// Camera holder
+translate([ cart_w - camera_in_x,2*t + cart_l-camera_in_y,arduino_cover_h])
+cylinder(h=t,r=camera_mount_r+2*t+th);
+
+// Power and USB connectors
+translate([usb_x,0,usb_h])
+cube([usb_s,t,usb_s]);
+translate([pwr_conn_x,0,pwr_conn_h])
+cube([pwr_conn_s,t,pwr_conn_s]);
+}
+
+// arduino screw
+arduino_screw_y = t + 98;
+arduino_screw_x = cart_w - 2*t - lcd_screw_r;
+translate([arduino_screw_x,arduino_screw_y,t])
+difference() {
+cylinder(h=arduino_cover_h-t,r=arduino_screw_r+t);
+cylinder(h=arduino_cover_h-t,r=arduino_screw_r);
+}
+
+// tabs
+/*for(x=[t-th,cart_w-2*t+th]){
+translate([x,cart_l/2-2*t,-3*t])
+cube([t,4*t,4*t]);
+}*/
+}
+
+module buttons() {
+cylinder(h=t,r=button_r+2*th);
+cylinder(h=button_h,r=button_r-th);
+}
+
+//arduino_cover();
+
+buttons();
+
+//cart();
 
 //wheel();
 
