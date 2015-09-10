@@ -2,18 +2,16 @@
 #define CAMERAGANTRY_CONSTANTS_H
 
 // Pins used by LCD:
-lcd(8, 13, 9, 4, 5, 6, 7),
+// lcd(8, 13, 9, 4, 5, 6, 7),
 
 // Motor defines
-#define STEPS_PER_MM 27
-#define STEPS_PER_REVOLUTION 200
+#define STEPS_PER_MM 40
+#define STEPS_PER_REVOLUTION 40
 
-#define MOTOR_BREAK_A 16
-#define MOTOR_DIR_A 12
-#define MOTOR_A_MOVE 3
-#define MOTOR_BREAK_B 15
-#define MOTOR_DIR_B 13
-#define MOTOR_B_MOVE 11
+#define MOTOR_PIN_1 52
+#define MOTOR_PIN_2 50
+#define MOTOR_PIN_3 48
+#define MOTOR_PIN_4 46
 
 // at 200 steps per rev, speeds above 100 RMPs makes motor skip steps
 // 100 RPMs @ 200 steps/rev = 20,000 steps/min ~= 333 steps/sec ~= 20 mm/s
@@ -28,8 +26,8 @@ lcd(8, 13, 9, 4, 5, 6, 7),
 #define MAX_STEP_TIME_INTERVAL_S 3600
 
 // Enstop pins
-#define ENDSTOP_1_PIN 2
-#define ENDSTOP_2_PIN 3
+#define ENDSTOP_1_PIN 20
+#define ENDSTOP_2_PIN 21
 
 #define LCD_LED_PIN 10
 #define BUTTON_ADC_PIN A0

@@ -24,15 +24,7 @@ MotorManager::MotorManager() :
     stateStrings.push_back("Homing");
     stateStrings.push_back("Moving");
 
-    motor = new Stepper(STEPS_PER_REVOLUTION, MOTOR_DIR_A, MOTOR_DIR_B);
-    pinMode(MOTOR_A_MOVE, OUTPUT);
-    pinMode(MOTOR_B_MOVE, OUTPUT);
-    pinMode(MOTOR_BREAK_A, OUTPUT);
-    pinMode(MOTOR_BREAK_B, OUTPUT);
-    digitalWrite(MOTOR_A_MOVE, HIGH);
-    digitalWrite(MOTOR_B_MOVE, HIGH);
-    digitalWrite(MOTOR_BREAK_A, LOW);
-    digitalWrite(MOTOR_BREAK_B, LOW);
+    motor = new Stepper(STEPS_PER_REVOLUTION, MOTOR_PIN_1, MOTOR_PIN_2, MOTOR_PIN_3, MOTOR_PIN_4);
     setSpeed(speed);
 }
 
@@ -63,7 +55,9 @@ void MotorManager::home() {
 }
 
 void MotorManager::spinMotor() {
-  if (!(endStop1State || endStop2State)) {
+  if ((endStop1State || endStop2State) && isRunning()){
+      stop();
+  } else {
     switch (currentState) {
       case 0: // Idle
         break;
@@ -77,9 +71,9 @@ void MotorManager::spinMotor() {
           if (stepDistanceLeft > 0) {
               // move 1 mm at a time
               if (direction)
-                motor->step(STEPS_PER_MM);
-              else
                 motor->step(-STEPS_PER_MM);
+              else
+                motor->step(STEPS_PER_MM);
               stepDistanceLeft--;
               distanceLeft--;
               // Report status to screen
@@ -106,9 +100,9 @@ void MotorManager::spinMotor() {
         if (distanceLeft > 0) {
           // move 1 mm at a time
           if (direction)
-            motor->step(STEPS_PER_MM);      
+            motor->step(-STEPS_PER_MM);      
           else
-            motor->step(-STEPS_PER_MM);
+            motor->step(STEPS_PER_MM);
           distanceLeft--;
           // Report status to screen
           UI::instance()->setSubtext(getStateString());
@@ -118,8 +112,6 @@ void MotorManager::spinMotor() {
         
         break;
     }
-  } else if(isRunning()){
-      stop();
   }
 }
 
@@ -141,7 +133,11 @@ void MotorManager::start() {
 
 void MotorManager::stop() {
   if (isRunning()) {
-    UI::instance()->setSubtext(stateStrings[currentState] + " stopped");
+    if (endStop1State || endStop2State) {
+      UI::instance()->setSubtext("endstops enabled");
+    } else {
+      UI::instance()->setSubtext(stateStrings[currentState] + " stopped");
+    }
     delay(1000);
   }
   currentState = 0; // IDLE
@@ -154,6 +150,9 @@ void MotorManager::stop() {
 }
 
 void MotorManager::postStepProcess() {
+  // http://www.wisebread.com/build-a-cable-to-control-your-android-phone-while-you-drive
+  // http://www.instructables.com/id/Automatic-Camera-Shutter-Switch/?ALLSTEPS
+  
   UI::instance()->setSubtext("Say 'cheese'");
   digitalWrite(LCD_LED_PIN, !digitalRead(LCD_LED_PIN));
   delay(100);
